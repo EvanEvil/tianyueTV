@@ -3,13 +3,15 @@ package com.tianyue.tv.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.tianyue.mylibrary.util.StatusBarUtil;
+import com.tianyue.tv.Adapter.HomePagerAdapter;
+import com.tianyue.tv.Fragment.BaseFragment;
 import com.tianyue.tv.Fragment.DiscoveryFragment;
-import com.tianyue.tv.Fragment.LiveFragment;
 import com.tianyue.tv.Fragment.LiveHomeFragment;
 import com.tianyue.tv.Fragment.MyFragment;
 import com.tianyue.tv.R;
@@ -26,8 +28,9 @@ public class HomeActivity extends BaseActivity  {
     LiveHomeFragment liveFragment;
     DiscoveryFragment discoveryFragment;
     MyFragment myFragment;
-
-    private List<Fragment> fragments = new ArrayList<>();
+    @BindView(R.id.viewpager_home)
+    ViewPager viewpager_home;//首页viewpage
+    private List<BaseFragment> fragments = new ArrayList<>();
     private Fragment currentFragment = new Fragment();
 
     private int currentIndex = 0;
@@ -45,19 +48,43 @@ public class HomeActivity extends BaseActivity  {
             currentIndex = savedInstanceState.getInt(CURRENT);
 
             fragments.clear();
-            fragments.add(fragmentManager.findFragmentByTag(0 + ""));
-            fragments.add(fragmentManager.findFragmentByTag(1 + ""));
-            fragments.add(fragmentManager.findFragmentByTag(2 + ""));
+            fragments.add((BaseFragment) fragmentManager.findFragmentByTag(0 + ""));
+            fragments.add((BaseFragment) fragmentManager.findFragmentByTag(1 + ""));
+            fragments.add((BaseFragment) fragmentManager.findFragmentByTag(2 + ""));
 
-            restoreFragment();
+           // restoreFragment();
 
         } else {
             fragments.add(liveFragment = new LiveHomeFragment());
             fragments.add(discoveryFragment = new DiscoveryFragment());
             fragments.add(myFragment = new MyFragment());
-            showFragment();
+            //showFragment();
+        }
+        HomePagerAdapter homePagerAdapter = new HomePagerAdapter(fragmentManager,fragments);
+        viewpager_home.setAdapter(homePagerAdapter);
+        viewpager_home.setCurrentItem(0);
+        viewpager_home.addOnPageChangeListener(new MyOnPageChangeListener());
+
+    }
+    class MyOnPageChangeListener implements ViewPager.OnPageChangeListener{
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
         }
 
+        @Override
+        public void onPageSelected(int position) {
+            RadioButton rb = (RadioButton) radioGroup.getChildAt(position);
+            rb.setChecked(true);
+//            BaseFragment baseFragment = fragments.get(position);
+//            baseFragment.init();
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
     }
 
 
@@ -92,39 +119,39 @@ public class HomeActivity extends BaseActivity  {
         }
     }
 
-    /**
-     * 显示Fragment
-     */
-    private void showFragment() {
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        if (!fragments.get(currentIndex).isAdded()) {
-            transaction
-                    .hide(currentFragment)
-                    .add(R.id.home_fill, fragments.get(currentIndex), currentIndex + "");
-        } else {
-            transaction
-                    .hide(currentFragment)
-                    .show(fragments.get(currentIndex));
-        }
-        currentFragment = fragments.get(currentIndex);
-        transaction.commit();
-    }
+//    /**
+//     * 显示Fragment
+//     */
+//    private void showFragment() {
+//        FragmentTransaction transaction = fragmentManager.beginTransaction();
+//        if (!fragments.get(currentIndex).isAdded()) {
+//            transaction
+//                    .hide(currentFragment)
+//                    .add(R.id.home_fill, fragments.get(currentIndex), currentIndex + "");
+//        } else {
+//            transaction
+//                    .hide(currentFragment)
+//                    .show(fragments.get(currentIndex));
+//        }
+//        currentFragment = fragments.get(currentIndex);
+//        transaction.commit();
+//    }
 
-    /**
-     * 恢复Fragment
-     */
-    private void restoreFragment() {
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        for (int i = 0; i < fragments.size(); i++) {
-            if (i == currentIndex) {
-                transaction.show(fragments.get(i));
-            } else {
-                transaction.hide(fragments.get(i));
-            }
-        }
-        transaction.commit();
-        currentFragment = fragments.get(currentIndex);
-    }
+//    /**
+//     * 恢复Fragment
+//     */
+//    private void restoreFragment() {
+//        FragmentTransaction transaction = fragmentManager.beginTransaction();
+//        for (int i = 0; i < fragments.size(); i++) {
+//            if (i == currentIndex) {
+//                transaction.show(fragments.get(i));
+//            } else {
+//                transaction.hide(fragments.get(i));
+//            }
+//        }
+//        transaction.commit();
+//        currentFragment = fragments.get(currentIndex);
+//    }
 
 
     //导航栏监听
@@ -146,7 +173,8 @@ public class HomeActivity extends BaseActivity  {
                         break;
                 }
             }
-            showFragment();
+            //showFragment();
+            viewpager_home.setCurrentItem(currentIndex,true);
         }
     };
 

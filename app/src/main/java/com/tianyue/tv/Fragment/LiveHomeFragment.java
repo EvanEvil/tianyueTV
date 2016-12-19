@@ -94,7 +94,7 @@ public class LiveHomeFragment extends BaseFragment {
             tabLayout.addTab(tabLayout.newTab().setText(lists.get(i)));
         }
 
-        LiveTabAdapter tabAdapter = new LiveTabAdapter(getFragmentManager(), listFragment, lists);
+        LiveTabAdapter tabAdapter = new LiveTabAdapter(getChildFragmentManager(), listFragment, lists);
         viewPage.setAdapter(tabAdapter);
         tabLayout.setupWithViewPager(viewPage);
     }
