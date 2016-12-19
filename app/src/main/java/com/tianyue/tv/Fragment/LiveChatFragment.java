@@ -14,27 +14,14 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 
-import com.aodianyun.dms.android.DMS;
 import com.tianyue.tv.Adapter.ChatListAdapter;
 import com.tianyue.tv.Bean.LiveChatMessage;
-import com.tianyue.tv.Interface.DmsMessageCallback;
-import com.tianyue.tv.Interface.DmsMessageSendCallBack;
-import com.tianyue.tv.MyApplication;
 import com.tianyue.tv.R;
 import com.tianyue.tv.Util.DmsUtil;
 
-import org.eclipse.paho.client.mqttv3.IMqttActionListener;
-import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
-import org.eclipse.paho.client.mqttv3.IMqttToken;
-import org.eclipse.paho.client.mqttv3.MqttCallback;
-import org.eclipse.paho.client.mqttv3.MqttException;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
-
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -114,6 +101,7 @@ public class LiveChatFragment extends BaseFragment implements
                     return;
                 }
                 dmsUtil.sendMessage(message);
+                Toast.makeText(context,"发送消息："+message,Toast.LENGTH_SHORT).show();
                 break;
         }
     }
