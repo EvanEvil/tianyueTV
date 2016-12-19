@@ -1,11 +1,9 @@
 package com.tianyue.tv.Fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jph.takephoto.app.TakePhotoFragment;
 import com.tianyue.tv.R;
 
 import butterknife.ButterKnife;
@@ -23,7 +22,7 @@ import butterknife.Unbinder;
  * 基类Fragment
  * Created by hasee on 2016/11/18.
  */
-public abstract class BaseFragment extends Fragment{
+public abstract class BaseFragment extends TakePhotoFragment {
     /**
      * 第二次显示的时间
      */
