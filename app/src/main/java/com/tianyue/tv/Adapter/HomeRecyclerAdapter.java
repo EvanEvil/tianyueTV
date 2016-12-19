@@ -14,7 +14,6 @@ import com.jude.rollviewpager.OnItemClickListener;
 import com.jude.rollviewpager.RollPagerView;
 import com.jude.rollviewpager.adapter.LoopPagerAdapter;
 import com.jude.rollviewpager.hintview.IconHintView;
-import com.tianyue.tv.Activity.Live.LiveDetails;
 import com.tianyue.tv.Base.BaseViewHolder;
 import com.tianyue.tv.Bean.LiveHomeColumn;
 import com.tianyue.tv.R;
@@ -22,7 +21,6 @@ import com.tianyue.tv.R;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * Created by hasee on 2016/12/6.

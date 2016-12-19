@@ -7,7 +7,7 @@ import android.content.SharedPreferences;
 import com.qiniu.pili.droid.streaming.StreamingEnv;
 import com.tianyue.tv.Bean.User;
 import com.tianyue.tv.Config.SettingsConfig;
-import com.tianyue.tv.Gson.LoginGson;
+import com.tianyue.tv.Util.DmsUtil;
 
 /**
  * Created by hasee on 2016/8/23.
@@ -26,6 +26,15 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         init();
+    }
+    public DmsUtil mDmsUtil;
+
+    public DmsUtil getDmsUtil() {
+        return mDmsUtil;
+    }
+
+    public void setDmsUtil(DmsUtil dmsUtil) {
+        mDmsUtil = dmsUtil;
     }
 
     public static MyApplication instance() {

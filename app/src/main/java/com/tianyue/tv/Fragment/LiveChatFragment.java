@@ -1,5 +1,6 @@
 package com.tianyue.tv.Fragment;
 
+import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,17 +10,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.Toast;
 
+import com.tianyue.tv.Activity.Live.LiveDetails;
 import com.tianyue.tv.Adapter.ChatListAdapter;
 import com.tianyue.tv.Bean.LiveChatMessage;
 import com.tianyue.tv.R;
-import com.tianyue.tv.Util.DmsUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +36,7 @@ import butterknife.OnClick;
  * 聊天Fragment
  * Created by hasee on 2016/11/30.
  */
-public class LiveChatFragment extends BaseFragment implements
-        DmsUtil.SendMessageCallBack,
-        DmsUtil.MessageCallBack{
+public class LiveChatFragment extends BaseFragment {
     @BindView(R.id.chat_fragment_list)
     RecyclerView list;
     @BindView(R.id.chat_fragment_gift)
@@ -56,11 +59,13 @@ public class LiveChatFragment extends BaseFragment implements
     private String pubKey = "pub_10b9de636853250321775ca9cafd79fe";
 
     private String subKey = "sub_150bb87bced5009531ab1cc5471c2be7";
+    private LiveDetails activity;
 
-    DmsUtil dmsUtil;
+
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container) {
         View view = inflater.inflate(R.layout.chat_fragment, null);
+        EventBus.getDefault().register(this);
         return view;
     }
 
@@ -76,11 +81,7 @@ public class LiveChatFragment extends BaseFragment implements
         chatListAdapter = new ChatListAdapter(getActivity(), messageList);
         list.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false));
         list.setAdapter(chatListAdapter);
-        dmsUtil = DmsUtil.instance(context);
-        dmsUtil.initDMS(topic);
-        dmsUtil.connectDMS();
-        dmsUtil.setSendMessageCallBack(this);
-        dmsUtil.setMessageCallBack(this);
+
     }
 
 
@@ -100,9 +101,27 @@ public class LiveChatFragment extends BaseFragment implements
                 if (message.equals("")) {
                     return;
                 }
-                dmsUtil.sendMessage(message);
-                Toast.makeText(context,"发送消息："+message,Toast.LENGTH_SHORT).show();
+                activity = (LiveDetails) getActivity();
+                activity.dmsUtil.sendMessage(message);
+
+                //发送弹幕
+
+
+
+
+                hintKbTwo();
                 break;
+        }
+    }
+
+    //此方法只是关闭软键盘
+    private void hintKbTwo() {
+        activity = (LiveDetails) getActivity();
+        InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if(imm.isActive()&&activity.getCurrentFocus()!=null){
+            if (activity.getCurrentFocus().getWindowToken()!=null) {
+                imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
         }
     }
 
@@ -112,41 +131,21 @@ public class LiveChatFragment extends BaseFragment implements
         super.onDestroyView();
     }
 
-    @Override
-    public void onMessage(String result) {
-        String[] receives = result.split("\\{aodiandmssplit\\}");
-        String nickName = receives[0];
-        String sendTime = receives[1];
-        String message = receives[2];
-        LiveChatMessage chatMessage = new LiveChatMessage();
-        chatMessage.setNickName(DmsUtil.unescape(nickName));
-        chatMessage.setSendTime(sendTime);
-        chatMessage.setMessage(message);
-        if (messageList.size() >= 20) {
-            for (int i = 0; i < 5; i++) {
-                messageList.remove(i);
-            }
-        }
-        messageList.add(chatMessage);
-        chatListAdapter.notifyDataSetChanged();
-        list.scrollToPosition(messageList.size() - 1);
-    }
 
-    @Override
-    public void onSuccess(String result) {
-        inputMessage.setText("");
-    }
 
-    @Override
-    public void onFailure(String result) {
 
-    }
 
     @Override
     public void onDestroy() {
         Log.i(TAG, "onDestroy: ");
         super.onDestroy();
     }
-
+    @Subscribe(threadMode = ThreadMode.MAIN,sticky = false,priority = 1)
+    public void onMsgSuccess(LiveChatMessage msg){
+        inputMessage.setText("");
+        messageList.add(msg);
+        chatListAdapter.notifyDataSetChanged();
+        list.scrollToPosition(messageList.size() - 1);
+    }
 
 }

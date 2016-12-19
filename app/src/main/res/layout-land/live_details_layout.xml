@@ -10,6 +10,10 @@
       android:layout_centerInParent="true"
       android:layout_width="match_parent"
       android:layout_height="match_parent" />
+    <master.flame.danmaku.ui.widget.DanmakuView
+        android:id="@+id/danmaku_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
     <LinearLayout
         android:id="@+id/LoadingView"
         android:layout_centerInParent="true"
@@ -30,6 +34,7 @@
             android:textSize="16sp"/>
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/ll_land_top_controller"
         android:background="@color/default_bck_color"
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -101,7 +106,7 @@
 
 
     <LinearLayout
-        android:id="@+id/live_details_full_linear"
+        android:id="@+id/ll_land_bottom_controller"
         android:background="@color/default_bck_color"
         android:orientation="horizontal"
         android:focusable="true"
@@ -130,7 +135,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
             <EditText
-                android:id="@+id/live_details_full_input"
+                android:id="@+id/et_landText"
                 android:layout_weight="1"
                 android:singleLine="true"
                 android:background="@null"

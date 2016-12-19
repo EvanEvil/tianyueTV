@@ -122,26 +122,27 @@
               android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="wrap_content">
-              <RadioButton
-                  android:id="@+id/barrage_setting_location_top"
-                  android:drawableTop="@mipmap/danmaku_top"
-                  android:text="上方"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  style="@style/barrage_settings_danmaku"/>
-              <RadioButton
-                  android:drawableTop="@mipmap/danmaku_center"
-                  android:text="居中"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  style="@style/barrage_settings_danmaku"/>
-              <RadioButton
-                  android:drawableTop="@mipmap/danmaku_bottom"
-                  android:text="下方"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  style="@style/barrage_settings_danmaku"/>
-
+          <RadioButton
+              android:id="@+id/barrage_setting_location_top"
+              android:drawableTop="@mipmap/danmaku_top"
+              android:text="上方"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              style="@style/barrage_settings_danmaku"/>
+          <RadioButton
+              android:id="@+id/barrage_setting_location_mid"
+              android:drawableTop="@mipmap/danmaku_center"
+              android:text="居中"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              style="@style/barrage_settings_danmaku"/>
+          <RadioButton
+              android:id="@+id/barrage_setting_location_bottom"
+              android:drawableTop="@mipmap/danmaku_bottom"
+              android:text="下方"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              style="@style/barrage_settings_danmaku"/>
           </RadioGroup>
       </RelativeLayout>
     </LinearLayout>

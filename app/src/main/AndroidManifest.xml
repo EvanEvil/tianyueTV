@@ -85,7 +85,7 @@
             android:configChanges="orientation|screenSize" />
         <activity
             android:name=".Activity.Live.LiveDetails"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".Activity.Live.LiveBucket" />
         <activity android:name=".Activity.Live.LiveSetting" />
         <activity android:name=".Activity.Live.LabelManage" />

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 
@@ -78,6 +79,8 @@ public class BarrageSettingDialog extends Dialog{
         location = (RadioGroup) mView.findViewById(R.id.barrage_setting_location_group);
         volume.setMax(audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
         brightness.setMax(255);
+        alpha.setMax(255);//设置弹幕透明度的最大值
+        danmakuSize.setMax(15);//弹幕大小值
         setContentView(mView);
     }
     /**
@@ -93,6 +96,17 @@ public class BarrageSettingDialog extends Dialog{
     }
 
     /**
+     * 设置弹幕位置选择监听器
+     * @param listener
+     */
+    public void setRadioGroupCheckChangeListener(RadioGroup.OnCheckedChangeListener listener){
+        if(listener != null){
+            location.setOnCheckedChangeListener(listener);
+        }
+    }
+
+
+    /**
      * 设置音量的进度
      * @param progress
      */
@@ -104,7 +118,7 @@ public class BarrageSettingDialog extends Dialog{
      * @param progress
      */
     public void setBrightnesseProgress(int progress){
-       brightness.setProgress(progress);
+        brightness.setProgress(progress);
     }
     /**
      * 设置透明度
@@ -119,6 +133,16 @@ public class BarrageSettingDialog extends Dialog{
      */
     public void setDanmakuSizeProgress(int progress){
         danmakuSize.setProgress(progress);
+    }
+
+    /**
+     * 设置弹幕位置
+     * @param position
+     */
+    public void setDanmakuPosition(int position){
+        RadioButton rb = (RadioButton) location.getChildAt(position);
+        //RadioButton rb = (RadioButton) location.findViewById(R.id.barrage_setting_location_top);
+        rb.setChecked(true);
     }
 
 
