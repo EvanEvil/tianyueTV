@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:toolbar ="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/account_security_toolbar"
+        style="@style/toolbar"
+        toolbar:navigationIcon="@mipmap/back">
+        <!-- 标题 -->
+        <TextView
+            android:id="@+id/account_security_title"
+            android:layout_gravity="center"
+            style="@style/title"
+            android:text="账号安全" />
+    </android.support.v7.widget.Toolbar>
+    <RelativeLayout
+        android:background="#f0f0f0"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:id="@+id/account_security_top"
+            android:layout_marginTop="@dimen/y8"
+            android:background="#ffffff"
+            android:layout_marginLeft="@dimen/x14"
+            android:layout_marginRight="@dimen/x14"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/account_security_plaint"
+                android:layout_marginLeft="@dimen/x26"
+                android:layout_marginTop="@dimen/y15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/register_plaint"/>
+            <TextView
+                android:text="当前登录账号"
+                android:layout_marginLeft="@dimen/x12"
+                style="@style/text_default"
+                android:layout_alignTop="@id/account_security_plaint"
+                android:layout_toRightOf="@id/account_security_plaint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/account_security_nowaccount"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="@dimen/y28"
+                android:layout_marginBottom="@dimen/y15"
+                android:layout_marginLeft="@dimen/x20"
+                android:layout_alignLeft="@id/account_security_plaint"
+                android:layout_below="@id/account_security_plaint"
+                android:text="@string/account_security_number"
+                android:textSize="20sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_below="@id/account_security_top"
+            android:orientation="vertical"
+            android:background="#ffffff"
+            android:layout_marginLeft="@dimen/x14"
+            android:layout_marginRight="@dimen/x14"
+            android:layout_marginTop="@dimen/y10"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y240">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:paddingTop="@dimen/y5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="验证码    "
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/x16"
+                    style="@style/text_default_gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    style="@style/hint_text_default"
+                    android:id="@+id/account_security_code"
+                    android:maxLength="4"
+                    android:inputType="number"
+                    android:layout_weight="1"
+                    android:hint="请输入验证码"
+                    android:layout_marginLeft="@dimen/x24"
+                    android:layout_gravity="center_vertical"
+                    android:background="@null"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:id="@+id/account_security_getCode"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="@dimen/x15"
+                    android:layout_width="@dimen/x99"
+                    android:layout_height="@dimen/y47"
+                    android:text="获取验证码"
+                    android:textColor="@color/white"
+                    style="@style/hint_text_default"
+                    android:background="@drawable/code"/>
+            </LinearLayout>
+            <TextView
+                android:background="@color/gary"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="@dimen/x16"
+                android:layout_marginRight="@dimen/x16"
+                android:layout_height="1dp" />
+            <LinearLayout
+                android:paddingTop="@dimen/y10"
+                android:paddingBottom="@dimen/y10"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/x16"
+                    android:text="新密码    "
+                    android:maxLength="16"
+                    style="@style/text_default_gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    style="@style/hint_text_default"
+                    android:singleLine="true"
+                    android:id="@+id/account_security_password"
+                    android:inputType="textPassword"
+                    android:hint="输入您的新密码"
+                    android:layout_marginLeft="@dimen/x24"
+                    android:layout_gravity="center_vertical"
+                    android:background="@null"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <TextView
+                android:background="@color/gary"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="@dimen/x16"
+                android:layout_marginRight="@dimen/x16"
+                android:layout_height="1dp" />
+            <LinearLayout
+                android:paddingTop="@dimen/y10"
+                android:paddingBottom="@dimen/y10"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/x16"
+                    android:text="确认密码"
+                    style="@style/text_default_gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    style="@style/hint_text_default"
+                    android:singleLine="true"
+                    android:id="@+id/account_security_repassword"
+                    android:inputType="textPassword"
+                    android:maxLength="16"
+                    android:hint="请再次输入您的新密码"
+                    android:layout_marginLeft="@dimen/x24"
+                    android:layout_gravity="center_vertical"
+                    android:background="@null"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+        <Button
+            android:id="@+id/account_security_finish"
+            android:textColor="#ffffff"
+            android:layout_marginLeft="@dimen/x34"
+            android:layout_marginRight="@dimen/x34"
+            android:layout_marginTop="@dimen/y450"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/button_style"
+            android:text="确认修改"
+            android:background="@drawable/login_clickable"/>
+    </RelativeLayout>
+</LinearLayout>

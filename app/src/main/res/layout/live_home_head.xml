@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y165">
+    <com.jude.rollviewpager.RollPagerView
+        android:id="@+id/live_home_head_roll"
+        app:rollviewpager_play_delay="3000"
+        app:rollviewpager_hint_alpha="255"
+        app:rollviewpager_hint_gravity="right"
+        app:rollviewpager_hint_color="#a8000000"
+        app:rollviewpager_hint_paddingRight="@dimen/x5"
+        app:rollviewpager_hint_paddingTop = "@dimen/y7"
+        app:rollviewpager_hint_paddingBottom = "@dimen/y7"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </com.jude.rollviewpager.RollPagerView>
+    <TextView
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/y29"
+        android:gravity="center"
+        android:layout_marginLeft="@dimen/x8"
+        android:layout_weight="1"
+        style="@style/text_default"
+        android:textColor="@color/white"
+        android:text="一个匠人的自我修养" />
+    </RelativeLayout>
+</LinearLayout>

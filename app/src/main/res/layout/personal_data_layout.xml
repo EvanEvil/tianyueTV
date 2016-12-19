@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:toolbar="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/certification_finish_toolbar"
+        style="@style/toolbar"
+        toolbar:navigationIcon="@mipmap/back">
+        <!-- 标题 -->
+        <TextView
+            android:id="@+id/personal_data_title"
+            style="@style/title"
+            android:layout_gravity="center"
+            android:text="个人展示" />
+    </android.support.v7.widget.Toolbar>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y300"
+        android:background="@mipmap/my_background">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/personal_data_headIcon"
+            android:layout_width="@dimen/x82"
+            android:layout_height="@dimen/y77"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/y103"
+            android:src="@mipmap/head_default" />
+        <TextView
+            android:layout_alignBottom="@id/personal_data_headIcon"
+            android:layout_alignRight="@id/personal_data_headIcon"
+            android:background="@mipmap/certification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/personal_data_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/personal_data_headIcon"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/y7"
+            android:text="飞翔的荷兰人"
+            android:textColor="@color/white"
+            style="@style/text_default_large" />
+        <TextView
+            android:id="@+id/personal_data_fans"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/personal_data_nickname"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/y7"
+            android:text="粉丝:1231"
+            android:textColor="@color/white"
+            style="@style/text_default" />
+
+        <TextView
+            android:id="@+id/personal_data_signature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/personal_data_fans"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/y7"
+            android:text="个性签名:这里是酷炫的签名"
+            android:textColor="@color/white"
+            style="@style/text_default" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_marginTop="@dimen/y8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <TextView
+        android:layout_marginLeft="@dimen/x11"
+        android:textColor="@color/textDefault"
+        android:text="他关注的主播"
+        style="@style/text_default_large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+        <ImageButton
+            android:src="@mipmap/expand"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="8dp"
+            android:layout_marginRight="@dimen/x12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"/>
+    </RelativeLayout>
+    <GridView
+        android:layout_marginTop="@dimen/y5"
+        android:id="@+id/personal_data_anchor"
+        android:numColumns="4"
+        android:padding="3dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></GridView>
+    <TextView
+        android:layout_marginTop="@dimen/y10"
+        android:background="#666666"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+    <TextView
+        android:layout_marginLeft="@dimen/x11"
+        android:layout_marginTop="@dimen/y10"
+        android:textColor="@color/textDefault"
+        android:text="他的个人作品及展示"
+        android:textSize="22sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <GridView
+        android:layout_marginTop="@dimen/y5"
+        android:id="@+id/personal_data_works"
+        android:numColumns="4"
+        android:padding="3dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></GridView>
+
+</LinearLayout>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/private_chat_headIcon"
+        android:layout_width="@dimen/x80"
+        android:layout_height="@dimen/y80"
+        android:layout_marginLeft="@dimen/x10"
+        android:layout_marginTop="@dimen/y13"
+        android:layout_marginBottom="@dimen/y13"
+        android:src="@mipmap/head_default" />
+    <TextView
+        android:id="@+id/private_chat_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/x15"
+        android:layout_alignTop="@id/private_chat_headIcon"
+        android:layout_toRightOf="@id/private_chat_headIcon"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/y12"
+        android:text="绯色月下"
+        android:textColor="@color/textDefault"
+        android:textSize="17sp" />
+    <TextView
+        android:id="@+id/private_chat_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxEms="8"
+        android:singleLine="true"
+        android:layout_below="@id/private_chat_nickname"
+        android:layout_alignLeft="@id/private_chat_nickname"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/y18"
+        android:text="是打击说法你休息司法那是"
+        android:textSize="15sp" />
+    <TextView
+        android:id="@+id/private_chat_time"
+        android:text="13:50"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/private_chat_nickname"
+        android:layout_marginRight="@dimen/x10"
+        android:textSize="15sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/unread_info"
+        android:gravity="center"
+        android:background="@mipmap/private_chat_unread"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/private_chat_info"
+        android:layout_marginRight="@dimen/x10"
+        android:text="99+"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

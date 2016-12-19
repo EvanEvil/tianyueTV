@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:toolbar="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_live_bucket_toolbar"
+        toolbar:navigationIcon="@mipmap/back"
+        style="@style/toolbar">
+        <!-- 标题 -->
+        <TextView
+            android:id="@+id/my_live_bucket_title"
+            style="@style/title"
+            android:layout_gravity="center"
+            android:text="主播空间" />
+        <TextView
+            android:id="@+id/my_live_bucket_help"
+            style="@style/title"
+            android:layout_gravity="right"
+            android:layout_marginRight="@dimen/x20"
+            android:textSize="16sp"
+            android:text="帮助" />
+    </android.support.v7.widget.Toolbar>
+    <TextView
+        android:id="@+id/my_live_bucket_fans"
+        android:paddingLeft="@dimen/x13"
+        android:drawableLeft="@mipmap/my_live_bucket_fans"
+        android:gravity="center_vertical"
+        style="@style/text_default_large"
+        android:drawableRight="@mipmap/right"
+        android:paddingRight="@dimen/x13"
+        android:textColor="@color/textDefault"
+        android:drawablePadding="@dimen/x13"
+        android:text="我的粉丝数:"
+        android:background="#33c7c7c7"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y77" />
+    <TextView
+        android:id="@+id/my_live_bucket_store"
+        android:paddingLeft="@dimen/x13"
+        android:drawableLeft="@mipmap/my_live_bucket_store"
+        android:gravity="center_vertical"
+        style="@style/text_default_large"
+        android:drawableRight="@mipmap/right"
+        android:paddingRight="@dimen/x13"
+        android:textColor="@color/textDefault"
+        android:drawablePadding="@dimen/x13"
+        android:text="我的店铺"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y77" />
+    <TextView
+        android:id="@+id/my_live_bucket_money"
+        android:paddingLeft="@dimen/x13"
+        android:drawableLeft="@mipmap/my_live_bucket_money"
+        android:gravity="center_vertical"
+        style="@style/text_default_large"
+        android:drawableRight="@mipmap/right"
+        android:paddingRight="@dimen/x13"
+        android:textColor="@color/textDefault"
+        android:drawablePadding="@dimen/x13"
+        android:text="直播收益"
+        android:background="#33c7c7c7"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y77" />
+    <TextView
+        android:id="@+id/my_live_bucket_setting"
+        android:paddingLeft="@dimen/x13"
+        android:drawableLeft="@mipmap/my_live_bucket_setting"
+        android:gravity="center_vertical"
+        style="@style/text_default_large"
+        android:drawableRight="@mipmap/right"
+        android:paddingRight="@dimen/x13"
+        android:textColor="@color/textDefault"
+        android:drawablePadding="@dimen/x13"
+        android:text="直播设置"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y77" />
+    <Button
+        android:id="@+id/my_live_bucket_start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/x34"
+        android:layout_marginRight="@dimen/x34"
+        android:layout_marginTop="@dimen/y190"
+        android:background="@drawable/login_clickable"
+        android:text="开启直播"
+        android:textColor="#ffffff"
+        style="@style/button_style" />
+</LinearLayout>

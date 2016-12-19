@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:toolbar="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/audit_success_toolbar"
+        style="@style/toolbar"
+        toolbar:navigationIcon="@mipmap/back">
+        <!-- 标题 -->
+        <TextView
+            android:id="@+id/audit_success_title"
+            style="@style/title"
+            android:layout_gravity="center"
+            android:text="验证结果" />
+    </android.support.v7.widget.Toolbar>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/y30"
+        android:drawableTop="@mipmap/audit_success"
+        android:padding="20dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+    </LinearLayout>
+    <!--<LinearLayout-->
+    <!--android:background="#ededed"-->
+    <!--android:padding="10dp"-->
+    <!--android:layout_marginLeft="@dimen/x20"-->
+    <!--android:layout_marginRight="@dimen/x20"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content">-->
+    <!--<EditText-->
+    <!--android:id="@+id/audit_success_nickname"-->
+    <!--android:layout_weight="1"-->
+    <!--android:hint="设置直播间名称"-->
+    <!--android:background="@null"-->
+    <!--android:layout_gravity="center_vertical"-->
+    <!--style="@style/text_default_large"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content" />-->
+    <!--<Button-->
+    <!--android:background="@drawable/pay_button_selector"-->
+    <!--android:textColor="@color/white"-->
+    <!--android:layout_gravity="center_vertical"-->
+    <!--android:text="修改"-->
+    <!--android:visibility="invisible"-->
+    <!--style="@style/hint_text_default_small"-->
+    <!--android:layout_width="@dimen/x60"-->
+    <!--android:layout_height="@dimen/y30" />-->
+    <!--</LinearLayout>-->
+    <!--<TextView-->
+    <!--android:background="#cfcece"-->
+    <!--android:layout_marginLeft="@dimen/x20"-->
+    <!--android:layout_marginRight="@dimen/x20"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="1dp" />-->
+    <!--<LinearLayout-->
+    <!--android:background="#ededed"-->
+    <!--android:padding="10dp"-->
+    <!--android:layout_marginLeft="@dimen/x20"-->
+    <!--android:layout_marginRight="@dimen/x20"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content">-->
+    <!--<TextView-->
+    <!--android:layout_weight="1"-->
+    <!--android:text="选择分类"-->
+    <!--android:layout_gravity="center_vertical"-->
+    <!--style="@style/text_default_large"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content" />-->
+    <!--<Button-->
+    <!--android:id="@+id/audit_success_classify"-->
+    <!--android:background="@drawable/pay_button_selector"-->
+    <!--android:textColor="@color/white"-->
+    <!--android:layout_gravity="center_vertical"-->
+    <!--android:text="修改"-->
+    <!--style="@style/hint_text_default_small"-->
+    <!--android:layout_width="@dimen/x60"-->
+    <!--android:layout_height="@dimen/y30" />-->
+    <!--</LinearLayout>-->
+    <Button
+        android:id="@+id/audit_success_button"
+        style="@style/button_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/y58"
+        android:background="@drawable/login_clickable"
+        android:text="马上开启直播之旅"
+        android:textColor="@color/white" />
+</LinearLayout>

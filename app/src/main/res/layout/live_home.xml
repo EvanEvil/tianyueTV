@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.tianyue.mylibrary.view.ChangeToolbar
+        android:id="@+id/home_toolbar"
+        style="@style/toolbar"
+        android:layout_height="@dimen/y55"
+        app:navigationIcon="@mipmap/live_home_search">
+        <ImageView
+            style="@style/title"
+            android:layout_gravity="center"
+            android:src="@mipmap/live_home_logo" />
+    </com.tianyue.mylibrary.view.ChangeToolbar>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/home_toolbar"
+        android:background="#ebebeb" />
+<android.support.design.widget.TabLayout
+    android:layout_below="@id/home_toolbar"
+    android:id="@+id/live_home_tab"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/y40"
+    app:tabIndicatorColor="#e47c32"
+    app:tabSelectedTextColor="#e47c32">
+</android.support.design.widget.TabLayout>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/live_home_viewPage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v4.view.ViewPager>
+</LinearLayout>

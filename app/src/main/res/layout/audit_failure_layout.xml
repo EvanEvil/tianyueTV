@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:toolbar="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/audit_failure_toolbar"
+        style="@style/toolbar"
+        toolbar:navigationIcon="@mipmap/back">
+        <!-- 标题 -->
+        <TextView
+            android:id="@+id/audit_failure_title"
+            style="@style/title"
+            android:layout_gravity="center"
+            android:text="验证结果" />
+    </android.support.v7.widget.Toolbar>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/y30"
+        android:drawableTop="@mipmap/audit_failure"
+        android:padding="20dp" />
+
+    <Button
+        android:id="@+id/audit_failure_button"
+        style="@style/button_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/y15"
+        android:background="@drawable/login_clickable"
+        android:text="重新认证"
+        android:textColor="@color/white" />
+</LinearLayout>

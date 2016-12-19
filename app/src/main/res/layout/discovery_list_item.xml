@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="10dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/discovery_articles_preview"
+        android:layout_alignParentRight="true"
+        tools:background="@mipmap/discovery_pic"
+        android:scaleType="fitXY"
+        android:layout_marginBottom="@dimen/y20"
+        android:layout_width="@dimen/x149"
+        android:layout_height="@dimen/y140" />
+    <TextView
+        android:id="@+id/discovery_articles_title"
+        android:layout_alignParentLeft="true"
+        tools:text="[头条]文章标题........"
+        android:layout_marginRight="@dimen/x24"
+        android:maxEms="15"
+        style="@style/text_default_large"
+        android:layout_toLeftOf="@id/discovery_articles_preview"
+        android:ellipsize="end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/discovery_articles_content"
+        android:layout_below="@id/discovery_articles_title"
+        android:layout_toLeftOf="@id/discovery_articles_preview"
+        android:layout_marginRight="@dimen/x24"
+        android:layout_marginTop="@dimen/y5"
+        android:maxLines="2"
+        tools:text="需要注意的是View变量声明的时候不能为private"
+        android:ellipsize="end"
+        style="@style/hint_text_default"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y70" />
+    <TextView
+        android:drawablePadding="@dimen/x4"
+        android:id="@+id/discovery_articles_time"
+        tools:text="2015-07-03"
+        style="@style/hint_text_default"
+        android:drawableLeft="@mipmap/time"
+        android:layout_alignBottom="@id/discovery_articles_preview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/discovery_articles_reading"
+        tools:text="4.4千 阅读"
+        android:layout_marginRight="@dimen/x24"
+        style="@style/hint_text_default"
+        android:layout_toLeftOf="@id/discovery_articles_preview"
+        android:layout_alignBottom="@id/discovery_articles_preview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

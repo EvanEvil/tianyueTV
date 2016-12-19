@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@android:color/black"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+  <SurfaceView
+      android:id="@+id/live_details_playView"
+      tools:background="@mipmap/live_list_bcktools"
+      android:layout_centerInParent="true"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent" />
+    <LinearLayout
+        android:id="@+id/LoadingView"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ProgressBar
+            android:layout_width="@dimen/x30"
+            android:layout_height="@dimen/x30"
+            android:layout_marginRight="5dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="视频缓冲中...."
+            android:textColor="@android:color/white"
+            android:textSize="16sp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:background="@color/default_bck_color"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y54">
+        <ImageButton
+            android:id="@+id/live_details_back"
+            android:layout_marginLeft="@dimen/x10"
+            android:layout_marginRight="@dimen/x10"
+            android:src="@mipmap/back_white"
+            android:paddingLeft="@dimen/x13"
+            android:paddingRight="@dimen/x13"
+            android:background="@null"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+        <TextView
+            android:layout_weight="1"
+            android:id="@+id/live_details_title"
+            style="@style/text_default_large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="老王做模型"
+            android:textColor="#b1b1b1" />
+        <TextView
+            android:background="@null"
+            android:drawableLeft="@mipmap/live_details_full_renshu"
+            android:text="23k"
+            android:gravity="bottom"
+            android:layout_marginRight="@dimen/x27"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/white"
+            android:drawablePadding="@dimen/x5"
+            android:layout_width="wrap_content"
+            style="@style/hint_text_default_small"
+            android:layout_height="@dimen/y40" />
+        <TextView
+            android:background="@null"
+            android:drawableLeft="@mipmap/live_details_full_fans"
+            android:text="23k"
+            style="@style/hint_text_default_small"
+            android:gravity="bottom"
+            android:layout_marginRight="@dimen/x27"
+            android:drawablePadding="@dimen/x5"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/y40" />
+        <CheckBox
+            android:background="@drawable/like_selector"
+            android:button="@null"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/x27"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+        <ImageButton
+            android:id="@+id/live_details_full_share"
+            android:layout_height="match_parent"
+            android:src="@mipmap/live_details_share"
+            android:layout_marginRight="@dimen/x27"
+            style="@style/Live_Details_ImageButton" />
+        <ImageButton
+            android:layout_marginRight="@dimen/x13"
+            android:id="@+id/live_details_full_setting"
+            android:layout_height="match_parent"
+            android:src="@mipmap/live_details_full_more"
+            style="@style/Live_Details_ImageButton" />
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/live_details_full_linear"
+        android:background="@color/default_bck_color"
+        android:orientation="horizontal"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y54">
+        <ImageButton
+            android:id="@+id/live_details_pause"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/x10"
+            android:src="@mipmap/live_details_pause"
+            style="@style/Live_Details_ImageButton" />
+        <ImageButton
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/x20"
+            android:src="@mipmap/shielding_barrage"
+            style="@style/Live_Details_ImageButton" />
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/x20"
+            android:layout_marginTop="@dimen/y10"
+            android:layout_marginBottom="@dimen/y10"
+            android:background="@drawable/live_play_full_bottom_bck"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <EditText
+                android:id="@+id/live_details_full_input"
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:background="@null"
+                android:textColorHint="#8a8a8a"
+                android:hint="请输入弹幕"
+                android:textColor="@color/white"
+                style="@style/hint_text_default"
+                android:paddingLeft="@dimen/x10"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+        <ImageButton
+            android:layout_marginLeft="@dimen/x20"
+            android:id="@+id/live_details_send"
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/live_details_full_send"
+            style="@style/Live_Details_ImageButton"/>
+        <ImageButton
+            android:id="@+id/live_details_full"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/x20"
+            android:layout_marginRight="@dimen/x20"
+            android:src="@mipmap/exit_full"
+            style="@style/Live_Details_ImageButton"/>
+    </LinearLayout>
+</RelativeLayout>

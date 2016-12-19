@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/label_manage_toolbar"
+        style="@style/toolbar">
+
+        <TextView
+            android:textSize="16sp"
+            android:id="@+id/label_manage_cancel"
+            style="@style/title"
+            android:text="取消" />
+        <!-- 标题 -->
+        <TextView
+            android:id="@+id/label_manage_title"
+            style="@style/title"
+            android:layout_gravity="center"
+            android:text="标签管理" />
+
+        <TextView
+            android:id="@+id/label_manage_save"
+            style="@style/title"
+            android:layout_marginRight="@dimen/x20"
+            android:layout_gravity="right"
+            android:textSize="16sp"
+            android:text="保存" />
+    </android.support.v7.widget.Toolbar>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/x13"
+        android:layout_marginTop="@dimen/y13"
+        android:text="已有标签" />
+
+    <android.support.v7.widget.RecyclerView
+        android:scrollbars="none"
+        android:id="@+id/label_manage_list"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y254"
+        android:layout_marginLeft="@dimen/x13"
+        android:layout_marginRight="@dimen/x13">
+    </android.support.v7.widget.RecyclerView>
+    <LinearLayout
+        android:layout_marginTop="@dimen/y23"
+        android:layout_marginLeft="@dimen/x13"
+        android:layout_marginRight="@dimen/x13"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_height="@dimen/y41">
+        <EditText
+            android:id="@+id/label_manage_custom"
+            style="@style/text_default"
+            android:paddingLeft="10dp"
+            android:maxLength="4"
+            android:background="@drawable/input_label_bck"
+            android:layout_width="@dimen/x350"
+            android:hint="输入自定义标签"
+            android:layout_height="match_parent" />
+        <Button
+            android:id="@+id/label_manage_button"
+            style="@style/text_default"
+            android:textColor="@color/white"
+            android:text="贴上"
+            android:layout_marginLeft="@dimen/x25"
+            android:background="@drawable/label"
+            android:layout_width="@dimen/x77"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:toolbar="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gary"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/settings_toolbar"
+        style="@style/toolbar"
+        android:background="@color/white"
+        toolbar:navigationIcon="@mipmap/back">
+        <!-- 标题 -->
+        <TextView
+            android:id="@+id/settings_title"
+            style="@style/title"
+            android:layout_gravity="center"
+            android:text="设置" />
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/settings_focused"
+        android:padding="@dimen/y10">
+
+        <TextView
+            style="@style/text_default"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:text="硬件解码"
+            android:textColor="@color/textDefault" />
+
+        <CheckBox
+            android:id="@+id/settings_hardware"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/settings_check"
+            android:button="@null"
+            android:checked="true" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y2"
+        android:background="@drawable/settings_focused"
+        android:padding="@dimen/y10">
+
+        <TextView
+            style="@style/text_default"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:text="非wifi环境播放提醒"
+            android:textColor="@color/textDefault" />
+
+        <CheckBox
+            android:id="@+id/settings_wifi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/settings_check"
+            android:button="@null" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/settings_clear_cache"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y2"
+        android:background="@drawable/settings_focused"
+        android:clickable="true"
+        android:padding="@dimen/y10">
+
+        <TextView
+            style="@style/text_default"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="清除缓存"
+            android:textColor="@color/textDefault" />
+
+        <TextView
+            style="@style/text_default"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="0.15M" />
+    </LinearLayout>
+
+    <TextView
+        style="@style/settings"
+        android:layout_marginTop="15dp"
+        android:drawableRight="@mipmap/right"
+        android:text="常见问题" />
+
+    <TextView
+        style="@style/settings"
+        android:drawableRight="@mipmap/right"
+        android:text="意见反馈" />
+
+    <TextView
+        style="@style/settings"
+        android:drawableRight="@mipmap/right"
+        android:text="检查更新" />
+
+    <TextView
+        android:id="@+id/settings_about_us"
+        style="@style/settings"
+        android:drawableRight="@mipmap/right"
+        android:text="关于我们" />
+
+    <Button
+        android:id="@+id/settings_exit_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/x34"
+        android:layout_marginRight="@dimen/x34"
+        android:layout_marginTop="@dimen/y80"
+        android:background="@drawable/login_clickable"
+        android:text="退出登录"
+        android:textColor="#ffffff"
+        style="@style/button_style" />
+</LinearLayout>

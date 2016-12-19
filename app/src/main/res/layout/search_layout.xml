@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:toolbar="http://schemas.android.com/apk/res-auto"
+    android:background="@color/gary"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <android.support.v7.widget.Toolbar
+        android:background="@color/white"
+        android:id="@+id/search_toolbar"
+        toolbar:navigationIcon="@mipmap/back"
+        style="@style/toolbar">
+        <TextView
+            style="@style/title"
+            android:layout_gravity="center"
+            android:text="搜索" />
+    </android.support.v7.widget.Toolbar>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="热搜"
+        style="@style/text_default" />
+
+
+       <LinearLayout
+           android:layout_weight="1"
+           android:layout_width="match_parent"
+           android:layout_height="@dimen/y440">
+        <GridView
+            android:id="@+id/hot_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:numColumns="3"></GridView>
+
+    </LinearLayout>
+    <RelativeLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_centerVertical="true"
+            android:text="历史搜索"
+            style="@style/text_default" />
+        <Button
+            android:id="@+id/search_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:text="清空"
+            style="@style/text_default" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y540"
+        android:layout_weight="1">
+
+        <GridView
+            android:id="@+id/history_search"
+            android:numColumns="3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        </LinearLayout>
+</LinearLayout>

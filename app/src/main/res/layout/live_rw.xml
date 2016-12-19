@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="@dimen/y250"
+              android:orientation="horizontal"
+              android:background="@color/white"
+              android:layout_marginTop="@dimen/y20"
+              android:layout_marginRight="@dimen/x10"
+              android:layout_marginLeft="@dimen/x10"
+    >
+
+
+    <LinearLayout
+        android:layout_width="@dimen/x130"
+        android:layout_height="@dimen/y250"
+        android:orientation="vertical"
+        android:layout_marginRight="0.5dp"
+        >
+
+        <TextView
+            android:id="@+id/rw"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:paddingTop="@dimen/y90"
+            android:drawablePadding="@dimen/y10"
+            android:text="人文·发现"
+            android:textSize="20sp"
+            android:drawableTop="@mipmap/rw"
+            android:gravity="center_horizontal"
+            />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_height="match_parent"
+        android:layout_width="1dp"
+        android:background="@color/gary"
+        />
+
+
+    <LinearLayout
+        android:layout_width="@dimen/x165"
+        android:layout_height="@dimen/y250"
+        android:orientation="vertical"
+        android:layout_marginRight="0.5dp"
+        android:weightSum="6"
+
+        >
+
+        <TextView
+            android:id="@+id/tv_ps"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:text="评书"
+            android:textSize="20sp"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:layout_height="1dp"
+            android:layout_width="match_parent"
+            android:background="@color/gary"
+            />
+
+        <TextView
+            android:id="@+id/tv_ty"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:text="陶艺"
+            android:textSize="20sp"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:layout_height="1dp"
+            android:layout_width="match_parent"
+            android:background="@color/gary"
+            />
+
+        <TextView
+            android:id="@+id/tv_sf"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:text="书法"
+            android:textSize="20sp"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:layout_height="1dp"
+            android:layout_width="match_parent"
+            android:background="@color/gary"
+            />
+
+        <TextView
+            android:id="@+id/tv_mzwd"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:text="民族舞蹈"
+            android:textSize="20sp"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:layout_height="1dp"
+            android:layout_width="match_parent"
+            android:background="@color/gary"
+            />
+        <TextView
+            android:id="@+id/tv_lycx"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:text="旅游出行"
+            android:textSize="20sp"
+            android:gravity="center"
+            />
+        <TextView
+            android:layout_height="1dp"
+            android:layout_width="match_parent"
+            android:background="@color/gary"
+            />
+
+        <TextView
+            android:id="@+id/tv_wwwh"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:text="文玩文化"
+            android:textSize="20sp"
+            android:gravity="center"
+            />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_height="match_parent"
+        android:layout_width="1dp"
+        android:background="@color/gary"
+        />
+
+    <LinearLayout
+        android:layout_width="@dimen/x165"
+        android:layout_height="@dimen/y250"
+        android:orientation="vertical"
+        android:layout_marginRight="0.5dp"
+        android:weightSum="6"
+        >
+
+
+        <TextView
+            android:id="@+id/tv_ws"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:text="武术"
+            android:textSize="20sp"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:layout_height="1dp"
+            android:layout_width="match_parent"
+            android:background="@color/gary"
+            />
+
+        <TextView
+            android:id="@+id/tv_gj"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:text="工匠"
+            android:textSize="20sp"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:layout_height="1dp"
+            android:layout_width="match_parent"
+            android:background="@color/gary"
+            />
+
+        <TextView
+            android:id="@+id/tv_hh"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:text="绘画"
+            android:textSize="20sp"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:layout_height="1dp"
+            android:layout_width="match_parent"
+            android:background="@color/gary"
+            />
+
+        <TextView
+            android:id="@+id/tv_mjhd"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:text="民间活动"
+            android:textSize="20sp"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:layout_height="1dp"
+            android:layout_width="match_parent"
+            android:background="@color/gary"
+            />
+        <TextView
+            android:id="@+id/tv_lyhd"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:text="旅游活动"
+            android:textSize="20sp"
+            android:gravity="center"
+            />
+        <TextView
+            android:layout_height="1dp"
+            android:layout_width="match_parent"
+            android:background="@color/gary"
+            />
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            android:gravity="center"
+            />
+
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_height="match_parent"
+        android:layout_width="1dp"
+        android:background="@color/gary"
+        />
+
+</LinearLayout>
+

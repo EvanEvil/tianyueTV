@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/gary"
+    android:layout_height="match_parent">
+   <android.support.v7.widget.Toolbar
+       android:background="@color/white"
+       style="@style/toolbar">
+       <TextView
+           android:layout_gravity="center"
+           style="@style/title"
+           android:text="私聊" />
+   </android.support.v7.widget.Toolbar>
+    <ListView
+        android:background="@color/white"
+        android:divider="@color/gary"
+        android:dividerHeight="@dimen/x2"
+        android:layout_marginTop="@dimen/y10"
+        android:id="@+id/private_chat_lists"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </ListView>
+</LinearLayout>

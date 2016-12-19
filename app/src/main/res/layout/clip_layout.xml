@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:clip="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    android:orientation="vertical">
+
+    <com.tianyue.mylibrary.view.ClipImageLayout
+        android:id="@+id/clip_pic"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        clip:horizontal_padding="10dp"></com.tianyue.mylibrary.view.ClipImageLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y20"
+        android:background="@color/translucent_black">
+
+        <Button
+            style="@style/text_default"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/y10"
+            android:background="@null"
+            android:text="取消"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/clip_confirm"
+            style="@style/text_default"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/y10"
+            android:background="@null"
+            android:text="确定"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+</LinearLayout>

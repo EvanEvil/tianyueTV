@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#f0f0f0"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+  <android.support.v7.widget.Toolbar
+      android:background="#ffffff"
+      style="@style/toolbar">
+    <TextView
+        android:layout_gravity="center"
+        style="@style/title"
+        android:text="发现" />
+  </android.support.v7.widget.Toolbar>
+    <ListView
+        android:background="#ffffff"
+        android:layout_marginLeft="@dimen/x8"
+        android:layout_marginRight="@dimen/x8"
+        android:divider="#f0f0f0"
+        android:dividerHeight="@dimen/y8"
+        android:layout_marginTop="@dimen/y8"
+        android:id="@+id/discovery_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></ListView>
+</LinearLayout>

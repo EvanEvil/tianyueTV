@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="@dimen/y83"
+              android:orientation="horizontal"
+              android:background="#fff"
+              android:layout_marginTop="@dimen/y20"
+              android:layout_marginRight="@dimen/x10"
+              android:layout_marginLeft="@dimen/x10"
+    >
+
+
+    <LinearLayout
+        android:layout_width="@dimen/x130"
+        android:layout_height="@dimen/y83"
+        android:orientation="vertical"
+        android:layout_marginRight="0.5dp"
+        >
+
+        <TextView
+            android:id="@+id/bz"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:text="暴走购物"
+            android:drawablePadding="@dimen/y10"
+            android:textSize="20sp"
+            android:drawableTop="@mipmap/bzicon"
+            android:paddingTop="@dimen/y8"
+            android:gravity="center_horizontal"
+            />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_height="match_parent"
+        android:layout_width="1dp"
+        android:background="@color/gary"
+        />
+
+
+
+    <LinearLayout
+        android:layout_width="@dimen/x165"
+        android:layout_height="@dimen/y83"
+        android:orientation="vertical"
+        android:layout_marginRight="0.5dp"
+        android:weightSum="2"
+
+        >
+
+
+        <TextView
+            android:id="@+id/tv_fjq"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:text="风景区"
+            android:textSize="20sp"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:layout_height="1dp"
+            android:layout_width="match_parent"
+            android:background="@color/gary"
+            />
+
+        <TextView
+            android:id="@+id/tv_xjp"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:text="新加坡"
+            android:textSize="20sp"
+            android:gravity="center"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:layout_height="match_parent"
+        android:layout_width="1dp"
+        android:background="@color/gary"
+        />
+
+    <LinearLayout
+        android:layout_width="@dimen/x165"
+        android:layout_height="@dimen/y83"
+        android:orientation="vertical"
+        android:layout_marginRight="0.5dp"
+        android:weightSum="2"
+        >
+
+        <TextView
+            android:id="@+id/tv_rb"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:text="日本"
+            android:textSize="20sp"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:layout_height="1dp"
+            android:layout_width="match_parent"
+            android:background="@color/gary"
+            />
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            android:gravity="center"
+            />
+
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_height="match_parent"
+        android:layout_width="1dp"
+        android:background="@color/gary"
+        />
+
+</LinearLayout>

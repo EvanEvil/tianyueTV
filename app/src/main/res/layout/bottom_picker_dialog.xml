@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="bottom"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:background="@color/bck_default"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+     <RelativeLayout
+         android:orientation="horizontal"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content">
+         <Button
+             android:id="@+id/bottom_picker_cancel"
+             android:text="取消"
+             android:background="@null"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content" />
+         <Button
+             android:id="@+id/bottom_picker_confirm"
+             android:text="确定"
+             android:background="@null"
+             android:layout_alignParentRight="true"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content" />
+     </RelativeLayout>
+    <TextView
+        android:background="@color/bck_default"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+    <LinearLayout
+        android:paddingBottom="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.tianyue.mylibrary.view.ScrollPickerView
+            android:id="@+id/bottom_picker_type_one"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/y180"
+            android:layout_weight="1"
+            app:is_circulation="false"
+            app:min_text_size="13sp"
+            app:max_text_size="15sp"
+            app:visible_item_count="5" />
+
+        <com.tianyue.mylibrary.view.ScrollPickerView
+            android:id="@+id/bottom_picker_type_two"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/y180"
+            android:layout_weight="1"
+            app:is_circulation="false"
+            app:min_text_size="13sp"
+            app:max_text_size="15sp"
+            app:visible_item_count="5" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y250"
+        android:background="@mipmap/my_background">
+        <TextView
+            android:id="@+id/my_home_nickName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/y23"
+            android:layout_alignParentBottom="true"
+            tools:text="飞翔的荷兰人"
+            android:textColor="@color/white"
+            style="@style/text_default_large" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_marginTop="@dimen/y68"
+            android:id="@+id/my_home_headIcon"
+            android:layout_width="@dimen/x120"
+            android:layout_height="@dimen/y120"
+            android:layout_centerHorizontal="true"
+            android:src="@mipmap/head_default" />
+        <TextView
+            android:layout_alignBottom="@id/my_home_headIcon"
+            android:layout_alignRight="@id/my_home_headIcon"
+            android:background="@mipmap/certification"
+            android:layout_marginBottom="@dimen/y3"
+            android:layout_marginRight="@dimen/x8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+            <ImageView
+                android:layout_marginRight="@dimen/x15"
+                android:layout_marginTop="@dimen/y19"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/message"/>
+
+
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y67">
+        <ImageView
+            android:layout_marginLeft="@dimen/x15"
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/tianyue_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginLeft="@dimen/x8"
+            android:text="越币"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/text_default"/>
+        <TextView
+            tools:text="300"
+            android:gravity="bottom"
+            android:layout_marginLeft="@dimen/x8"
+            android:textColor="@android:color/holo_red_dark"
+            android:layout_gravity="center_vertical"
+            android:singleLine="true"
+            android:layout_width="@dimen/x80"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            style="@style/text_default_large"/>
+        <ImageView
+            android:layout_marginLeft="@dimen/x10"
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/tianyue_peach"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="灵桃"
+            android:layout_marginLeft="@dimen/x8"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/text_default"/>
+        <TextView
+            tools:text="300"
+            android:layout_marginLeft="@dimen/x8"
+            android:textColor="#e47c32"
+            android:layout_gravity="center_vertical"
+            android:singleLine="true"
+            android:layout_width="@dimen/x80"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            style="@style/text_default_large"/>
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Button
+            android:layout_gravity="center_vertical"
+            android:text="充值越币"
+            android:enabled="false"
+            android:layout_marginRight="@dimen/x15"
+            android:textColor="@color/translucent_black"
+            style="@style/hint_text_default"
+            android:background="@drawable/my_pay_button_selector"
+            android:layout_width="@dimen/x85"
+            android:layout_height="@dimen/y30" />
+    </LinearLayout>
+    <LinearLayout
+        android:background="#f2f2f2"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_marginTop="@dimen/y12"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="@dimen/x9"
+                android:layout_height="match_parent" />
+            <TextView
+                android:paddingTop="@dimen/y28"
+                android:background="@drawable/my_item_bck"
+                android:id="@+id/my_concern"
+                android:drawableTop="@mipmap/my_concern"
+                android:text="我的订阅"
+                style="@style/my_button"/>
+            <TextView
+                android:layout_width="@dimen/x9"
+                android:layout_height="match_parent" />
+            <TextView
+                android:background="@drawable/my_item_bck"
+                android:id="@+id/my_play_history"
+                android:drawableTop="@mipmap/my_play_history"
+                android:text="播放历史"
+                style="@style/my_button"/>
+            <TextView
+                android:layout_width="@dimen/x9"
+                android:layout_height="match_parent" />
+            <TextView
+                android:background="@drawable/my_item_bck"
+                android:id="@+id/my_certification"
+                android:drawableTop="@mipmap/my_live"
+                style="@style/my_button"
+                android:text="主播认证" />
+            <TextView
+                android:layout_width="@dimen/x9"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/x9"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="@dimen/x9"
+                android:layout_height="match_parent" />
+            <TextView
+                android:id="@+id/my_account_security"
+                android:background="@drawable/my_item_bck"
+                android:drawableTop="@mipmap/my_account_security"
+                android:text="账号安全"
+                style="@style/my_button" />
+            <TextView
+                android:layout_width="@dimen/x9"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/my_settings"
+                android:background="@drawable/my_item_bck"
+                android:drawableTop="@mipmap/my_setting"
+                style="@style/my_button"
+                android:text="设置" />
+            <TextView
+                android:layout_width="@dimen/x9"
+                android:layout_height="match_parent" />
+            <TextView
+                android:paddingTop="@dimen/y25"
+                android:paddingBottom="@dimen/y25"
+                android:layout_weight="1"
+                android:visibility="invisible"
+                android:background="@drawable/my_item_bck"
+                android:drawableTop="@mipmap/my_account_security"
+                style="@style/text_default"
+                android:gravity="center"
+                android:text="账号安全"
+                android:drawablePadding="@dimen/y11"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <TextView
+                android:layout_width="@dimen/x9"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

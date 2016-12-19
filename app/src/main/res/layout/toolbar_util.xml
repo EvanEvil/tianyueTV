@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.tianyue.mylibrary.view.ChangeToolbar
+    android:id="@+id/live_classify_toolbar"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:toolbar="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    toolbar:navigationIcon="@mipmap/back"
+    android:background="@color/white">
+    <TextView
+        style="@style/title"
+        android:text="栏目分类"
+        android:layout_gravity="center"
+         />
+</com.tianyue.mylibrary.view.ChangeToolbar>
+

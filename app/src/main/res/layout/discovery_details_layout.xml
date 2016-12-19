@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:toolbar="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/discovery_articles_toolbar"
+        style="@style/toolbar"
+        toolbar:navigationIcon="@mipmap/back">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x7"
+            android:layout_weight="1"
+            android:text="资讯"
+            style="@style/title_text_default"/>
+    </android.support.v7.widget.Toolbar>
+    <TextView
+        android:layout_width="match_parent"
+        android:background="#f0f0f0"
+        android:layout_height="2dp" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/discovery_articles_details_title"
+        android:maxEms="15"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/x23"
+        android:layout_marginTop="@dimen/y17"
+        android:text="十六进制颜色码"
+        android:textColor="@color/textDefault"
+        style="@style/text_default_large" />
+    <LinearLayout
+        android:layout_marginBottom="@dimen/y10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y17"
+        android:gravity="center_vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x23"
+            android:text="来源:天越网"
+            style="@style/hint_text_default" />
+        <TextView
+            android:layout_marginLeft="@dimen/x11"
+            android:background="#87CEFA"
+            android:layout_width="1dp"
+            android:layout_height="match_parent" />
+        <TextView
+            android:id="@+id/discovery_articles_details_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x11"
+            android:text="时间:2016-07-03"
+            style="@style/hint_text_default" />
+        <TextView
+            android:layout_marginLeft="@dimen/x11"
+            android:background="#87CEFA"
+            android:layout_width="1dp"
+            android:layout_height="match_parent" />
+        <TextView
+            android:id="@+id/discovery_articles_details_reading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x11"
+            android:layout_weight="1"
+            android:gravity="start"
+            android:text="浏览:5329495"
+            style="@style/hint_text_default" />
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:background="#87CEFA"
+        android:layout_height="1dp" />
+    <TextView
+        android:background="#f0f0f0"
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/y15"
+        android:layout_marginLeft="@dimen/x23"
+        android:layout_marginRight="@dimen/x14"
+        android:layout_marginTop="@dimen/y11"
+        android:text="导读:我们又知道任何颜色都是由三种最基本的颜色叠加形成的，这三种颜色称为“三原色”。"
+        style="@style/text_default" />
+        <WebView
+            android:id="@+id/discovery_articles_details_content"
+            android:layout_marginLeft="@dimen/x23"
+            android:layout_marginRight="@dimen/x14"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </WebView>
+     </LinearLayout>
+    </ScrollView>
+</LinearLayout>

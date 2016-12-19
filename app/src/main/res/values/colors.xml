@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="red">#FF0000</color>
+    <color name="gary">#f0f0f0</color>
+    <color name="textDefault">#555555</color>
+    <color name="white">#ffffff</color>
+    <color name="pressed">#EBEBEB</color>
+    <color name="code_unclickable">#C1C1C1</color>
+    <color name="code_clickable">#343434</color>
+    <color name="bck_default">#ebebeb</color>
+    <color name="default_bck_color">#a8000000</color>
+</resources>

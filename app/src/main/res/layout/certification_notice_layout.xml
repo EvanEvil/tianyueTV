@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:toolbar="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/certification_notice_toolbar"
+        style="@style/toolbar"
+        toolbar:navigationIcon="@mipmap/back">
+        <!-- 标题 -->
+        <TextView
+            android:id="@+id/certification_notice_title"
+            style="@style/title"
+            android:layout_gravity="center"
+            android:text="实名认证须知" />
+    </android.support.v7.widget.Toolbar>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gary" />
+    <TextView
+        android:layout_marginTop="@dimen/y11"
+        android:layout_marginLeft="@dimen/x15"
+        android:textColor="@color/textDefault"
+        android:text="实名认证是主播申请途中最重要的一步,为确保您顺利通过实名认证,请准确填写个人信息,谢谢配合。"
+        style="@style/text_default_large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_marginTop="@dimen/y11"
+        android:layout_marginLeft="@dimen/x15"
+        android:textColor="@color/textDefault"
+        style="@style/text_default_large"
+        android:text="途中存在如下情形,无法完成认证"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_marginTop="@dimen/y15"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gary" />
+    <TextView
+        android:layout_marginTop="@dimen/y11"
+        android:layout_marginLeft="@dimen/x15"
+        android:textColor="@color/textDefault"
+        style="@style/hint_text_default"
+        android:text="·申请人未满18岁"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_marginTop="@dimen/y11"
+        android:layout_marginLeft="@dimen/x15"
+        android:textColor="@color/textDefault"
+        style="@style/hint_text_default"
+        android:text="·申请人已被平台限制认证"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_marginTop="@dimen/y11"
+        android:layout_marginLeft="@dimen/x15"
+        android:textColor="@color/textDefault"
+        style="@style/hint_text_default"
+        android:text="·认证资料已被其他账户占用"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_marginTop="@dimen/y11"
+        android:layout_marginLeft="@dimen/x15"
+        android:textColor="@color/textDefault"
+        style="@style/hint_text_default"
+        android:text="·非大陆用户"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <Button
+        android:id="@+id/certification_notice_finish"
+        android:layout_marginBottom="@dimen/y125"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:text="我已阅读"
+        android:textColor="@color/white"
+        style="@style/button_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/login_clickable"/>
+    </RelativeLayout>
+</LinearLayout>

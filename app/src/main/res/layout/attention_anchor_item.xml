@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/attention_anchor_head"
+        android:layout_marginLeft="@dimen/x10"
+        android:src="@mipmap/head_default"
+        android:layout_width="@dimen/x90"
+        android:layout_height="@dimen/y90" />
+    <TextView
+        android:id="@+id/attention_anchor_live_state"
+        android:background="@mipmap/attention_bck"
+        android:layout_marginLeft="@dimen/x15"
+        android:layout_marginTop="@dimen/y60"
+        android:textColor="@color/white"
+        style="@style/hint_text_default_small"
+        android:text="正在直播"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/attention_anchor_nickname"
+        android:layout_below="@id/attention_anchor_head"
+        android:layout_marginLeft="@dimen/x12"
+        android:singleLine="true"
+        android:maxEms="5"
+        style="@style/hint_text_default_small"
+        android:text="雕刻大师陈光标"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <ImageView
+        android:id="@+id/attention_anchor_check"
+        android:visibility="gone"
+        android:layout_marginLeft="@dimen/x49"
+        android:layout_marginTop="@dimen/y40"
+        android:src="@mipmap/confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

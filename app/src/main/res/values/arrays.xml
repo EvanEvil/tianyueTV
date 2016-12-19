@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="live_title">
+        <item>互动</item>
+        <item>礼物排行榜</item>
+    </string-array>
+    <string-array name="live_home_tab">
+        <item>推荐</item>
+        <item>匠人</item>
+        <item>衣</item>
+        <item>食</item>
+        <item>住</item>
+        <item>行</item>
+        <item>知</item>
+    </string-array>
+    <string-array name="start_live_tab">
+        <item>互动</item>
+        <item>礼物</item>
+    </string-array>
+    <string-array name="type_main">
+        <item>匠人</item>
+        <item>衣</item>
+        <item>食</item>
+        <item>住</item>
+        <item>行</item>
+        <item>知</item>
+    </string-array>
+    <string-array name="type_main_id">
+        <item>200</item>
+        <item>300</item>
+        <item>400</item>
+        <item>500</item>
+        <item>600</item>
+        <item>700</item>
+    </string-array>
+
+</resources>

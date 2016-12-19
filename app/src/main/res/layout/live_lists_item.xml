@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/live_preview"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y180"
+        android:background="@mipmap/live_list_bcktools" />
+    <TextView
+        style="@style/text_default_large"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:ellipsize="end"
+        android:maxEms="15"
+        android:singleLine="true"
+        android:text="直播标题！" />
+    <LinearLayout
+        android:padding="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/live_preview">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/live_headIcon"
+            android:layout_width="@dimen/x57"
+            android:layout_height="@dimen/y47"
+            android:layout_alignParentBottom="true"
+            android:src="@mipmap/head_default" />
+        <TextView
+            android:id="@+id/anchor_nickname"
+            style="@style/anchorName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/x8"
+            android:layout_weight="1"
+            android:textColor="@color/textDefault"
+            android:text="主播昵称" />
+
+        <TextView
+            android:id="@+id/looker_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="right"
+            android:drawablePadding="@dimen/x5"
+            style="@style/hint_text_default"
+            android:drawableLeft="@mipmap/live_renshu"
+            android:text="在线2000" />
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.qiniu.pili.droid.streaming.widget.AspectFrameLayout
+        android:id="@+id/cameraPreview_afl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
+
+        <com.tianyue.pushlive.ui.CameraPreviewFrameView
+            android:id="@+id/cameraPreview_surfaceView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
+    </com.qiniu.pili.droid.streaming.widget.AspectFrameLayout>
+
+    <com.tianyue.mylibrary.view.ChangeToolbar
+        android:id="@+id/start_live_layout_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y55"
+        android:background="#a8000000"
+        app:navigationIcon="@mipmap/back_white">
+
+        <TextView
+            style="@style/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="我的直播间"
+            android:textColor="@color/white" />
+    </com.tianyue.mylibrary.view.ChangeToolbar>
+
+    <TextView
+        android:id="@+id/start_live_layout_number"
+        style="@style/hint_text_default_small"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/y35"
+        android:layout_below="@id/start_live_layout_toolbar"
+        android:layout_marginLeft="@dimen/x10"
+        android:drawableLeft="@mipmap/start_live_renshu"
+        android:drawablePadding="@dimen/x5"
+        android:gravity="bottom"
+        android:text="12k"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/start_live_layout_fans"
+        style="@style/hint_text_default_small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/start_live_layout_number"
+        android:layout_alignTop="@id/start_live_layout_number"
+        android:layout_below="@id/start_live_layout_toolbar"
+        android:layout_marginLeft="@dimen/x10"
+        android:layout_toRightOf="@id/start_live_layout_number"
+        android:drawableLeft="@mipmap/start_live_fans"
+        android:drawablePadding="@dimen/x5"
+        android:gravity="bottom"
+        android:text="1520"
+        android:textColor="@color/white" />
+
+    <LinearLayout
+        android:id="@+id/start_live_layout_column"
+        android:layout_below="@id/start_live_layout_toolbar"
+        android:layout_width="@dimen/x55"
+        android:layout_height="@dimen/y327"
+        android:layout_alignParentRight="true"
+        android:orientation="vertical">
+
+        <!--<ImageButton-->
+            <!--android:visibility="invisible"-->
+            <!--style="@style/start_live_button"-->
+            <!--android:src="@mipmap/start_live_setting" />-->
+
+        <ImageButton
+            android:id="@+id/start_live_camera"
+            style="@style/start_live_button"
+            android:src="@mipmap/camera" />
+
+        <ImageButton
+            android:id="@+id/start_live_flash"
+            style="@style/start_live_button"
+            android:src="@mipmap/flashes" />
+
+        <ImageButton
+            android:id="@+id/start_live_push"
+            style="@style/start_live_button"
+            android:src="@mipmap/push" />
+
+        <ImageButton
+            android:id="@+id/start_live_share"
+            style="@style/start_live_button"
+            android:src="@mipmap/share" />
+
+        <ImageButton
+            android:id="@+id/start_live_orientation"
+            style="@style/start_live_button"
+            android:src="@mipmap/orientation" />
+
+        <ImageButton
+            android:id="@+id/start_live_play"
+            style="@style/start_live_button"
+            android:src="@mipmap/play" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/start_live_layout_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y312"
+        android:layout_alignParentBottom="true"
+        android:background="#a8000000"
+        android:orientation="vertical">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/start_live_layout_viewPage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+        </android.support.v4.view.ViewPager>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#646464" />
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/start_live_layout_tab"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y60"
+            app:tabTextColor="@color/white"
+            app:tabSelectedTextColor="@color/white"
+            app:tabIndicatorColor="#e47c32"
+            app:tabIndicatorHeight="@dimen/y3"
+            android:layout_alignParentBottom="true" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/start_live_stream_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        android:visibility="gone"
+        tools:text="直播反馈信息" />
+</RelativeLayout>

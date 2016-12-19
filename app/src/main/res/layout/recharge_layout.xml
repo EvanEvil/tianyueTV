@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:toolbar="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/racharge_toolbar"
+        style="@style/toolbar"
+        toolbar:navigationIcon="@mipmap/back">
+        <!-- 标题 -->
+        <TextView
+            android:id="@+id/recharge_title"
+            style="@style/title"
+            android:layout_gravity="center"
+            android:text="充值越币" />
+    </android.support.v7.widget.Toolbar>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gary" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:textColor="#555555"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="充值账号:"
+            android:textSize="18sp" />
+
+        <EditText
+            android:layout_marginLeft="@dimen/x8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:textSize="17sp"
+            android:hint="请输入充值账号" />
+
+        <TextView
+            android:drawableRight="@mipmap/recharge_other"
+            android:drawablePadding="@dimen/x5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="给他人充值" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gary" />
+
+    <TextView
+        style="@style/rechargeFont"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y20"
+        android:text="请选择充值越币数量" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y20"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RadioButton
+                style="@style/rechargeNumber"
+                android:text="10越币" />
+
+            <RadioButton
+                style="@style/rechargeNumber"
+                android:layout_marginLeft="@dimen/x25"
+                android:text="25越币" />
+
+            <RadioButton
+                style="@style/rechargeNumber"
+                android:layout_marginLeft="@dimen/x25"
+                android:text="50越币" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/y20"
+            android:orientation="horizontal">
+
+            <RadioButton
+                style="@style/rechargeNumber"
+                android:text="100越币" />
+
+            <RadioButton
+                android:layout_marginLeft="@dimen/x25"
+                style="@style/rechargeNumber"
+                android:text="500越币" />
+
+            <RadioButton
+                android:layout_marginLeft="@dimen/x25"
+                style="@style/rechargeNumber"
+                android:text="1000越币" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/y20"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:checked="true"
+                style="@style/rechargeNumber"
+                android:text="5000越币" />
+
+            <RadioButton
+                android:layout_marginLeft="@dimen/x25"
+                style="@style/rechargeNumber"
+                android:text="10000越币" />
+
+            <RadioButton
+                android:layout_marginLeft="@dimen/x25"
+                style="@style/rechargeNumber"
+                android:text="其他数量" />
+        </LinearLayout>
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y13"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/rechargeFont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="售价:" />
+
+        <TextView
+            style="@style/rechargeFont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5000元"
+            android:textColor="@color/red"
+            android:textSize="15sp" />
+
+        <TextView
+            style="@style/rechargeFont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(1越币=1元)" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            style="@style/button_style"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@mipmap/next"
+            android:text="立即支付" />
+    </RelativeLayout>
+</LinearLayout>

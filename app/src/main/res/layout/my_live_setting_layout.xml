@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/live_setting_toolbar"
+        style="@style/toolbar">
+
+        <TextView
+            android:id="@+id/live_setting_cancel"
+            style="@style/title"
+            android:textSize="16sp"
+            android:text="取消" />
+        <!-- 标题 -->
+        <TextView
+            android:id="@+id/live_setting_title"
+            style="@style/title"
+            android:layout_gravity="center"
+            android:text="直播间设置" />
+
+        <TextView
+            android:textSize="16sp"
+            android:id="@+id/live_setting_save"
+            style="@style/title"
+            android:layout_gravity="right"
+            android:layout_marginRight="@dimen/x20"
+            android:text="保存" />
+    </android.support.v7.widget.Toolbar>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y59"
+        android:background="#33c7c7c7"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <TextView
+            style="@style/button_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/x13"
+            android:text="房间名"
+            android:textColor="@android:color/black" />
+
+        <EditText
+            android:id="@+id/my_live_setting_name"
+            style="@style/text_default_large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@null"
+            android:hint="请输入直播间名称" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y59">
+
+        <TextView
+            style="@style/button_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/x13"
+            android:text="分类"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/my_live_setting_classify"
+            style="@style/text_default_large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="请选择分类" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y59"
+        android:background="#33c7c7c7">
+
+        <TextView
+            style="@style/button_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/x13"
+            android:text="自定义标签"
+            android:textColor="@android:color/black" />
+
+        <ImageView
+            android:id="@+id/my_live_setting_alter"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/x13"
+            android:paddingRight="@dimen/x13"
+            android:src="@mipmap/alter_label" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y59"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/my_live_setting_label_one"
+            style="@style/live_setting_label"
+            android:text="标签管理" />
+
+        <TextView
+            android:id="@+id/my_live_setting_label_two"
+            style="@style/live_setting_label"
+            android:text="标签管理" />
+
+        <TextView
+            android:id="@+id/my_live_setting_label_three"
+            style="@style/live_setting_label"
+            android:text="标签管理" />
+
+        <TextView
+            android:id="@+id/my_live_setting_label_four"
+            style="@style/live_setting_label"
+            android:text="标签管理" />
+    </LinearLayout>
+    <!--<TextView-->
+    <!--style="@style/button_style"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:paddingLeft="@dimen/x13"-->
+    <!--android:textColor="@android:color/black"-->
+    <!--android:text="房间公告"-->
+    <!--android:background="#33c7c7c7"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="@dimen/y59" />-->
+    <!--<TextView-->
+    <!--android:id="@+id/my_live_setting_announcement"-->
+    <!--tools:text="今日17:00准时抢手工皮包，欢迎大家前来，今日前10位粉丝私发我的手工皮包教程。-->
+    <!--是"-->
+    <!--style="@style/text_default_large"-->
+    <!--android:layout_marginTop="@dimen/y13"-->
+    <!--android:paddingLeft="@dimen/x25"-->
+    <!--android:paddingRight="@dimen/x25"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content" />-->
+</LinearLayout>
