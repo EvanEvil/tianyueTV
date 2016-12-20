@@ -7,9 +7,17 @@
       android:background="#ffffff"
       style="@style/toolbar">
     <TextView
+        android:id="@+id/tv_search_title_discovery"
         android:layout_gravity="center"
         style="@style/title"
-        android:text="发现" />
+        android:text="搜你所好"
+        android:gravity="left|center_vertical"
+        android:textColor="#9c9999"
+        android:drawablePadding="8dp"
+        android:paddingLeft="8dp"
+        android:textSize="14sp"
+        android:background="@mipmap/icon_search"
+        android:drawableLeft="@mipmap/icon_magnifying_glass"/>
   </android.support.v7.widget.Toolbar>
     <ListView
         android:background="#ffffff"

@@ -8,11 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.tianyue.tv.Activity.Discovery.DiscoveryDetails;
+import com.tianyue.tv.Activity.SearchActivity;
 import com.tianyue.tv.Adapter.DiscoveryAdapter;
 import com.tianyue.tv.Config.InterfaceUrl;
 import com.tianyue.tv.Config.ParamConfigKey;
@@ -33,6 +35,8 @@ import butterknife.BindView;
 public class DiscoveryFragment extends BaseFragment {
     @BindView(R.id.discovery_list)
     ListView discoveryListView;//发现文章列表
+    @BindView(R.id.tv_search_title_discovery)
+    TextView tv_search_title_discovery;//发现模块顶部搜索
     DiscoveryAdapter discoveryAdapter;//列表适配器
     List<DiscoveryGson.DataList> list;
     private final int UPDATE = 101 ;
@@ -52,8 +56,18 @@ public class DiscoveryFragment extends BaseFragment {
         discoveryAdapter = new DiscoveryAdapter(getActivity(),list);
         discoveryListView.setOnItemClickListener(itemListener);
         discoveryListView.setAdapter(discoveryAdapter);
+
+        tv_search_title_discovery.setOnClickListener(mOnSearchClickListener);
         getDiscoveryData();
     }
+    View.OnClickListener mOnSearchClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(context, SearchActivity.class);
+            startActivity(intent);
+
+        }
+    };
 
 
     AdapterView.OnItemClickListener itemListener = new AdapterView.OnItemClickListener() {
