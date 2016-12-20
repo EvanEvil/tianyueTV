@@ -99,6 +99,8 @@ public class LiveChatFragment extends BaseFragment {
             case R.id.chat_fragment_send:
                 String message = inputMessage.getText().toString();
                 if (message.equals("")) {
+
+                    showToast("发送的消息不能为空哦");
                     return;
                 }
                 activity = (LiveDetails) getActivity();
@@ -110,6 +112,7 @@ public class LiveChatFragment extends BaseFragment {
 
 
                 hintKbTwo();
+
                 break;
         }
     }

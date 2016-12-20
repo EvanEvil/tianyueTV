@@ -136,4 +136,6 @@ public abstract class BaseFragment extends TakePhotoFragment {
             oneTime = twoTime;
         }
     }
+
+
 }

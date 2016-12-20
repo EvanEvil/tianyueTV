@@ -312,6 +312,12 @@ public class LiveDetails extends BaseActivity implements
         btn_land_sendDanmaku.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String message = et_landText.getText().toString();
+                if (message.equals("")) {
+
+                    showToast("发送的消息不能为空哦");
+                    return;
+                }
                 sendDanmaku();
             }
         });
