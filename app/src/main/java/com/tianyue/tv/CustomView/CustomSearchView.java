@@ -1,26 +1,24 @@
 package com.tianyue.tv.CustomView;
 
-import android.app.ActivityManager;
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import com.tianyue.tv.Adapter.HistorySearchAdapter;
 import com.tianyue.tv.Adapter.HotSearchAdapter;
 import com.tianyue.tv.R;
@@ -46,15 +44,57 @@ public class CustomSearchView extends LinearLayout implements View.OnClickListen
     private Button clear;//清除按钮
     private final int REFRESH_ADAPTER = 10 ;//刷新adapter
     String TAG = "result";
+
+    //evan
+    private String mNames[] = {
+            "welcome","android","TextView",
+            "apple","jamy","kobe bryant",
+            "jordan","layout","viewgroup",
+            "margin","padding","text",
+            "name","type","search","logcat"
+    };
+    private XCFlowLayout mFlowLayout;
+
     public CustomSearchView(Context context) {
-        super(context);}
+        this(context,null);
+
+    }
+
     public CustomSearchView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        this(context,attrs,0);
+
+    }
+
+    public CustomSearchView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
         this.context = context;
-        LayoutInflater.from(context).inflate(R.layout.search_layout,this);
+        LayoutInflater.from(context).inflate(R.layout.search_layout,null);
+
+
         initView();
     }
-    public CustomSearchView(Context context, AttributeSet attrs, int defStyleAttr) {super(context, attrs, defStyleAttr);}
+
+    private void initChildViews() {
+        // TODO Auto-generated method stub
+        mFlowLayout = (XCFlowLayout) findViewById(R.id.flowlayout);
+
+        ViewGroup.MarginLayoutParams lp = new ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp.leftMargin = 5;
+        lp.rightMargin = 5;
+        lp.topMargin = 5;
+        lp.bottomMargin = 5;
+        for (int i = 0; i < mNames.length; i++) {
+            TextView view = new TextView(context);
+            view.setText(mNames[i]);
+            view.setTextColor(Color.WHITE);
+            view.setBackgroundDrawable(getResources().getDrawable(R.drawable.shape_hotsearch));
+
+
+            mFlowLayout.addView(view, lp);
+        }
+    }
+
+
 
     /**
      * 初始化控件
@@ -67,14 +107,14 @@ public class CustomSearchView extends LinearLayout implements View.OnClickListen
         recordManage = new RecordManage(context);
         historyLists = recordManage.getHistoryRecord();
         //控件初始化
-        hotGridView = (GridView) findViewById(R.id.hot_search);
+        //hotGridView = (GridView) findViewById(R.id.hot_search);
         historyGridView = (GridView) findViewById(R.id.history_search);
         toolbar = (Toolbar) findViewById(R.id.search_toolbar);
         toolbar.inflateMenu(R.menu.menu_search_toolbar);
         MenuItem item =  toolbar.getMenu().findItem(R.id.search_item_1);
         mSearchView = (SearchView) item.getActionView();
         mSearchView.setQueryHint("搜索主播的名字/房间名");
-        clear = (Button) findViewById(R.id.search_clear);
+        //clear = (Button) findViewById(R.id.search_clear);
 
         //SharedPreferences的初始化
         //adapter初始化
@@ -88,7 +128,7 @@ public class CustomSearchView extends LinearLayout implements View.OnClickListen
         clear.setOnClickListener(this);
         mSearchView.setOnQueryTextListener(queryTextListener);
         historyGridView.setOnItemClickListener(itemClickListener);
-
+initChildViews();
 
     }
 
@@ -132,16 +172,16 @@ public class CustomSearchView extends LinearLayout implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-         switch (v.getId()){
-             case R.id.search_clear:
-                 if (historyLists != null) {
-                     recordManage.clearHistory();
-                     historyLists.clear();
-                     handler.sendEmptyMessage(REFRESH_ADAPTER);
-                 }
-                 break;
-             default:
-                 break;
-         }
+//         switch (v.getId()){
+//             case R.id.search_clear:
+//                 if (historyLists != null) {
+//                     recordManage.clearHistory();
+//                     historyLists.clear();
+//                     handler.sendEmptyMessage(REFRESH_ADAPTER);
+//                 }
+//                 break;
+//             default:
+//                 break;
+//         }
     }
 }

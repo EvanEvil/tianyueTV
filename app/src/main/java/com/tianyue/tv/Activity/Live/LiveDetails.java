@@ -316,9 +316,11 @@ public class LiveDetails extends BaseActivity implements
                 if (message.equals("")) {
 
                     showToast("发送的消息不能为空哦");
-                    return;
+
+                }else{
+                    sendDanmaku();
                 }
-                sendDanmaku();
+
             }
         });
         settings.setOnClickListener(this);

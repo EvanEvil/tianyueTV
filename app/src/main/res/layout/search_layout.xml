@@ -27,14 +27,15 @@
        <LinearLayout
            android:layout_weight="1"
            android:layout_width="match_parent"
-           android:layout_height="@dimen/y440">
-        <GridView
-            android:id="@+id/hot_search"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:numColumns="3"></GridView>
+           android:layout_height="match_parent">
+           <com.czm.flowlayout.XCFlowLayout
+               android:id="@+id/flowlayout"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent" >
 
-    </LinearLayout>
+           </com.czm.flowlayout.XCFlowLayout>
+
+       </LinearLayout>
     <RelativeLayout
         android:background="@color/white"
         android:layout_width="match_parent"
