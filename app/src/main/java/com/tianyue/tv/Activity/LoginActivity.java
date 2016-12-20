@@ -10,17 +10,20 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
-import com.tianyue.mylibrary.view.LoadingView;
 import com.tianyue.tv.Config.InterfaceUrl;
 import com.tianyue.tv.Config.ParamConfigKey;
 import com.tianyue.tv.Config.RequestConfigKey;
 import com.tianyue.tv.Gson.LoginGson;
 import com.tianyue.tv.MyApplication;
 import com.tianyue.tv.R;
+import com.tianyue.tv.Util.DESUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.Callback;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
@@ -47,13 +50,45 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.login_remember_account)
     CheckBox remember;
     MyApplication mApplication;
+    private String userName;
+    private String passWord;
+
     /**
      * 初始化控件
      */
     @Override
     protected void initView() {
 //        StatusBarUtil.setTransparentStatuBar(this);
+
+
+
+
+
+
+        jiexi();
         setContentView(R.layout.login_layout);
+    }
+    public void jiexi(){
+        Map<String,String> map = new HashMap<>();
+        userName = getSharedPreferences("account", MODE_PRIVATE).getString("username", null);
+        passWord = getSharedPreferences("account", MODE_PRIVATE).getString("password", null);
+        if(userName!=null && passWord != null){
+            try {
+                String jiemi1 = DESUtil.decrypt(userName, "A1B2C3D4E5F60708");
+                String jiemi2 = DESUtil.decrypt(passWord, "A1B2C3D4E5F60708");
+                Log.e(TAG,"解密后："+jiemi1+":---："+jiemi2);
+
+                if (!isNull(jiemi1, jiemi2)) {
+                    showDialogs("登录中");
+
+                    checkLogin(jiemi1,jiemi2);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     @Override
@@ -74,7 +109,7 @@ public class LoginActivity extends BaseActivity {
                 String pwd = pwdEdit.getText().toString();
                 if (!isNull(userName, pwd)) {
                     showDialogs("登录中");
-                    checkLogin();
+                    checkLogin(userName,pwd);
                 }
                 break;
             case R.id.login_register:
@@ -104,10 +139,11 @@ public class LoginActivity extends BaseActivity {
     /**
      * 检查登录账号是否正确
      */
-    private void checkLogin() {
+    private void checkLogin(String key,String pwd) {
+        Log.e(TAG,"登录中。。。");
         OkHttpUtils.post().url(InterfaceUrl.MOBILE_LOGIN)
-                .addParams(ParamConfigKey.USER_NAME, userEdit.getText().toString()
-                ).addParams(ParamConfigKey.PASSWORD, pwdEdit.getText().toString())
+                .addParams(ParamConfigKey.USER_NAME, key
+                ).addParams(ParamConfigKey.PASSWORD, pwd)
                 .build().execute(new Callback() {
             @Override
             public Object parseNetworkResponse(Response response) throws IOException {
@@ -120,8 +156,30 @@ public class LoginActivity extends BaseActivity {
                     mApplication = MyApplication.instance();
                     mApplication.setUser(loginGson.getUser());
                     dismissDialogs();
-                    startActivity(HomeActivity.class);
+                    Log.e(TAG,"登录成功。。。");
                     Log.i(TAG, "parseNetworkResponse: " + loginGson.getUser().getLive_streaming_address());
+                    //是否保存账号密码
+                    if(remember.isChecked()){
+                        //keep account
+                        try {
+                            Log.e(TAG,"电话："+mApplication.getUser().getTelephone());
+                            Log.e(TAG,"密码："+mApplication.getUser().getPassword());
+                            userName = DESUtil.encrypt(mApplication.getUser().getTelephone(), "A1B2C3D4E5F60708");
+                            passWord = DESUtil.encrypt(pwdEdit.getText().toString(), "A1B2C3D4E5F60708");
+                            Log.e(TAG,"加密后："+userName+":---："+passWord);
+                           getSharedPreferences("account",MODE_PRIVATE).edit()
+                                    .putString("username", userName)
+                                    .putString("password", passWord)
+                                    .commit();
+
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }else{
+
+                    }
+                    startActivity(HomeActivity.class);
                     finish();
                 } else {
                     showToast("用户名或密码错误");
