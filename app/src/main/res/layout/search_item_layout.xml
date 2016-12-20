@@ -1,78 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:toolbar="http://schemas.android.com/apk/res-auto"
-              android:background="@color/gary"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:background="@color/gary"
               android:orientation="vertical">
     <android.support.v7.widget.Toolbar
-        android:background="@color/white"
         android:id="@+id/search_toolbar"
-        toolbar:navigationIcon="@mipmap/back"
-        style="@style/toolbar">
+        style="@style/toolbar"
+        android:background="@color/white"
+        toolbar:navigationIcon="@mipmap/back">
+
         <SearchView
             style="@style/title"
             android:layout_gravity="center"
-            android:text="搜索" />
+            android:text="搜索"/>
     </android.support.v7.widget.Toolbar>
     <RelativeLayout
-        android:background="@color/white"
+        android:id="@+id/rl_history_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical">
+        android:layout_gravity="center_vertical"
+        android:background="@color/white">
+
         <TextView
+            style="@style/text_default"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:layout_centerVertical="true"
-            android:text="历史搜索"
-            style="@style/text_default" />
+            android:layout_margin="10dp"
+            android:text="历史搜索"/>
+
         <Button
             android:id="@+id/search_clear"
+            style="@style/text_default"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@null"
-            android:text="清空"
-            style="@style/text_default" />
+            android:text="清空"/>
     </RelativeLayout>
-
     <LinearLayout
-        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
 
-        <com.tianyue.tv.CustomView.XCFlowLayout
+        android:orientation="vertical">
+        <com.tianyue.tv.CustomView.MyFlowLayout
             android:id="@+id/history_search_flowlayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-
-        </com.tianyue.tv.CustomView.XCFlowLayout>
-
+            android:layout_height="wrap_content">
+        </com.tianyue.tv.CustomView.MyFlowLayout>
     </LinearLayout>
 
 
-
-
     <LinearLayout
-        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
         <TextView
+            style="@style/text_default"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:text="热搜"
-            style="@style/text_default" />
-        <com.tianyue.tv.CustomView.XCFlowLayout
+            android:text="热门搜索"/>
+        <com.tianyue.tv.CustomView.MyFlowLayout
             android:id="@+id/hot_search_flowlayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="wrap_content">
 
-        </com.tianyue.tv.CustomView.XCFlowLayout>
+        </com.tianyue.tv.CustomView.MyFlowLayout>
 
     </LinearLayout>
 

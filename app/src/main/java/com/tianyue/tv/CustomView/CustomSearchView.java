@@ -1,7 +1,6 @@
 package com.tianyue.tv.CustomView;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.SearchView;
@@ -11,13 +10,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.tianyue.tv.Adapter.HistorySearchAdapter;
 import com.tianyue.tv.Adapter.HotSearchAdapter;
@@ -45,15 +42,8 @@ public class CustomSearchView extends LinearLayout implements View.OnClickListen
     private final int REFRESH_ADAPTER = 10 ;//刷新adapter
     String TAG = "result";
 
-    //evan
-    private String mNames[] = {
-            "welcome","android","TextView",
-            "apple","jamy","kobe bryant",
-            "jordan","layout","viewgroup",
-            "margin","padding","text",
-            "name","type","search","logcat"
-    };
-    private XCFlowLayout mFlowLayout;
+
+
 
     public CustomSearchView(Context context) {
         this(context,null);
@@ -74,25 +64,7 @@ public class CustomSearchView extends LinearLayout implements View.OnClickListen
         initView();
     }
 
-    private void initChildViews() {
-        // TODO Auto-generated method stub
-        mFlowLayout = (XCFlowLayout) findViewById(R.id.flowlayout);
 
-        ViewGroup.MarginLayoutParams lp = new ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        lp.leftMargin = 5;
-        lp.rightMargin = 5;
-        lp.topMargin = 5;
-        lp.bottomMargin = 5;
-        for (int i = 0; i < mNames.length; i++) {
-            TextView view = new TextView(context);
-            view.setText(mNames[i]);
-            view.setTextColor(Color.WHITE);
-            view.setBackgroundDrawable(getResources().getDrawable(R.drawable.shape_hotsearch));
-
-
-            mFlowLayout.addView(view, lp);
-        }
-    }
 
 
 
@@ -128,7 +100,7 @@ public class CustomSearchView extends LinearLayout implements View.OnClickListen
         clear.setOnClickListener(this);
         mSearchView.setOnQueryTextListener(queryTextListener);
         historyGridView.setOnItemClickListener(itemClickListener);
-initChildViews();
+
 
     }
 
@@ -172,16 +144,16 @@ initChildViews();
 
     @Override
     public void onClick(View v) {
-//         switch (v.getId()){
-//             case R.id.search_clear:
-//                 if (historyLists != null) {
-//                     recordManage.clearHistory();
-//                     historyLists.clear();
-//                     handler.sendEmptyMessage(REFRESH_ADAPTER);
-//                 }
-//                 break;
-//             default:
-//                 break;
-//         }
+         switch (v.getId()){
+             case R.id.search_clear:
+                 if (historyLists != null) {
+                     recordManage.clearHistory();
+                     historyLists.clear();
+                     handler.sendEmptyMessage(REFRESH_ADAPTER);
+                 }
+                 break;
+             default:
+                 break;
+         }
     }
 }

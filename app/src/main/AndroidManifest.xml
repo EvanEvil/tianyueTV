@@ -16,6 +16,11 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
 
 
     <application
@@ -64,12 +69,9 @@
         </activity>
         <!-- ======================================== -->
         <activity android:name=".Activity.SearchActivity" />
-        <activity android:name=".Activity.HomeActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".Activity.HomeActivity"/>
+
+
         <activity android:name=".Activity.RegisterOne" />
         <activity android:name=".Activity.RegisterTwo" />
         <activity android:name=".Activity.Discovery.DiscoveryDetails" />
@@ -105,12 +107,7 @@
         <activity android:name=".Activity.My.Auditing" />
         <activity android:name=".Activity.My.AuditSuccess" />
 
-        <activity android:name=".Activity.Test">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+
     </application>
 
 </manifest>

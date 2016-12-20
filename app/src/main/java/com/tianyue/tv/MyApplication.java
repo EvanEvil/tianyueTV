@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.qiniu.pili.droid.streaming.StreamingEnv;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.tianyue.tv.Bean.User;
 import com.tianyue.tv.Config.SettingsConfig;
 import com.tianyue.tv.Util.DmsUtil;
@@ -50,6 +51,7 @@ public class MyApplication extends Application {
 
 
     private void init() {
+        CrashReport.initCrashReport(getApplicationContext(), "26743c60f9", false);
         mContext = this;
         StreamingEnv.init(getApplicationContext());
         settings = new SettingsConfig();

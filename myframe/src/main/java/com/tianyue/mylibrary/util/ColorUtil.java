@@ -2,6 +2,8 @@ package com.tianyue.mylibrary.util;
 
 import android.graphics.Color;
 
+import java.util.Random;
+
 /**
  * 颜色工具栏
  *
@@ -36,5 +38,13 @@ public class ColorUtil {
                 Math.round(Color.red(startColor) + red * rate),
                 Math.round(Color.green(startColor) + green * rate),
                 Math.round(Color.blue(startColor) + blue * rate));
+    }
+    public static int generateBeautifulColor(){
+        Random random = new Random();
+
+        int red = 30+random.nextInt(200);
+        int green = 30+random.nextInt(200);
+        int blue = 30+random.nextInt(200);
+        return Color.rgb(red, green, blue);
     }
 }
