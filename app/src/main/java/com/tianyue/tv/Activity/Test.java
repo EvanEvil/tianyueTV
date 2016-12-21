@@ -28,6 +28,7 @@ public class Test extends BaseActivity {
     @Override
     protected void initView() {
         setContentView(R.layout.test_layout);
+        System.out.println("测试");
     }
 
     @Override
