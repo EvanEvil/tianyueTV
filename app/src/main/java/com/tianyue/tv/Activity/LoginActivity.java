@@ -1,4 +1,5 @@
 package com.tianyue.tv.Activity;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,8 +22,6 @@ import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.Callback;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
@@ -69,7 +68,7 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.login_layout);
     }
     public void jiexi(){
-        Map<String,String> map = new HashMap<>();
+
         userName = getSharedPreferences("account", MODE_PRIVATE).getString("username", null);
         passWord = getSharedPreferences("account", MODE_PRIVATE).getString("password", null);
         if(userName!=null && passWord != null){
@@ -78,7 +77,7 @@ public class LoginActivity extends BaseActivity {
                 String jiemi2 = DESUtil.decrypt(passWord, "A1B2C3D4E5F60708");
                 Log.e(TAG,"解密后："+jiemi1+":---："+jiemi2);
 
-                if (!isNull(jiemi1, jiemi2)) {
+                if (!checkLoginInfo(jiemi1, jiemi2)) {
                     showDialogs("登录中");
 
                     checkLogin(jiemi1,jiemi2);
@@ -107,7 +106,7 @@ public class LoginActivity extends BaseActivity {
             case R.id.login:
                 String userName = userEdit.getText().toString();
                 String pwd = pwdEdit.getText().toString();
-                if (!isNull(userName, pwd)) {
+                if (!checkLoginInfo(userName, pwd)) {
                     showDialogs("登录中");
                     checkLogin(userName,pwd);
                 }
@@ -123,23 +122,35 @@ public class LoginActivity extends BaseActivity {
 
 
     /**
-     * 用户名和密码是否为空
+     *
+     * @param phone_login 登录手机号
+     * @param pwd 登录密码
+     * @return true:不能登录 false 可以登录
      */
-    private boolean isNull(String userName, String pwd) {
-        if (userName == null || "".equals(userName)) {
-            showToast("用户名不能为空");
+    private boolean checkLoginInfo(String phone_login, String pwd) {
+        //手机号码校验
+        String telRegex = "[1][3587]\\d{9}";
+        if (phone_login == null || "".equals(phone_login)) {
+            showToast("电话号码不能为空");
             return true;
         } else if (pwd == null || "".equals(pwd)) {
             showToast("密码不能为空");
             return true;
+        }else if(phone_login.matches(telRegex)){
+            return false;
+        }else{
+            showToast("手机号不符合规则");
+            return true;
         }
-        return false;
+
+
     }
 
     /**
      * 检查登录账号是否正确
      */
     private void checkLogin(String key,String pwd) {
+
         Log.e(TAG,"登录中。。。");
         OkHttpUtils.post().url(InterfaceUrl.MOBILE_LOGIN)
                 .addParams(ParamConfigKey.USER_NAME, key
@@ -167,10 +178,12 @@ public class LoginActivity extends BaseActivity {
                             userName = DESUtil.encrypt(mApplication.getUser().getTelephone(), "A1B2C3D4E5F60708");
                             passWord = DESUtil.encrypt(pwdEdit.getText().toString(), "A1B2C3D4E5F60708");
                             Log.e(TAG,"加密后："+userName+":---："+passWord);
+                            //保存用户的信息
                            getSharedPreferences("account",MODE_PRIVATE).edit()
                                     .putString("username", userName)
                                     .putString("password", passWord)
                                     .commit();
+
 
 
                         } catch (Exception e) {
