@@ -110,4 +110,10 @@ public class InterfaceUrl {
      * error     发生错误了
      */
     public final static String ALTER_BUCKET = "http://192.168.0.88:8082/insertRoommobile";
+
+    /**
+     * 发现模块，搜索接口
+     * 传参：name 必传
+     */
+    public final static String SEARCH_INFO  = "http://192.168.0.88:8082/Querycorrespondence";
 }

@@ -129,7 +129,7 @@ public class LoginActivity extends BaseActivity {
      */
     private boolean checkLoginInfo(String phone_login, String pwd) {
         //手机号码校验
-        String telRegex = "[1][3587]\\d{9}";
+        String telRegex = "[1][34587]\\d{9}";
         if (phone_login == null || "".equals(phone_login)) {
             showToast("电话号码不能为空");
             return true;
