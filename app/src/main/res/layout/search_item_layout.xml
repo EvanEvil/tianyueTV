@@ -1,51 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:toolbar="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@color/gary"
               android:orientation="vertical">
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/search_toolbar"
-        style="@style/toolbar"
-        android:background="@color/white"
-        toolbar:navigationIcon="@mipmap/back">
 
-        <SearchView
-            style="@style/title"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+
+        <AutoCompleteTextView
+            android:id="@+id/sv_search_title_discovery"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:text="搜索"/>
-    </android.support.v7.widget.Toolbar>
-    <RelativeLayout
-        android:id="@+id/rl_history_search"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:completionHint="最近5条记录"
+            android:completionThreshold="1"
+            android:drawableLeft="@mipmap/icon_magnifying_glass"
+            android:drawablePadding="8dp"
+            android:gravity="left|center_vertical"
+            android:hint="搜你所好"
+            android:paddingLeft="8dp"
+            android:textColor="#9c9999"
+            android:textSize="14sp"
+            android:imeOptions="actionSearch">
+
+        </AutoCompleteTextView>
+        <!--搜索按钮-->
+        <Button
+            android:id="@+id/btn_search"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/y10"
+            android:background="@mipmap/icon_search"
+            android:text="@string/cancel"
+            android:textColor="#F00"
+            android:textSize="@dimen/x18"/>
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:background="@color/white">
-
-        <TextView
-            style="@style/text_default"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_margin="10dp"
-            android:text="历史搜索"/>
+        android:orientation="vertical">
 
         <Button
-            android:id="@+id/search_clear"
-            style="@style/text_default"
-            android:layout_width="wrap_content"
+            android:id="@+id/clean"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@null"
-            android:text="清空"/>
-    </RelativeLayout>
+            android:onClick="cleanHistory"
+            android:text="清除历史记录"
+            />
+    </LinearLayout>
+
+
+
+
+
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
         android:orientation="vertical">
+
         <com.tianyue.tv.CustomView.MyFlowLayout
             android:id="@+id/history_search_flowlayout"
             android:layout_width="match_parent"
@@ -55,15 +78,18 @@
 
 
     <LinearLayout
+        android:id="@+id/ll_hotSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <TextView
             style="@style/text_default"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:text="热门搜索"/>
+
         <com.tianyue.tv.CustomView.MyFlowLayout
             android:id="@+id/hot_search_flowlayout"
             android:layout_width="match_parent"

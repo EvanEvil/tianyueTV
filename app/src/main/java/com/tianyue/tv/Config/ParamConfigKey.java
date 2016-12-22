@@ -47,4 +47,6 @@ public class ParamConfigKey {
     public final static String PAGE_SIZE = "pageSize";
 
     public final static String TEST_PATH = "rtmp://live.hkstv.hk.lxdns.com/live/hks";
+
+    public final static String SEARCH_NAME = "name";
 }
