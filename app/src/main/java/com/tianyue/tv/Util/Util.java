@@ -2,7 +2,6 @@ package com.tianyue.tv.Util;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
@@ -25,6 +24,7 @@ public class Util {
      * @return
      */
     public static boolean checkSdCard(){
+        //test
         return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
     }
 
