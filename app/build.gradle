@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "com.tianyue.tv"
-        minSdkVersion 14
+        minSdkVersion 17
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -42,4 +42,8 @@ dependencies {
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
     compile project(':pushlive')
     compile files('libs/dms-android-0.2.1.jar')
+    //evan
+    compile 'com.android.support:cardview-v7:23.1.0'
+    compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.0.0@aar'
+    compile 'com.zhy:flowlayout-lib:1.0.1'
 }

@@ -2,6 +2,7 @@ package com.tianyue.tv.Fragment;
 
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -63,7 +64,7 @@ public class LiveChatFragment extends BaseFragment {
 
 
     @Override
-    protected View initView(LayoutInflater inflater, ViewGroup container) {
+    protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.chat_fragment, null);
         EventBus.getDefault().register(this);
         return view;
@@ -134,8 +135,10 @@ public class LiveChatFragment extends BaseFragment {
         super.onDestroyView();
     }
 
+    @Override
+    public void finishCreateView(Bundle state) {
 
-
+    }
 
 
     @Override

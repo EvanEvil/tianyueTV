@@ -1,5 +1,6 @@
 package com.tianyue.tv.Fragment;
 
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -33,7 +34,7 @@ public class LiveHomeFragment extends BaseFragment {
     LiveFragment liveFragment;
 
     @Override
-    protected View initView(LayoutInflater inflater, ViewGroup container) {
+    protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.live_home, null);
         return view;
     }
@@ -97,5 +98,10 @@ public class LiveHomeFragment extends BaseFragment {
         LiveTabAdapter tabAdapter = new LiveTabAdapter(getChildFragmentManager(), listFragment, lists);
         viewPage.setAdapter(tabAdapter);
         tabLayout.setupWithViewPager(viewPage);
+    }
+
+    @Override
+    public void finishCreateView(Bundle state) {
+
     }
 }

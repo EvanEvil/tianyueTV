@@ -7,4 +7,5 @@
     <string name="account_security_number"><b>135****8387</b></string>
     <string name="menu_find">发现</string>
     <string name="cancel">取消</string>
+    <string name="discover_search_hint">搜你所爱</string>
 </resources>

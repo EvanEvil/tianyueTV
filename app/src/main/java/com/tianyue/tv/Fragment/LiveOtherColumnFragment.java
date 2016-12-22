@@ -1,5 +1,6 @@
 package com.tianyue.tv.Fragment;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -30,7 +31,7 @@ public class LiveOtherColumnFragment extends BaseFragment implements SwipeRefres
 
     ColumnContentViewAdapter columnContentViewAdapter;
     @Override
-    protected View initView(LayoutInflater inflater, ViewGroup container) {
+    protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.live_other_column_fragment, container, false);
     }
 
@@ -58,6 +59,11 @@ public class LiveOtherColumnFragment extends BaseFragment implements SwipeRefres
         columnContentViewAdapter = new ColumnContentViewAdapter(context,columnContent);
 
         recyclerView.setAdapter(columnContentViewAdapter);
+
+    }
+
+    @Override
+    public void finishCreateView(Bundle state) {
 
     }
 

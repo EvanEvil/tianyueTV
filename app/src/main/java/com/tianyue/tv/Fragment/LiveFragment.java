@@ -1,5 +1,6 @@
 package com.tianyue.tv.Fragment;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -36,7 +37,7 @@ public class LiveFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     private List<LiveHomeColumn> liveHomeColumns;
 
     @Override
-    protected View initView(LayoutInflater inflater, ViewGroup container) {
+    protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.live_home_fragment, null);
         return view;
     }
@@ -96,6 +97,11 @@ public class LiveFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                 startActivity(LiveDetails.class);
             }
         });
+    }
+
+    @Override
+    public void finishCreateView(Bundle state) {
+
     }
 
 

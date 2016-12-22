@@ -47,12 +47,12 @@ public abstract class BaseFragment extends TakePhotoFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = initView(inflater,container);
+        View view = initView(inflater,container,savedInstanceState);
         unbinder = ButterKnife.bind(this,view);
         init();
         return view;
     }
-    protected abstract View initView(LayoutInflater inflater,ViewGroup container);
+    protected abstract View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
 
     protected abstract void init();
 
@@ -136,6 +136,15 @@ public abstract class BaseFragment extends TakePhotoFragment {
             oneTime = twoTime;
         }
     }
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState)
+    {
+
+        super.onViewCreated(view, savedInstanceState);
+
+        finishCreateView(savedInstanceState);
+    }
+    public abstract void finishCreateView(Bundle state);
 
 
 }

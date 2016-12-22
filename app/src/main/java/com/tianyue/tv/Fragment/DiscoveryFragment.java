@@ -1,49 +1,51 @@
 package com.tianyue.tv.Fragment;
 
-import android.content.Intent;
-import android.os.Handler;
-import android.os.Message;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.support.v4.widget.NestedScrollView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-import com.tianyue.tv.Activity.Discovery.DiscoveryDetails;
-import com.tianyue.tv.Activity.SearchActivity;
-import com.tianyue.tv.Adapter.DiscoveryAdapter;
-import com.tianyue.tv.Config.InterfaceUrl;
-import com.tianyue.tv.Config.ParamConfigKey;
-import com.tianyue.tv.Gson.DiscoveryGson;
 import com.tianyue.tv.R;
-import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.view.flowlayout.FlowLayout;
+import com.zhy.view.flowlayout.TagAdapter;
+import com.zhy.view.flowlayout.TagFlowLayout;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by hasee on 2016/8/12.
  *
  */
 public class DiscoveryFragment extends BaseFragment {
-    @BindView(R.id.discovery_list)
-    ListView discoveryListView;//发现文章列表
-    @BindView(R.id.tv_search_title_discovery)
-    TextView tv_search_title_discovery;//发现模块顶部搜索
-    DiscoveryAdapter discoveryAdapter;//列表适配器
-    List<DiscoveryGson.DataList> list;
-    private final int UPDATE = 101 ;
 
+    @BindView(R.id.tags_layout)
+    TagFlowLayout mTagFlowLayout;   //热门标签
+
+    @BindView(R.id.hide_scroll_view)
+    NestedScrollView mScrollView;
+
+    @BindView(R.id.hide_tags_layout)
+    TagFlowLayout mHideTagLayout;
+
+    @BindView(R.id.more_layout) //查看更多根布局
+    LinearLayout mMoreLayout;
+
+    @BindView(R.id.tv_more)
+    TextView mMoreText; //查看更多
+    private boolean isShowMore = true;
+
+    private List<String> hotSearchTags = new ArrayList<>();
     @Override
-    protected View initView(LayoutInflater inflater, ViewGroup container) {
-        View view = inflater.inflate(R.layout.discovery_home, null);
+    protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.discovery_home, container,false);
         return view;
     }
     /**
@@ -52,72 +54,113 @@ public class DiscoveryFragment extends BaseFragment {
      */
     @Override
     protected void init() {
-        list = new ArrayList<DiscoveryGson.DataList>();
-        discoveryAdapter = new DiscoveryAdapter(getActivity(),list);
-        discoveryListView.setOnItemClickListener(itemListener);
-        discoveryListView.setAdapter(discoveryAdapter);
 
-        tv_search_title_discovery.setOnClickListener(mOnSearchClickListener);
         getDiscoveryData();
     }
-    View.OnClickListener mOnSearchClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent(context, SearchActivity.class);
-            startActivity(intent);
 
-        }
-    };
+    @Override
+    public void finishCreateView(Bundle state)
+    {
+
+        mScrollView.setNestedScrollingEnabled(true);
+        getTags();
+    }
 
 
-    AdapterView.OnItemClickListener itemListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            DiscoveryGson.DataList itemData = (DiscoveryGson.DataList) parent.getItemAtPosition(position);
-            Intent intent = new Intent(getActivity(), DiscoveryDetails.class);
-            intent.putExtra("discovery",itemData);
-            startActivity(intent);
-        }
-    };
+    /**
+     *  获取热门标签
+     */
+    private void getTags() {
+        //getTagFromServer(); 后期实现
+        hotSearchTags.add("苍井空");
+        hotSearchTags.add("匠人直播");
+        hotSearchTags.add("天越网");
+        hotSearchTags.add("lol");
+        hotSearchTags.add("特朗普");
+        hotSearchTags.add("小帝帝的男主播");
+        hotSearchTags.add("小帝帝开车");
+        hotSearchTags.add("小帝帝城会玩");
+        hotSearchTags.add("杨幂");
+        hotSearchTags.add("赵丽颖");
+        hotSearchTags.add("科比");
+        hotSearchTags.add("哈登");
+        hotSearchTags.add("林俊杰");
+        initTagLayout();
+    }
 
-    private void getDiscoveryData(){
-        OkHttpUtils.get().url(InterfaceUrl.DISCOVERY)
-                .addParams(ParamConfigKey.PAGE_NO,"0").addParams(ParamConfigKey.PAGE_SIZE,"0").build().execute(new com.zhy.http.okhttp.callback.Callback() {
+    private void initTagLayout() {
+        //获取热搜标签集合前9个默认显示
+        List<String> frontTags = hotSearchTags.subList(0, 8);
+        mTagFlowLayout.setAdapter(new TagAdapter<String>(frontTags) {
+
             @Override
-            public Object parseNetworkResponse(Response response) throws IOException {
-                String result = response.body().string();
-                Gson gson = new Gson();
-                DiscoveryGson discoverys = gson.fromJson(result,DiscoveryGson.class);
-                List<DiscoveryGson.DataList> data = discoverys.getDataList();
-                for (DiscoveryGson.DataList dataList : data) {
-                    list.add(dataList);
-//                    Log.i(TAG, "parseNetworkResponse: "+dataList.getNewsTime());
-                }
-                handler.sendEmptyMessage(UPDATE);
-                return null;
+            public View getView(FlowLayout parent, int position, String tag) {
+                final TextView mTags = (TextView) LayoutInflater.from(getActivity())
+                        .inflate(R.layout.layout_tags_item, parent, false);
+                mTags.setText(tag);
+                mTags.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showToast(mTags.getText().toString());
+                    }
+                });
+                return mTags;
             }
+        });
+        mHideTagLayout.setAdapter(new TagAdapter<String>(hotSearchTags) {
 
             @Override
-            public void onError(Request request, Exception e) {
-
-            }
-
-            @Override
-            public void onResponse(Object response) {
-
+            public View getView(FlowLayout parent, int position, String tag) {
+                final TextView mTag = (TextView) LayoutInflater.from(getActivity())
+                        .inflate(R.layout.layout_tags_item, parent, false);
+                mTag.setText(tag);
+                mTag.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showToast(mTag.getText().toString());
+                    }
+                });
+                return mTag;
             }
         });
 
     }
-    Handler handler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case UPDATE:
-                    discoveryAdapter.notifyDataSetChanged();
-                    break;
-            }
+    @OnClick(R.id.more_layout)
+    void showAndHideMoreLayout(){
+        if (isShowMore)
+        {
+            isShowMore = false;
+            mScrollView.setVisibility(View.VISIBLE);
+            mMoreText.setText("收起");
+            mTagFlowLayout.setVisibility(View.GONE);
+            Drawable upDrawable = getResources().getDrawable(R.mipmap.ic_arrow_up_gray_round);
+            upDrawable.setBounds(0, 0, upDrawable.getMinimumWidth(), upDrawable.getMinimumHeight());
+            mMoreText.setCompoundDrawables(upDrawable, null, null, null);
+        } else
+        {
+            isShowMore = true;
+            mScrollView.setVisibility(View.GONE);
+            mMoreText.setText("查看更多");
+            mTagFlowLayout.setVisibility(View.VISIBLE);
+            Drawable downDrawable = getResources().getDrawable(R.mipmap.ic_arrow_down_gray_round);
+            downDrawable.setBounds(0, 0, downDrawable.getMinimumWidth(), downDrawable.getMinimumHeight());
+            mMoreText.setCompoundDrawables(downDrawable, null, null, null);
         }
-    };
+    }
+    /**
+     * 前往搜索界面
+     */
+    @OnClick(R.id.card_view)
+    void startSearchActivity()
+    {
+        showToast("尚未开通此功能");
+        //startActivity(new Intent(getActivity(), TotalStationSearchActivity.class));
+    }
+    private void getDiscoveryData(){
+
+
+
+
+    }
+
 }

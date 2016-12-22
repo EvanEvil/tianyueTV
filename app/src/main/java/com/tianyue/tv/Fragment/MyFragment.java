@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -75,7 +76,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
 
 
     @Override
-    protected View initView(LayoutInflater inflater, ViewGroup container) {
+    protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         return inflater.inflate(R.layout.my_home, null);
     }
@@ -83,6 +84,11 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void init() {
         fillUser();
+    }
+
+    @Override
+    public void finishCreateView(Bundle state) {
+
     }
 
 

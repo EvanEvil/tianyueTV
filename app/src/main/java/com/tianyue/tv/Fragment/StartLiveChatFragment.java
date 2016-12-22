@@ -1,5 +1,6 @@
 package com.tianyue.tv.Fragment;
 
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -31,7 +32,7 @@ public class StartLiveChatFragment extends BaseFragment {
 
     ChatListAdapter chatListAdapter;
     @Override
-    protected View initView(LayoutInflater inflater, ViewGroup container) {
+    protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.start_live_chat_fragment, container, false);
     }
 
@@ -44,6 +45,11 @@ public class StartLiveChatFragment extends BaseFragment {
         dmsUtil.setMessageCallBack(messageCallBack);
         chatListAdapter = new ChatListAdapter(context,messageList,ChatListAdapter.INPUT_LIVE_TYPE);
         recycler.setAdapter(chatListAdapter);
+    }
+
+    @Override
+    public void finishCreateView(Bundle state) {
+
     }
 
     DmsUtil.MessageCallBack messageCallBack = new DmsUtil.MessageCallBack() {
