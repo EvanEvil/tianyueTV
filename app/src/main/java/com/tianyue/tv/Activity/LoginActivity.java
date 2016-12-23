@@ -185,8 +185,6 @@ public class LoginActivity extends BaseActivity {
                                     .putString("password", passWord)
                                     .commit();
 
-
-
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

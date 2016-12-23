@@ -58,7 +58,7 @@
         </activity>
 
         <activity
-            android:name="com.tianyue.tv.Activity.LoginActivity"
+            android:name=".Activity.GuideActivity"
             android:configChanges="fontScale"
             android:label="天越TV"
             android:theme="@style/AppTheme.NoActionBar">
@@ -66,6 +66,10 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.tianyue.tv.Activity.LoginActivity">
+
         </activity>
         <!-- ======================================== -->
         <activity android:name=".Activity.SearchActivity" />
