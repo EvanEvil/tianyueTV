@@ -174,6 +174,7 @@ public class DmsUtil {
             DMS.disconnect(new IMqttActionListener() {
                 @Override
                 public void onSuccess(IMqttToken iMqttToken) {
+                    Log.e(TAG,"disconnect:"+"onSuccess");
                     if (dmsInitCallBack != null) {
                         dmsInitCallBack.disconnectState(SUCCESS,iMqttToken.toString());
                     }
@@ -181,6 +182,7 @@ public class DmsUtil {
 
                 @Override
                 public void onFailure(IMqttToken iMqttToken, Throwable throwable) {
+                    Log.e(TAG,"disconnect:"+"onFailure");
                     if (dmsInitCallBack != null) {
                         dmsInitCallBack.disconnectState(FAILURE,iMqttToken.toString());
                     }

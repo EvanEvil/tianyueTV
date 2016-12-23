@@ -230,7 +230,7 @@ public class LiveDetails extends BaseActivity implements
     @Override
     protected void initView() {
         setContentView(R.layout.live_details_layout);
-
+        Log.e(TAG, "initView: ");
         initdmsUtil();
 
 //         spUtil = MyApplication.instance().getSpUtil();
@@ -246,7 +246,7 @@ public class LiveDetails extends BaseActivity implements
         } else {
             isPort = false;
         }
-        Log.e(TAG, "initView: " + isPort);
+
 
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -497,11 +497,20 @@ public class LiveDetails extends BaseActivity implements
         if(mHandler != null){
             mHandler.removeCallbacksAndMessages(null);
         }
+//        if(dmsUtil != null){
+//            dmsUtil.disconnect();
+//            dmsUtil = null;
+//        }
 
 
 
     }
 
+    @Override
+    protected void onRestart() {
+        Log.i(TAG, "onRestart: ");
+        super.onRestart();
+    }
 
     /**
      * 更新
@@ -728,8 +737,8 @@ public class LiveDetails extends BaseActivity implements
             dmsUtil.connectDMS();
             dmsUtil.setSendMessageCallBack(this);
             dmsUtil.setMessageCallBack(this);
-            MyApplication.instance().setDmsUtil(dmsUtil);
-        }
+           MyApplication.instance().setDmsUtil(dmsUtil);
+       }
 
     }
 

@@ -64,8 +64,9 @@ public class LoginActivity extends BaseActivity {
 
 
 
-        jiexi();
+
         setContentView(R.layout.login_layout);
+        jiexi();
     }
     public void jiexi(){
 
