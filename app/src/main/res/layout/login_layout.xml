@@ -85,7 +85,7 @@
         android:layout_marginTop="@dimen/y8"
         android:layout_marginLeft="@dimen/y12"
         android:button="@null"
-        android:text="7天内自动登录"
+        android:text="自动登录"
         style="@style/hint_text_default"
         android:drawablePadding="@dimen/x5"
         android:textColor="@android:color/white"
