@@ -50,7 +50,7 @@ public class GuideActivity extends BaseActivity implements ViewPager.OnPageChang
             indicatorView = new IndicatorView(this);
             indicatorView.setInterval(10);
             indicatorView.setIndicatorDrawable(getResources().getDrawable(R.drawable.indicator_selector));
-            indicatorView.setSelection(0);
+            indicatorView.setSelection(1);
             indicator.addView(indicatorView);
             imageViews = new ArrayList<>();
             for (int i = 0; i < pics.length; i++) {

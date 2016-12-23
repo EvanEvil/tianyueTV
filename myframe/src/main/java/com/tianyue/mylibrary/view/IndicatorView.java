@@ -27,7 +27,7 @@ public class IndicatorView extends View {
      */
     private void init() {
         mSelection = POSITION_NONE;
-        mDrbIndicator = mContext.getResources().getDrawable(ResourceUtils.getResourceIdByName(mContext, "drawable", "customui_indicator"));
+//        mDrbIndicator = mContext.getResources().getDrawable(ResourceUtils.getResourceIdByName(mContext, "drawable", "customui_indicator"));
     }
 
     /**

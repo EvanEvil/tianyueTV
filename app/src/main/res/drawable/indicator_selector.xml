@@ -3,5 +3,6 @@
 
     <item android:drawable="@drawable/guide_indicator_check"
           android:state_checked="true"/>
-    <item android:drawable="@drawable/guide_indicator_uncheck"/>
+    <item android:drawable="@drawable/guide_indicator_uncheck"
+          android:state_checked="false"/>
 </selector>
