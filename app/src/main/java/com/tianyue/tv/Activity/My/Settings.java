@@ -1,8 +1,11 @@
 package com.tianyue.tv.Activity.My;
+
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -11,11 +14,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tianyue.tv.Activity.BaseActivity;
-import com.tianyue.tv.Activity.LoginActivity;
 import com.tianyue.tv.Config.SettingsConfig;
 import com.tianyue.tv.MyApplication;
 import com.tianyue.tv.R;
 import com.tianyue.tv.Util.AppManager;
+import com.tianyue.tv.Util.DataCleanManager;
+
+import java.io.File;
 
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
@@ -38,8 +43,11 @@ public class Settings extends BaseActivity {
     TextView about;
     @BindView(R.id.settings_exit_login)
     Button exit;
+    @BindView(R.id.tv_appcache)
+    TextView tv_appCache;
 
     SettingsConfig setting;
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +57,9 @@ public class Settings extends BaseActivity {
     @Override
     protected void initView() {
         setContentView(R.layout.settings_layout);
+        mContext = getBaseContext();
+        //设置缓存数据
+        setAppCache();
         app = (MyApplication) getApplication();
         setting = app.getSettings();
         wifi.setChecked(setting.isWifi());
@@ -59,6 +70,19 @@ public class Settings extends BaseActivity {
                 finish();
             }
         });
+    }
+
+    /**
+     * 设置缓存数据
+     */
+    private void setAppCache() {
+        try {
+            String totalCacheSize = DataCleanManager.getTotalCacheSize(mContext);
+            Log.e(TAG,"缓存大小:"+totalCacheSize);
+            tv_appCache.setText(totalCacheSize);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @OnCheckedChanged({R.id.settings_wifi, R.id.settings_hardware})
@@ -96,8 +120,21 @@ public class Settings extends BaseActivity {
             case R.id.settings_about_us:
                 startActivity(AboutUs.class);
                 break;
+            case R.id.settings_clear_cache://清理缓存
+                clearAppCache();
+                break;
         }
 
+    }
+
+    private void clearAppCache() {
+        DataCleanManager.cleanInternalCache(mContext);//内部缓存
+        DataCleanManager.cleanDatabases(mContext);//清除数据库
+        DataCleanManager.cleanSharedPreference(mContext);//清除SP
+        DataCleanManager.cleanFiles(mContext);//清理内部files目录
+        DataCleanManager.cleanExternalCache(mContext);//清理sd本应用cache
+        //显示缓存为零
+        tv_appCache.setText("0.00M");
     }
 
     DialogInterface.OnClickListener clickListener = new DialogInterface.OnClickListener() {
@@ -107,7 +144,17 @@ public class Settings extends BaseActivity {
                 case DialogInterface.BUTTON_POSITIVE:
                     AppManager.getAppManager().finishAllActivity();
                     app.clearUserInfo();
-                    startActivity(LoginActivity.class);
+
+                    /** 删除SharedPreferences文件 **/
+                    File file = new File("/data/data/" + getPackageName().toString()
+                            + "/shared_prefs", "account.xml");
+                    if (file.exists()) {
+                        Log.e(TAG,"sp是否存在:"+file.exists());
+                        file.delete();
+                        showToast("删除用户自动登录信息成功");
+                    }
+
+
                     break;
                 case DialogInterface.BUTTON_NEGATIVE:
 
@@ -115,4 +162,5 @@ public class Settings extends BaseActivity {
             }
         }
     };
+
 }
