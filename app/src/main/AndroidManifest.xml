@@ -67,15 +67,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Activity.SplashActivity"/>
         <activity
             android:name="com.tianyue.tv.Activity.LoginActivity">
-
         </activity>
         <!-- ======================================== -->
         <activity android:name=".Activity.SearchActivity" />
         <activity android:name=".Activity.HomeActivity"/>
-
-
         <activity android:name=".Activity.RegisterOne" />
         <activity android:name=".Activity.RegisterTwo" />
         <activity android:name=".Activity.Discovery.DiscoveryDetails" />

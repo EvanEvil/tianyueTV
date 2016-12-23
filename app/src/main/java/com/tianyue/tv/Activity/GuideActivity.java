@@ -22,7 +22,7 @@ import butterknife.OnClick;
 /**
  * Created by hasee on 2016/12/23.
  */
-public class GuideActivity extends BaseActivity implements ViewPager.OnPageChangeListener{
+public class GuideActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
 
     @BindView(R.id.guide_layout_viewPage)
     ViewPager viewPage;
@@ -44,13 +44,13 @@ public class GuideActivity extends BaseActivity implements ViewPager.OnPageChang
     protected void initView() {
         spUtil = new SpUtil("guide");
         isFirst = (boolean) spUtil.get("guide", true);
+        setContentView(R.layout.guide_layout);
         if (isFirst) {
-            setContentView(R.layout.guide_layout);
             viewPage.addOnPageChangeListener(this);
             indicatorView = new IndicatorView(this);
-            indicatorView.setInterval(10);
+            indicatorView.setInterval(20);
             indicatorView.setIndicatorDrawable(getResources().getDrawable(R.drawable.indicator_selector));
-            indicatorView.setSelection(1);
+            indicatorView.setSelection(0);
             indicator.addView(indicatorView);
             imageViews = new ArrayList<>();
             for (int i = 0; i < pics.length; i++) {
@@ -81,20 +81,25 @@ public class GuideActivity extends BaseActivity implements ViewPager.OnPageChang
                 e.printStackTrace();
             }
         } else {
-             startActivity(LoginActivity.class);
+            startActivity(SplashActivity.class);
+            finish();
         }
     }
 
-    private void enterApp(){
+    private void enterApp() {
         startActivity(LoginActivity.class);
         finish();
     }
 
+    @Override
+    protected boolean isHasAnimiation() {
+        return false;
+    }
 
     @OnClick(R.id.guide_layout_start)
-    public void onClick(){
+    public void onClick() {
         startActivity(LoginActivity.class);
-        spUtil.put("guide",false);
+        spUtil.put("guide", false);
         finish();
     }
 
