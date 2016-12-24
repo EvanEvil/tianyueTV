@@ -89,6 +89,7 @@ public class Settings extends BaseActivity {
 //    }
 
     private void setAppCache() {
+        //测试创建分支。。。测完删除此行代码
         mPm = getPackageManager();
 
 
