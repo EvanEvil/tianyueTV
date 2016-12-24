@@ -3,8 +3,11 @@ package com.tianyue.tv.Activity.My;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.Bundle;
+import android.content.pm.IPackageStatsObserver;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageStats;
 import android.support.v7.widget.Toolbar;
+import android.text.format.Formatter;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +24,7 @@ import com.tianyue.tv.Util.AppManager;
 import com.tianyue.tv.Util.DataCleanManager;
 
 import java.io.File;
+import java.lang.reflect.Method;
 
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
@@ -49,10 +53,10 @@ public class Settings extends BaseActivity {
     SettingsConfig setting;
     private Context mContext;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+    private PackageManager mPm;
+
+
+
 
     @Override
     protected void initView() {
@@ -73,17 +77,54 @@ public class Settings extends BaseActivity {
     }
 
     /**
-     * 设置缓存数据
+     * 这个不太准
      */
+//    private void setAppCache() {
+//        try {
+//            String totalCacheSize = DataCleanManager.getTotalCacheSize(this);
+//            Log.e(TAG,"-------------totalsize:"+totalCacheSize);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+
     private void setAppCache() {
+        mPm = getPackageManager();
+
+
+        // (aidl)创建IPackageStatsObserver.Stub子类的对象,实现onGetStatsCompleted方法
+        //stats.cacheSize获取缓存大小
+        IPackageStatsObserver.Stub mStatsObserver = new IPackageStatsObserver.Stub() {
+
+            public void onGetStatsCompleted(PackageStats stats,
+                                            boolean succeeded) {
+                //获取缓存大小，这里是在子线程，需要切换到主线程更新UI
+                final String str = Formatter.formatFileSize(getApplicationContext(), stats.cacheSize);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        tv_appCache.setText(str);
+                    }
+                });
+            }
+        };
+
+
+
+
+
+        //1.获取指定类的字节码文件
         try {
-            String totalCacheSize = DataCleanManager.getTotalCacheSize(mContext);
-            Log.e(TAG,"缓存大小:"+totalCacheSize);
-            tv_appCache.setText(totalCacheSize);
+            Class<?> clazz = Class.forName("android.content.pm.PackageManager");
+            //2.获取调用方法对象
+            Method method = clazz.getMethod("getPackageSizeInfo", String.class,IPackageStatsObserver.class);
+            //3.获取对象调用方法
+            method.invoke(mPm, getBaseContext().getPackageName(),mStatsObserver);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
     @OnCheckedChanged({R.id.settings_wifi, R.id.settings_hardware})
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -149,7 +190,7 @@ public class Settings extends BaseActivity {
                     File file = new File("/data/data/" + getPackageName().toString()
                             + "/shared_prefs", "account.xml");
                     if (file.exists()) {
-                        Log.e(TAG,"sp是否存在:"+file.exists());
+                        Log.e(TAG, "sp是否存在:" + file.exists());
                         file.delete();
                         showToast("删除用户自动登录信息成功");
                     }
@@ -162,5 +203,8 @@ public class Settings extends BaseActivity {
             }
         }
     };
+
+
+
 
 }
