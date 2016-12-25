@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.lzy.okgo.OkGo;
 import com.qiniu.pili.droid.streaming.StreamingEnv;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tianyue.tv.Bean.User;
@@ -27,6 +28,10 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         init();
+        /**okhttpUtils初始化**/
+        OkGo.init(this);
+        OkGo.getInstance().debug("OkGo");
+
     }
     public DmsUtil mDmsUtil;
 

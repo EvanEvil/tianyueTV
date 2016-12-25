@@ -1,5 +1,6 @@
 package com.tianyue.tv.Fragment;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
@@ -9,7 +10,9 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.tianyue.tv.Activity.Discovery.TotalStationSearchActivity;
 import com.tianyue.tv.R;
+import com.tianyue.tv.Util.ConstantUtil;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -98,12 +101,10 @@ public class DiscoveryFragment extends BaseFragment {
                 final TextView mTags = (TextView) LayoutInflater.from(getActivity())
                         .inflate(R.layout.layout_tags_item, parent, false);
                 mTags.setText(tag);
-                mTags.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        showToast(mTags.getText().toString());
-                    }
-                });
+
+                        mTags.setOnClickListener(v -> lunchActivity(tag));
+
+
                 return mTags;
             }
         });
@@ -114,17 +115,23 @@ public class DiscoveryFragment extends BaseFragment {
                 final TextView mTag = (TextView) LayoutInflater.from(getActivity())
                         .inflate(R.layout.layout_tags_item, parent, false);
                 mTag.setText(tag);
-                mTag.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        showToast(mTag.getText().toString());
-                    }
-                });
+                mTag.setOnClickListener(v -> lunchActivity(tag));
                 return mTag;
             }
         });
 
     }
+
+    /**
+     * 热门标签搜索的点击跳转
+     * @param tag   搜索的标签
+     */
+    private void lunchActivity(String tag) {
+        Intent intent = new Intent(getActivity(),TotalStationSearchActivity.class);
+        intent.putExtra(ConstantUtil.TAG,tag);
+        startActivity(intent);
+    }
+
     @OnClick(R.id.more_layout)
     void showAndHideMoreLayout(){
         if (isShowMore)
@@ -153,8 +160,8 @@ public class DiscoveryFragment extends BaseFragment {
     @OnClick(R.id.card_view)
     void startSearchActivity()
     {
-        showToast("尚未开通此功能");
-        //startActivity(new Intent(getActivity(), TotalStationSearchActivity.class));
+        //showToast("尚未开通此功能");
+        startActivity(new Intent(getActivity(), TotalStationSearchActivity.class));
     }
     private void getDiscoveryData(){
 

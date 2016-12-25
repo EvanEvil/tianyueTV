@@ -116,4 +116,5 @@ public class InterfaceUrl {
      * 传参：name 必传
      */
     public final static String SEARCH_INFO  = "http://192.168.0.88:8082/Querycorrespondence";
+    public final static String TEST  = "http://www.baidu.com";
 }

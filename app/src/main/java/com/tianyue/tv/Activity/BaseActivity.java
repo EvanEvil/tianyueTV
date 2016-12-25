@@ -73,6 +73,8 @@ public abstract class BaseActivity extends BaseFrameAty {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = getBaseContext();
+        activity = this;
         if (isKeepScreenNo()) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
@@ -97,8 +99,9 @@ public abstract class BaseActivity extends BaseFrameAty {
     @Override
     protected void onResume() {
         super.onResume();
-        activity = this;
-        context = getBaseContext();
+        //activity = this;
+        //context = getBaseContext();
+
         isShow = true;
     }
 

@@ -264,6 +264,7 @@ public class LiveDetails extends BaseActivity implements
                 return true;
             }
         };
+
         playView.setOnTouchListener(surfaceviewOnTouchListener);
         if (isPort) {
             initPortView();
