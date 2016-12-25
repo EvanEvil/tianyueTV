@@ -33,6 +33,7 @@
             android:textColor="@android:color/white"
             android:textSize="16sp"/>
     </LinearLayout>
+    <!--顶部横屏布局-->
     <LinearLayout
         android:id="@+id/ll_land_top_controller"
         android:background="@color/default_bck_color"
@@ -104,7 +105,7 @@
     </LinearLayout>
 
 
-
+    <!--底部横屏布局-->
     <LinearLayout
         android:id="@+id/ll_land_bottom_controller"
         android:background="@color/default_bck_color"

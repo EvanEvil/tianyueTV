@@ -7,19 +7,23 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.tianyue.tv.Activity.Live.LiveDetails;
 import com.tianyue.tv.Adapter.ChatListAdapter;
+import com.tianyue.tv.Bean.EventBusBean.EventMsg;
 import com.tianyue.tv.Bean.LiveChatMessage;
 import com.tianyue.tv.R;
 
@@ -82,8 +86,51 @@ public class LiveChatFragment extends BaseFragment {
         chatListAdapter = new ChatListAdapter(getActivity(), messageList);
         list.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false));
         list.setAdapter(chatListAdapter);
-
+        inputMessage.setOnFocusChangeListener(new MyOnFocusChangeListener());
+        inputMessage.setOnEditorActionListener(new MyOnEditorActionListener());
     }
+
+    /**
+     * editText焦点监听
+     */
+    class MyOnFocusChangeListener implements View.OnFocusChangeListener{
+
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            if(hasFocus){
+                Log.e(TAG,"输入框获取到焦点");
+                EventMsg eventMsg = new EventMsg();
+                eventMsg.setHiddenTabLayout(true);
+                EventBus.getDefault().post(eventMsg);
+            }else{
+                Log.e(TAG,"输入框失去焦点");
+                EventMsg eventMsg = new EventMsg();
+                eventMsg.setHiddenTabLayout(false);
+                EventBus.getDefault().post(eventMsg);
+            }
+        }
+    }
+
+    /**
+     * 软键盘监听
+     */
+    class MyOnEditorActionListener implements TextView.OnEditorActionListener{
+
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                Log.e(TAG,"actionid:"+actionId);
+                //点击软键盘发送的时候，隐藏软键盘，显示tablayout
+                if(actionId == EditorInfo.IME_ACTION_SEND){
+                    EventMsg eventMsg = new EventMsg();
+                    eventMsg.setHiddenTabLayout(false);
+                    EventBus.getDefault().post(eventMsg);
+                    sendMsg();
+                    hintKbTwo();
+                }
+            return false;
+        }
+    }
+
 
 
 
@@ -98,24 +145,29 @@ public class LiveChatFragment extends BaseFragment {
                 }
                 break;
             case R.id.chat_fragment_send:
-                String message = inputMessage.getText().toString();
-                if (message.equals("")) {
-
-                    showToast("发送的消息不能为空哦");
-                    return;
-                }
-                activity = (LiveDetails) getActivity();
-                activity.dmsUtil.sendMessage(message);
-
-                //发送弹幕
-
-
-
-
-                hintKbTwo();
+                sendMsg();
 
                 break;
         }
+    }
+
+    /**
+     * 发送消息
+     */
+    private void sendMsg() {
+        String message = inputMessage.getText().toString();
+        if (message.equals("")) {
+
+            showToast("发送的消息不能为空哦");
+            return;
+        }
+        activity = (LiveDetails) getActivity();
+        activity.dmsUtil.sendMessage(message);
+
+        //发送弹幕
+
+
+        hintKbTwo();
     }
 
     //此方法只是关闭软键盘

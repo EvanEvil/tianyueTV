@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
+    <!--视频播放-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/y273"
@@ -139,7 +139,7 @@
         </LinearLayout>
 
     </RelativeLayout>
-
+    主播昵称
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/x64"
@@ -196,23 +196,25 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#e2e2e2" />
+        <!--页签-->
+        <android.support.design.widget.TabLayout
+            android:id="@+id/live_details_tab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabIndicatorColor="@color/red"
+            app:tabSelectedTextColor="@color/red"
+            app:tabTextColor="#737373" />
+        <!--分割线-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#e2e2e2" />
+        <!--聊天和互动 -->
+        <android.support.v4.view.ViewPager
+            android:id="@+id/live_details_viewPage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/live_details_tab"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:tabIndicatorColor="@color/red"
-        app:tabSelectedTextColor="@color/red"
-        app:tabTextColor="#737373" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#e2e2e2" />
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/live_details_viewPage"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
 
 </LinearLayout>

@@ -38,6 +38,7 @@ import com.pili.pldroid.player.AVOptions;
 import com.pili.pldroid.player.PLMediaPlayer;
 import com.tianyue.tv.Activity.BaseActivity;
 import com.tianyue.tv.Adapter.LiveTabAdapter;
+import com.tianyue.tv.Bean.EventBusBean.EventMsg;
 import com.tianyue.tv.Bean.LiveChatMessage;
 import com.tianyue.tv.Config.ParamConfigKey;
 import com.tianyue.tv.CustomView.Dialog.BarrageSettingDialog;
@@ -49,6 +50,8 @@ import com.tianyue.tv.Util.DmsUtil;
 import com.tianyue.tv.Util.Util;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -230,6 +233,7 @@ public class LiveDetails extends BaseActivity implements
     @Override
     protected void initView() {
         setContentView(R.layout.live_details_layout);
+        EventBus.getDefault().register(this);
         Log.e(TAG, "initView: ");
         initdmsUtil();
 
@@ -497,11 +501,19 @@ public class LiveDetails extends BaseActivity implements
         if(mHandler != null){
             mHandler.removeCallbacksAndMessages(null);
         }
-//        if(dmsUtil != null){
-//            dmsUtil.disconnect();
-//            dmsUtil = null;
-//        }
+        EventBus.getDefault().unregister(this);
 
+
+
+
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN,sticky = false,priority = 1)
+    public void onMsgSuccess(EventMsg eventMsg){
+        if(eventMsg.isHiddenTabLayout()){
+            tabLayout.setVisibility(View.GONE);
+        }else{
+            tabLayout.setVisibility(View.VISIBLE);
+        }
 
 
     }
@@ -854,7 +866,7 @@ public class LiveDetails extends BaseActivity implements
                     showDanmaku = true;
                     danmakuView.start();
                     Log.e("liveDetails", "开启线程");
-                    generateSomeDanmaku();
+                   // generateSomeDanmaku();
                 }
 
                 @Override
@@ -1233,4 +1245,6 @@ public class LiveDetails extends BaseActivity implements
         }
 
     }
+
+
 }
