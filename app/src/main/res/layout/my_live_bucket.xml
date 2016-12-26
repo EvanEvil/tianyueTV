@@ -23,6 +23,10 @@
             android:text="帮助" />
     </android.support.v7.widget.Toolbar>
     <TextView
+        android:background="#9d9d9d"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp" />
+    <TextView
         android:id="@+id/my_live_bucket_fans"
         android:paddingLeft="@dimen/x13"
         android:drawableLeft="@mipmap/my_live_bucket_fans"
@@ -37,6 +41,10 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/y77" />
     <TextView
+        android:background="#9d9d9d"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp" />
+    <TextView
         android:id="@+id/my_live_bucket_store"
         android:paddingLeft="@dimen/x13"
         android:drawableLeft="@mipmap/my_live_bucket_store"
@@ -49,6 +57,10 @@
         android:text="我的店铺"
         android:layout_width="match_parent"
         android:layout_height="@dimen/y77" />
+    <TextView
+        android:background="#9d9d9d"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp" />
     <TextView
         android:id="@+id/my_live_bucket_money"
         android:paddingLeft="@dimen/x13"
@@ -64,6 +76,10 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/y77" />
     <TextView
+        android:background="#9d9d9d"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp" />
+    <TextView
         android:id="@+id/my_live_bucket_setting"
         android:paddingLeft="@dimen/x13"
         android:drawableLeft="@mipmap/my_live_bucket_setting"
@@ -76,6 +92,10 @@
         android:text="直播设置"
         android:layout_width="match_parent"
         android:layout_height="@dimen/y77" />
+    <TextView
+        android:background="#9d9d9d"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp" />
     <Button
         android:id="@+id/my_live_bucket_start"
         android:layout_width="match_parent"

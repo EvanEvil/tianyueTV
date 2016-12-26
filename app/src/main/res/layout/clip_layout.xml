@@ -20,6 +20,7 @@
         android:background="@color/translucent_black">
 
         <Button
+            android:id="@+id/clip_cancel"
             style="@style/text_default"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

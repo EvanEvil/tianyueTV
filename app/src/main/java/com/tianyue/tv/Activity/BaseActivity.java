@@ -99,9 +99,6 @@ public abstract class BaseActivity extends BaseFrameAty {
     @Override
     protected void onResume() {
         super.onResume();
-        //activity = this;
-        //context = getBaseContext();
-
         isShow = true;
     }
 
@@ -288,34 +285,31 @@ public abstract class BaseActivity extends BaseFrameAty {
      * @param message
      */
     protected void showToast(final String message) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (toast == null) {
-                    toast = new Toast(context);
-                    toast = toast.makeText(activity, message, Toast.LENGTH_SHORT);
-                    //设置Toast消息字体大小
-                    LinearLayout linearLayout = (LinearLayout) toast.getView();
-                    TextView messageView = (TextView) linearLayout.getChildAt(0);
-                    messageView.setTextSize(13);
-                    toast.show();
-                    //记录下第一次显示message的时间
-                    oneTime = System.currentTimeMillis();
-                    msg = message;
-                } else {
-                    //记录下第二次显示message的时间
-                    twoTime = System.currentTimeMillis();
-                    if (message.equals(msg)) {
-                        if (twoTime - oneTime >= Toast.LENGTH_SHORT) {
-                            toast.show();
-                        }
-                    } else {
-                        msg = message;
-                        toast.setText(message);
+        runOnUiThread(() -> {
+            if (toast == null) {
+                toast = new Toast(context);
+                toast = toast.makeText(activity, message, Toast.LENGTH_SHORT);
+                //设置Toast消息字体大小
+                LinearLayout linearLayout = (LinearLayout) toast.getView();
+                TextView messageView = (TextView) linearLayout.getChildAt(0);
+                messageView.setTextSize(13);
+                toast.show();
+                //记录下第一次显示message的时间
+                oneTime = System.currentTimeMillis();
+                msg = message;
+            } else {
+                //记录下第二次显示message的时间
+                twoTime = System.currentTimeMillis();
+                if (message.equals(msg)) {
+                    if (twoTime - oneTime >= Toast.LENGTH_SHORT) {
                         toast.show();
                     }
-                    oneTime = twoTime;
+                } else {
+                    msg = message;
+                    toast.setText(message);
+                    toast.show();
                 }
+                oneTime = twoTime;
             }
         });
     }

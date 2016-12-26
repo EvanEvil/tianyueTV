@@ -45,6 +45,8 @@ public class UpLoadHeadPic extends BaseActivity {
     Button confirm;
     @BindView(R.id.clip_pic)
     ClipImageLayout clipImageLayout;
+    @BindView(R.id.clip_cancel)
+    Button cancel;
 
     @Override
     protected void initView() {
@@ -52,9 +54,12 @@ public class UpLoadHeadPic extends BaseActivity {
         clipImageLayout.setDrawable(Drawable.createFromPath(getIntent().getStringExtra("picPath")));
     }
 
-    @OnClick(R.id.clip_confirm)
+    @OnClick({R.id.clip_confirm,R.id.clip_cancel})
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.clip_cancel:
+                finish();
+                break;
             case R.id.clip_confirm:
                 Bitmap bitmap = clipImageLayout.clip();
                 String path;
@@ -104,17 +109,14 @@ public class UpLoadHeadPic extends BaseActivity {
      */
     private void uploadHead(final String path) {
         final User user = MyApplication.instance().getUser();
-        Log.i(TAG, "uploadHead: "+user.getId()+user.getHeadUrl()+user.getNickName());
         showDialogs("修改中");
         OkHttpUtils.post().url(InterfaceUrl.ALTER_USER_INFO)
                 .addParams("headUrl", path)
-                .addParams("nickName", user.getNickName())
-                .addParams("user_id", user.getId())
+                .addParams("userId", user.getId())
                 .build().execute(new Callback() {
             @Override
             public Object parseNetworkResponse(Response response) throws IOException {
                 String result = response.body().string();
-                Log.i(TAG, "parseNetworkResponse: "+result);
                 try {
                     JSONObject object = new JSONObject(result);
                     String ret = object.optString("ret");
@@ -124,7 +126,6 @@ public class UpLoadHeadPic extends BaseActivity {
                             dismissDialogs();
                         } else if (ret.equals("success")){
                             String headPic = "http://images.tianyue.tv"+path;
-                            Log.i(TAG, "parseNetworkResponse: "+headPic);
                             user.setHeadUrl(headPic);
                             showToast("修改成功");
                             dismissDialogs();

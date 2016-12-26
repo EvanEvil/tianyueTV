@@ -153,31 +153,13 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
                 setTakePhoto();
                 FormBotomDefaultDialogBuilder dialogBuilder = new FormBotomDefaultDialogBuilder
                         (getActivity());
-                dialogBuilder.setFBFirstBtnClick(new FormBotomDefaultDialogBuilder
-                        .DialogBtnCallBack() {
-                    @Override
-                    public void dialogBtnOnClick() {
-
-                    }
-                });
+                dialogBuilder.setFBFirstBtnClick(() -> {});
                 dialogBuilder.setFBFirstBtnText("拍一张");
                 dialogBuilder.setFBLastBtnText("从相册中选择");
                 //头像 拍一张点击事件
-                dialogBuilder.setFBFirstBtnClick(new FormBotomDefaultDialogBuilder
-                        .DialogBtnCallBack() {
-                    @Override
-                    public void dialogBtnOnClick() {
-                        openCamera();
-                    }
-                });
+                dialogBuilder.setFBFirstBtnClick(() -> openCamera());
                 //进入相册点击事件
-                dialogBuilder.setFBLastBtnClick(new FormBotomDefaultDialogBuilder
-                        .DialogBtnCallBack() {
-                    @Override
-                    public void dialogBtnOnClick() {
-                        openPhoto();
-                    }
-                });
+                dialogBuilder.setFBLastBtnClick(() -> openPhoto());
                 dialogBuilder.show();
                 break;
             default:

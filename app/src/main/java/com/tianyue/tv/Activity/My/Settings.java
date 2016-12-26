@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageStats;
 import android.support.v7.widget.Toolbar;
 import android.text.format.Formatter;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -23,6 +24,7 @@ import com.tianyue.tv.R;
 import com.tianyue.tv.Util.AppManager;
 import com.tianyue.tv.Util.DataCleanManager;
 
+import java.io.File;
 import java.lang.reflect.Method;
 
 import butterknife.BindView;
@@ -126,6 +128,11 @@ public class Settings extends BaseActivity {
     }
 
 
+    @Override
+    protected boolean isHasAnimiation() {
+        return false;
+    }
+
     @OnCheckedChanged({R.id.settings_wifi, R.id.settings_hardware})
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()) {
@@ -188,9 +195,6 @@ public class Settings extends BaseActivity {
                     account.edit().clear().commit();
                     AppManager.getAppManager().finishAllActivity();
                     app.clearUserInfo();
-
-
-
                     break;
                 case DialogInterface.BUTTON_NEGATIVE:
 

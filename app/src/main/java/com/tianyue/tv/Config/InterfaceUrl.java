@@ -83,9 +83,9 @@ public class InterfaceUrl {
     public final static String GET_USER_INFO = "http://www.tianyue.tv/mobileUserCenter";
     /**
      * 修改用户信息
-     * 传参： 用户uId  用户头像headUrl     post
+     * 传参： 用户userId  用户头像headUrl     post
      */
-    public final static String ALTER_USER_INFO = "http://192.168.0.88:8081/mobilePersonalsettings";
+    public final static String ALTER_USER_INFO = "http://192.168.0.88:8081/update_headUrl";
     /**
      * 查询直播间信息
      * 传参： 用户uId    post

@@ -29,7 +29,10 @@
             android:layout_marginRight="@dimen/x20"
             android:text="保存" />
     </android.support.v7.widget.Toolbar>
-
+    <TextView
+        android:background="#d3d3d3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/y59"
@@ -52,10 +55,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:gravity="center"
             android:background="@null"
             android:hint="请输入直播间名称" />
     </RelativeLayout>
-
+    <TextView
+        android:background="#d3d3d3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/y59">
@@ -77,7 +84,10 @@
             android:layout_centerInParent="true"
             android:text="请选择分类" />
     </RelativeLayout>
-
+    <TextView
+        android:background="#d3d3d3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/y59"
@@ -102,7 +112,10 @@
             android:paddingRight="@dimen/x13"
             android:src="@mipmap/alter_label" />
     </RelativeLayout>
-
+    <TextView
+        android:background="#d3d3d3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/y59"
@@ -128,6 +141,7 @@
             style="@style/live_setting_label"
             android:text="标签管理" />
     </LinearLayout>
+
     <!--<TextView-->
     <!--style="@style/button_style"-->
     <!--android:gravity="center_vertical"-->
