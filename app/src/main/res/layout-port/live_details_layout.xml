@@ -168,7 +168,7 @@
             android:id="@+id/live_details_attention"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+           android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="@dimen/y5"
             android:layout_marginRight="@dimen/x8"

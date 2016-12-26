@@ -3,12 +3,12 @@ package com.tianyue.tv.Activity.My;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.IPackageStatsObserver;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageStats;
 import android.support.v7.widget.Toolbar;
 import android.text.format.Formatter;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -23,7 +23,6 @@ import com.tianyue.tv.R;
 import com.tianyue.tv.Util.AppManager;
 import com.tianyue.tv.Util.DataCleanManager;
 
-import java.io.File;
 import java.lang.reflect.Method;
 
 import butterknife.BindView;
@@ -184,17 +183,12 @@ public class Settings extends BaseActivity {
         public void onClick(DialogInterface dialog, int which) {
             switch (which) {
                 case DialogInterface.BUTTON_POSITIVE:
+                    /**清楚SP缓存 **/
+                    SharedPreferences account = getSharedPreferences("account", MODE_PRIVATE);
+                    account.edit().clear().commit();
                     AppManager.getAppManager().finishAllActivity();
                     app.clearUserInfo();
 
-                    /** 删除SharedPreferences文件 **/
-                    File file = new File("/data/data/" + getPackageName().toString()
-                            + "/shared_prefs", "account.xml");
-                    if (file.exists()) {
-                        Log.e(TAG, "sp是否存在:" + file.exists());
-                        file.delete();
-                        showToast("删除用户自动登录信息成功");
-                    }
 
 
                     break;

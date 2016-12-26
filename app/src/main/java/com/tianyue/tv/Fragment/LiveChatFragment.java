@@ -166,7 +166,7 @@ public class LiveChatFragment extends BaseFragment {
 
         //发送弹幕
 
-
+        inputMessage.setText("");
         hintKbTwo();
     }
 
@@ -200,7 +200,7 @@ public class LiveChatFragment extends BaseFragment {
     }
     @Subscribe(threadMode = ThreadMode.MAIN,sticky = false,priority = 1)
     public void onMsgSuccess(LiveChatMessage msg){
-        inputMessage.setText("");
+
         messageList.add(msg);
         chatListAdapter.notifyDataSetChanged();
         list.scrollToPosition(messageList.size() - 1);

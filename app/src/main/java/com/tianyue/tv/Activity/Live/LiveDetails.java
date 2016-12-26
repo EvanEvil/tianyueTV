@@ -264,7 +264,6 @@ public class LiveDetails extends BaseActivity implements
                 return true;
             }
         };
-
         playView.setOnTouchListener(surfaceviewOnTouchListener);
         if (isPort) {
             initPortView();
@@ -1125,6 +1124,7 @@ public class LiveDetails extends BaseActivity implements
 
     @Override
     public void onSuccess(String result) {
+        Log.e(TAG,"发送成功"+"--:屏幕:--"+isPort);
         if(isPort){
 
         }else{
@@ -1144,6 +1144,7 @@ public class LiveDetails extends BaseActivity implements
         String nickName = receives[0];
         String sendTime = receives[1];
         String message = receives[2];
+        Log.e(TAG,"收到消息:"+message+"--:屏幕:--"+isPort);
 
         LiveChatMessage chatMessage = new LiveChatMessage();
         chatMessage.setNickName(DmsUtil.unescape(nickName));
@@ -1154,8 +1155,15 @@ public class LiveDetails extends BaseActivity implements
                 messageList.remove(i);
             }
         }
-        messageList.add(chatMessage);
-        EventBus.getDefault().post(chatMessage);
+        //竖屏通知chatFragment更新数据
+        if(isPort){
+            messageList.add(chatMessage);
+            EventBus.getDefault().post(chatMessage);
+        }else{
+            //横屏时,接收到消息,发到弹幕上
+            addDanmaku(message,false);
+        }
+
     }
 
 

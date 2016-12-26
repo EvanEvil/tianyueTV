@@ -3,8 +3,6 @@ package com.tianyue.tv.Activity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -24,7 +22,6 @@ import com.zhy.http.okhttp.callback.Callback;
 import java.io.IOException;
 
 import butterknife.BindView;
-import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 /**
@@ -46,8 +43,8 @@ public class LoginActivity extends BaseActivity {
      * 记住账号
      */
 
-    @BindView(R.id.login_remember_account)
-    CheckBox remember;
+//    @BindView(R.id.login_remember_account)
+//    CheckBox remember;
     MyApplication mApplication;
     private String userName;
     private String passWord;
@@ -66,40 +63,19 @@ public class LoginActivity extends BaseActivity {
 
 
         setContentView(R.layout.login_layout);
-        jiexi();
-    }
-    public void jiexi(){
-
-        userName = getSharedPreferences("account", MODE_PRIVATE).getString("username", null);
-        passWord = getSharedPreferences("account", MODE_PRIVATE).getString("password", null);
-        if(userName!=null && passWord != null){
-            try {
-                String jiemi1 = DESUtil.decrypt(userName, "A1B2C3D4E5F60708");
-                String jiemi2 = DESUtil.decrypt(passWord, "A1B2C3D4E5F60708");
-                Log.e(TAG,"解密后："+jiemi1+":---："+jiemi2);
-
-                if (!checkLoginInfo(jiemi1, jiemi2)) {
-                    showDialogs("登录中");
-
-                    checkLogin(jiemi1,jiemi2);
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
 
     }
+
 
     @Override
     protected boolean isHasAnimiation() {
         return false;
     }
 
-    @OnCheckedChanged(R.id.login_remember_account)
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-    }
+//    @OnCheckedChanged(R.id.login_remember_account)
+//    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//
+//    }
 
     @OnClick({R.id.login, R.id.login_register, R.id.login_forget_password})
     public void onClick(View v) {
@@ -170,9 +146,9 @@ public class LoginActivity extends BaseActivity {
                     dismissDialogs();
                     Log.e(TAG,"登录成功。。。");
                     Log.i(TAG, "parseNetworkResponse: " + loginGson.getUser().getLive_streaming_address());
-                    //是否保存账号密码
-                    if(remember.isChecked()){
-                        //keep account
+
+
+                    //保存账号密码
                         try {
                             Log.e(TAG,"电话："+mApplication.getUser().getTelephone());
                             Log.e(TAG,"密码："+mApplication.getUser().getPassword());
@@ -188,9 +164,7 @@ public class LoginActivity extends BaseActivity {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                    }else{
 
-                    }
                     startActivity(HomeActivity.class);
                     finish();
                 } else {

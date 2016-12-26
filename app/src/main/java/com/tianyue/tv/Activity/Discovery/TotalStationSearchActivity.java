@@ -15,6 +15,7 @@ import com.tianyue.tv.Activity.BaseActivity;
 import com.tianyue.tv.Config.InterfaceUrl;
 import com.tianyue.tv.R;
 import com.tianyue.tv.Util.ConstantUtil;
+import com.tianyue.tv.Util.KeyBoardUtil;
 
 import butterknife.BindView;
 import okhttp3.Call;
@@ -84,6 +85,7 @@ public class TotalStationSearchActivity extends BaseActivity {
      */
     private void search() {
         mSearchBtn.setOnClickListener(v -> {
+            KeyBoardUtil.closeKeybord(mSearchEdit,context);
             getSearchData();
 
 
@@ -117,6 +119,7 @@ public class TotalStationSearchActivity extends BaseActivity {
                         showToast("onError");
                         Log.e(TAG,"onError");
                         System.out.println("onError");
+                        setEmptyLayout();
                     }
 
                     @Override

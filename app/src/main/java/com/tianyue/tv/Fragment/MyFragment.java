@@ -19,7 +19,6 @@ import com.jph.takephoto.model.CropOptions;
 import com.jph.takephoto.model.TResult;
 import com.squareup.picasso.Picasso;
 import com.tianyue.tv.Activity.My.AccountSecurity;
-import com.tianyue.tv.Activity.My.AttentionAnchor;
 import com.tianyue.tv.Activity.My.AuditFailure;
 import com.tianyue.tv.Activity.My.AuditSuccess;
 import com.tianyue.tv.Activity.My.Auditing;
@@ -124,7 +123,8 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(AccountSecurity.class);
                 break;
             case R.id.my_concern:
-                startActivity(AttentionAnchor.class);
+                showToast("暂未开放");
+                //startActivity(AttentionAnchor.class);
                 break;
             case R.id.my_certification: //主播认证
                 Integer bCard = user.getbCard();//审核状态
@@ -147,6 +147,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
                 }
                 break;
             case R.id.my_play_history:
+                showToast("暂未开放");
                 break;
             case R.id.my_home_headIcon:
                 setTakePhoto();

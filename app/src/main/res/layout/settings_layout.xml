@@ -111,6 +111,7 @@
         android:text="检查更新" />
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/settings_about_us"
         style="@style/settings"
         android:drawableRight="@mipmap/right"
