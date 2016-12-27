@@ -18,6 +18,8 @@ import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.model.CropOptions;
 import com.jph.takephoto.model.TResult;
 import com.squareup.picasso.Picasso;
+import com.tianyue.tv.Activity.Live.LiveBucket;
+import com.tianyue.tv.Activity.Live.LiveSetting;
 import com.tianyue.tv.Activity.My.AccountSecurity;
 import com.tianyue.tv.Activity.My.AuditFailure;
 import com.tianyue.tv.Activity.My.AuditSuccess;
@@ -138,7 +140,16 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
                 }
                 switch (bCard) {
                     case AuditStateConfig.AUDIT_SUCCESS:
-                        startActivity(AuditSuccess.class);
+                        Integer baudit = user.getBaudit();
+                        if (baudit == null) {
+                            startActivity(LiveSetting.class);
+                            return;
+                        }
+                        switch (baudit) {
+                            case 1:
+                                startActivity(LiveBucket.class);
+                                break;
+                        }
                         break;
                     case AuditStateConfig.AUDIT_FAILURE:
                         startActivity(AuditFailure.class);

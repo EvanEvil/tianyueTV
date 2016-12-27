@@ -207,7 +207,6 @@ public abstract class BaseActivity extends BaseFrameAty {
         if (isHasAnimiation()) {
             overridePendingTransition(R.anim.slide_right_in,
                     R.anim.slide_left_out);
-
         }
     }
 

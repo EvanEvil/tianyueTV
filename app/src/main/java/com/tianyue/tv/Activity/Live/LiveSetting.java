@@ -237,35 +237,32 @@ public class LiveSetting extends BaseActivity {
      * 修改直播间
      */
     private void alterBucket() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                OkHttpClient client = new OkHttpClient();
-                RequestBody body = new FormEncodingBuilder()
-                        .add("id", user.getId())
-                        .add("name", title.getText().toString())
-                        .add("Namelevel",mainType)
-                        .add("typeName", minorType)
-                        .add("keyWord", keyWord)
-                        .build();
-                Request request = new Request.Builder()
-                        .post(body)
-                        .url(InterfaceUrl.ALTER_BUCKET)
-                        .build();
-                try {
-                    Response response = client.newCall(request).execute();
-                    String result = response.body().string();
-                    JSONObject object = new JSONObject(result);
-                    String ret = object.optString(RequestConfigKey.RET);
-                    if (ret.equals(RequestConfigKey.REQUEST_SUCCESS)) {
-                        showToast("修改直播间成功");
-                        startActivity(LiveBucket.class);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        new Thread(() -> {
+            OkHttpClient client = new OkHttpClient();
+            RequestBody body = new FormEncodingBuilder()
+                    .add("id", user.getId())
+                    .add("name", title.getText().toString())
+                    .add("Namelevel",mainType)
+                    .add("typeName", minorType)
+                    .add("keyWord", keyWord)
+                    .build();
+            Request request = new Request.Builder()
+                    .post(body)
+                    .url(InterfaceUrl.ALTER_BUCKET)
+                    .build();
+            try {
+                Response response = client.newCall(request).execute();
+                String result = response.body().string();
+                JSONObject object = new JSONObject(result);
+                String ret = object.optString(RequestConfigKey.RET);
+                if (ret.equals(RequestConfigKey.REQUEST_SUCCESS)) {
+                    showToast("修改直播间成功");
+                    startActivity(LiveBucket.class);
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         }).start();
     }

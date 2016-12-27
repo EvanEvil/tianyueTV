@@ -31,7 +31,34 @@ public class LiveHomeColumn {
         private String picUrl;
         private int resourceId;
         private String nickName;
-        private Integer number;
+        private String number;
+        private String isPushPOM;
+        private String playAddress;
+        private String ql_push_flow;
+
+        public String getIsPushPOM() {
+            return isPushPOM;
+        }
+
+        public void setIsPushPOM(String isPushPOM) {
+            this.isPushPOM = isPushPOM;
+        }
+
+        public String getPlayAddress() {
+            return playAddress;
+        }
+
+        public void setPlayAddress(String playAddress) {
+            this.playAddress = playAddress;
+        }
+
+        public String getQl_push_flow() {
+            return ql_push_flow;
+        }
+
+        public void setQl_push_flow(String ql_push_flow) {
+            this.ql_push_flow = ql_push_flow;
+        }
 
         public String getTitle() {
             return title;
@@ -57,11 +84,11 @@ public class LiveHomeColumn {
             this.nickName = nickName;
         }
 
-        public Integer getNumber() {
+        public String getNumber() {
             return number;
         }
 
-        public void setNumber(Integer number) {
+        public void setNumber(String number) {
             this.number = number;
         }
 

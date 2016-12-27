@@ -61,6 +61,7 @@ public class UpLoadHeadPic extends BaseActivity {
                 finish();
                 break;
             case R.id.clip_confirm:
+                showDialogs("修改中");
                 Bitmap bitmap = clipImageLayout.clip();
                 String path;
                 if (Util.checkSdCard()) {
@@ -89,7 +90,9 @@ public class UpLoadHeadPic extends BaseActivity {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-
+                        } else {
+                            showToast("修改失败");
+                            dismissDialogs();
                         }
                     }).upLoadFile(file);
                 } catch (FileNotFoundException e) {
@@ -106,7 +109,6 @@ public class UpLoadHeadPic extends BaseActivity {
      */
     private void uploadHead(final String path) {
         final User user = MyApplication.instance().getUser();
-        showDialogs("修改中");
         OkHttpUtils.post().url(InterfaceUrl.ALTER_USER_INFO)
                 .addParams("headUrl", path)
                 .addParams("userId", user.getId())

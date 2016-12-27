@@ -98,7 +98,7 @@ public class InterfaceUrl {
      * 返回值：fails 已有直播间  fail 用户不存在
      * success 成功    currUser ：user对象
      */
-    public final static String APPLY_FOR_BUCKET = "http://192.168.0.88:8082/insertRoommobile";
+    public final static String APPLY_FOR_BUCKET = "http://www.tianyue.tv/insertRoommobile";
     /**
      *
      * 修改直播间
@@ -109,12 +109,12 @@ public class InterfaceUrl {
      * 返回值：success   成功
      * error     发生错误了
      */
-    public final static String ALTER_BUCKET = "http://192.168.0.88:8082/insertRoommobile";
+    public final static String ALTER_BUCKET = "http://www.tianyue.tv/updateZbj_app";
 
     /**
      * 发现模块，搜索接口
      * 传参：name 必传
      */
-    public final static String SEARCH_INFO  = "http://192.168.0.88:8082/Querycorrespondence";
+    public final static String SEARCH_INFO  = "http://www.tianyue.tv/Querycorrespondence";
     public final static String TEST  = "http://www.baidu.com";
 }

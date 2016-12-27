@@ -41,11 +41,7 @@ public class LiveHomeFragment extends BaseFragment {
 
     @Override
     protected void init() {
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
+        toolbar.setNavigationOnClickListener(v -> {
         });
         String[] tabTitles = getResources().getStringArray(R.array.live_home_tab);
         List<String> lists = Arrays.asList(tabTitles);
@@ -61,32 +57,29 @@ public class LiveHomeFragment extends BaseFragment {
         listFragment.add(new LiveOtherColumnFragment());
         listFragment.add(new LiveOtherColumnFragment());
 
-        liveFragment.setOnColumnMoreListener(new LiveFragment.OnColumnMoreListener() {
-            @Override
-            public void onMoreClick(int position) {
-                switch (position){
-                    case 1:
-                        viewPage.setCurrentItem(1);
-                        break;
-                    case 2:
-                        viewPage.setCurrentItem(2);
-                        break;
-                    case 3:
-                        viewPage.setCurrentItem(3);
-                        break;
-                    case 4:
-                        viewPage.setCurrentItem(4);
-                        break;
-                    case 5:
-                        viewPage.setCurrentItem(5);
-                        break;
-                    case 6:
-                        viewPage.setCurrentItem(6);
-                        break;
-                    case 7:
-                        viewPage.setCurrentItem(7);
-                        break;
-                }
+        liveFragment.setOnColumnMoreListener(position -> {
+            switch (position) {
+                case 1:
+                    viewPage.setCurrentItem(1);
+                    break;
+                case 2:
+                    viewPage.setCurrentItem(2);
+                    break;
+                case 3:
+                    viewPage.setCurrentItem(3);
+                    break;
+                case 4:
+                    viewPage.setCurrentItem(4);
+                    break;
+                case 5:
+                    viewPage.setCurrentItem(5);
+                    break;
+                case 6:
+                    viewPage.setCurrentItem(6);
+                    break;
+                case 7:
+                    viewPage.setCurrentItem(7);
+                    break;
             }
         });
 

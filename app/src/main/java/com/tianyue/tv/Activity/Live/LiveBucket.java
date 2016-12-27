@@ -66,6 +66,7 @@ public class LiveBucket extends BaseActivity {
             case R.id.my_live_bucket_store:
                 break;
             case R.id.my_live_bucket_money:
+                showToast("暂未开放");
                 break;
             case R.id.my_live_bucket_setting:
                 startActivity(LiveSetting.class);

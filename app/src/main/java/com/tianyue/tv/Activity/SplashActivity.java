@@ -63,7 +63,7 @@ public class SplashActivity extends BaseActivity {
                 Log.e(TAG,"解密后："+jiemi1+":---："+jiemi2);
 
                 if (!checkLoginInfo(jiemi1, jiemi2)) {
-                    showDialogs("登录中");
+//                    showDialogs("登录中");
 
                     checkLogin(jiemi1,jiemi2);
                 }
@@ -127,7 +127,7 @@ public class SplashActivity extends BaseActivity {
                 if (status.equals(RequestConfigKey.REQUEST_SUCCESS)) {
                     mApplication = MyApplication.instance();
                     mApplication.setUser(loginGson.getUser());
-                    dismissDialogs();
+//                    dismissDialogs();
                     Log.e(TAG,"登录成功。。。");
                     Log.i(TAG, "parseNetworkResponse: " + loginGson.getUser().getLive_streaming_address());
 
@@ -139,7 +139,7 @@ public class SplashActivity extends BaseActivity {
                     finish();
                 } else {
                     showToast("用户名或密码错误");
-                    dismissDialogs();
+//                    dismissDialogs();
                 }
                 return null;
             }
@@ -147,7 +147,8 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void onError(Request request, Exception e) {
                 showToast("请求失败，检查您的网络是否可用");
-                dismissDialogs();
+//                dismissDialogs();
+                startActivity(LoginActivity.class);
             }
 
             @Override

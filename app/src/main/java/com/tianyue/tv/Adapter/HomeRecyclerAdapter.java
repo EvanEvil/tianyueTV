@@ -80,12 +80,9 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private void bindContentView(ContentViewHolder holder, final int position) {
         Log.i(TAG, "bindContentView: " + position);
         holder.title.setText(liveHomeColumns.get(position - 1).getClassify());
-        holder.more.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (onColumnMoreListener != null) {
-                    onColumnMoreListener.onMoreClick(position);
-                }
+        holder.more.setOnClickListener(v -> {
+            if (onColumnMoreListener != null) {
+                onColumnMoreListener.onMoreClick(position);
             }
         });
         holder.recyclerView.setLayoutManager(new GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false));
@@ -96,12 +93,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         /**
          * 回调子项监听 抛出子项位置和父项位置
          */
-        columnContentViewAdapter.setOnColumnChildClickListener(new ColumnContentViewAdapter.OnColumnChildClickListener() {
-            @Override
-            public void onChildClick(int childPosition) {
-                onColumnChildClickListener.onChildClick(position,childPosition);
-            }
-        });
+        columnContentViewAdapter.setOnColumnChildClickListener(childPosition -> onColumnChildClickListener.onChildClick(position,childPosition));
 
     }
 

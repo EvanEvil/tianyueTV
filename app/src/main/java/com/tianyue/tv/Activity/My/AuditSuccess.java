@@ -27,12 +27,7 @@ public class AuditSuccess extends BaseActivity {
     @Override
     protected void initView() {
         setContentView(R.layout.audit_success_layout);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> finish());
     }
 
 

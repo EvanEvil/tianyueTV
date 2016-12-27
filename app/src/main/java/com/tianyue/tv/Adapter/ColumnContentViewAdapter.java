@@ -52,17 +52,19 @@ public class ColumnContentViewAdapter extends RecyclerView.Adapter<ColumnContent
 
     @Override
     public void onBindViewHolder(ColumnChildViewHolder holder, final int position) {
+
         LiveHomeColumn.LiveHomeColumnContent column = columnContent.get(position);
-        Picasso.with(context).load(column.getResourceId()).into(holder.preview);
+        if (column.getPicUrl() == null || column.getPicUrl().equals("")) {
+            Picasso.with(context).load(column.getResourceId()).into(holder.preview);
+        } else {
+        Picasso.with(context).load(column.getPicUrl()).into(holder.preview);
+        }
         holder.nickName.setText(column.getNickName());
         holder.title.setText(column.getTitle());
-//        holder.number.setText(column.getNumber().toString());
-        holder.preview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (onColumnChildClickListener != null) {
-                    onColumnChildClickListener.onChildClick(position);
-                }
+        holder.number.setText(column.getNumber());
+        holder.preview.setOnClickListener(v -> {
+            if (onColumnChildClickListener != null) {
+                onColumnChildClickListener.onChildClick(position);
             }
         });
     }
@@ -75,7 +77,7 @@ public class ColumnContentViewAdapter extends RecyclerView.Adapter<ColumnContent
         return columnContent == null ? 0 : columnContent.size();
     }
 
-    public void setOnColumnChildClickListener(OnColumnChildClickListener onColumnChildClickListener){
+    public void setOnColumnChildClickListener(OnColumnChildClickListener onColumnChildClickListener) {
         this.onColumnChildClickListener = onColumnChildClickListener;
     }
 
@@ -98,7 +100,8 @@ public class ColumnContentViewAdapter extends RecyclerView.Adapter<ColumnContent
 
         }
     }
-    public interface OnColumnChildClickListener{
+
+    public interface OnColumnChildClickListener {
         void onChildClick(int childPosition);
     }
 }
