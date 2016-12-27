@@ -76,23 +76,20 @@ public class UpLoadHeadPic extends BaseActivity {
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
                     outputStream.flush();
                     outputStream.close();
-                    UpLoadFileUtil.getInstance().setCompleteResultListener(new UpLoadFileUtil.CompleteResultListener() {
-                        @Override
-                        public void result(boolean isSuccess, String result) {
-                            if (isSuccess) {
-                                try {
-                                    JSONObject object = new JSONObject(result);
-                                    int code = object.optInt("code");
-                                    if (code == 200) {
-                                        String headPath = object.optString("url");
-                                        Log.i(TAG, "result: "+headPath);
-                                        uploadHead(headPath);
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+                    UpLoadFileUtil.getInstance().setCompleteResultListener((isSuccess, result) -> {
+                        if (isSuccess) {
+                            try {
+                                JSONObject object = new JSONObject(result);
+                                int code = object.optInt("code");
+                                if (code == 200) {
+                                    String headPath = object.optString("url");
+                                    Log.i(TAG, "result: "+headPath);
+                                    uploadHead(headPath);
                                 }
-
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
+
                         }
                     }).upLoadFile(file);
                 } catch (FileNotFoundException e) {

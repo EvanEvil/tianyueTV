@@ -199,6 +199,7 @@ public class StartLivePort extends BaseActivity implements
     @Override
     protected void initView() {
         setContentView(R.layout.start_live_layout);
+        user = MyApplication.instance().getUser();
         tab.setTabMode(TabLayout.MODE_FIXED);
         String[] tabs = getResources().getStringArray(R.array.start_live_tab);
         List<String> list = Arrays.asList(tabs);
@@ -206,14 +207,16 @@ public class StartLivePort extends BaseActivity implements
             tab.addTab(tab.newTab().setText(s));
         }
         List<Fragment> fragments = new ArrayList<>();
-        fragments.add(new StartLiveChatFragment());
+        StartLiveChatFragment startLiveChatFragment = new StartLiveChatFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("topic",user.getId());
+        startLiveChatFragment.setArguments(bundle);
+        fragments.add(startLiveChatFragment);
         fragments.add(new LiveGiftFragment());
 
         viewPager.setAdapter(new LiveTabAdapter(getSupportFragmentManager(),fragments,list));
         tab.setupWithViewPager(viewPager);
 
-        user = MyApplication.instance().getUser();
-        Log.i(TAG, "initView: " + user.getId());
         publishUrlFromServer = user.getLive_streaming_address();
         //腾讯相关初始化
         mTencent = Tencent.createInstance(APP_ID, getApplicationContext());

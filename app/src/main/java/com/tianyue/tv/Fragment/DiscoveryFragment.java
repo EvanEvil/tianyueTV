@@ -161,7 +161,7 @@ public class DiscoveryFragment extends BaseFragment {
     void startSearchActivity()
     {
         //showToast("尚未开通此功能");
-        startActivity(new Intent(getActivity(), TotalStationSearchActivity.class));
+        startActivity(TotalStationSearchActivity.class);
     }
     private void getDiscoveryData(){
 

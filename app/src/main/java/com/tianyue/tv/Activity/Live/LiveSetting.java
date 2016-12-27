@@ -10,8 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
+import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 import com.tianyue.tv.Activity.BaseActivity;
 import com.tianyue.tv.Bean.Broadcast;
@@ -69,7 +71,7 @@ public class LiveSetting extends BaseActivity {
     private String mainType;
     private String minorType;
 
-    private String keyWord;
+    private String keyWord = "";
 
     @Override
     protected void initView() {
@@ -81,7 +83,7 @@ public class LiveSetting extends BaseActivity {
         Log.i(TAG, "init: ");
         user = MyApplication.instance().getUser();
         Integer baudit = user.getBaudit();
-        Log.i(TAG, "init: " + baudit);
+        Log.i(TAG, "init: " + baudit+"id"+user.getId());
         if (baudit == null) {
             isHaveBucket = false;
             return;
@@ -101,8 +103,15 @@ public class LiveSetting extends BaseActivity {
                 finish();
                 break;
             case R.id.live_setting_save:
-                init();
-                if (isHaveBucket) {
+                if (!isHaveBucket) {
+                    if (title.getText().toString().equals("")) {
+                        showToast("请输入房间名");
+                        return;
+                    }
+                    if (classify.getText().toString().equals("请选择分类")) {
+                        showToast("请选择分类");
+                        return;
+                    }
                     applyForBucket();
                 } else {
                     alterBucket();
@@ -145,15 +154,46 @@ public class LiveSetting extends BaseActivity {
      * 申请直播间
      */
     private void applyForBucket() {
-//        OkHttpUtils.post().url(InterfaceUrl.APPLY_FOR_BUCKET).addParams()
-
+        Log.i(TAG, "applyForBucket: "+keyWord);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                OkHttpClient client = new OkHttpClient();
+                RequestBody body = new FormEncodingBuilder()
+                        .add("user_id",user.getId())
+                        .add("Name",title.getText().toString())
+                        .add("Namelevel",mainType)
+                        .add("typeName",minorType)
+                        .add("keyword", keyWord)
+                        .build();
+                Request request = new Request.Builder()
+                        .post(body)
+                        .url(InterfaceUrl.APPLY_FOR_BUCKET)
+                        .build();
+                try {
+                    Response response = client.newCall(request).execute();
+                    String result = response.body().string();
+                    JSONObject object = new JSONObject(result);
+                    String ret = object.optString(RequestConfigKey.RET);
+                    if (ret.equals(RequestConfigKey.REQUEST_SUCCESS)) {
+                        showToast("申请直播间成功");
+                        user.setBaudit(1);
+                        startActivity(LiveBucket.class);
+                    }
+                    Log.i(TAG, "applyForBucket: "+result);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     /**
      * 查询直播间
      */
     private void queryBucket() {
-        Log.i(TAG, "queryBucket: " + user.getId());
         OkHttpUtils.post()
                 .url(InterfaceUrl.QUERY_BUCKET)
                 .addParams("userId", user.getId())
@@ -197,33 +237,37 @@ public class LiveSetting extends BaseActivity {
      * 修改直播间
      */
     private void alterBucket() {
-        /**
-         * 传参：id （user_id）必传
-         name  可选  不填就默认原本的传
-         typeName  可选  不填就默认原本的传
-         keyWord   可选  不填就默认原本的传
-         */
-        OkHttpUtils.post().url(InterfaceUrl.ALTER_BUCKET)
-                .addParams("id", user.getId())
-                .addParams("name", title.getText().toString())
-                .addParams("typeName", classify.getText().toString())
-                .addParams("keyWord", "").build().execute(new Callback() {
+        new Thread(new Runnable() {
             @Override
-            public Object parseNetworkResponse(Response response) throws IOException {
-                return null;
+            public void run() {
+                OkHttpClient client = new OkHttpClient();
+                RequestBody body = new FormEncodingBuilder()
+                        .add("id", user.getId())
+                        .add("name", title.getText().toString())
+                        .add("Namelevel",mainType)
+                        .add("typeName", minorType)
+                        .add("keyWord", keyWord)
+                        .build();
+                Request request = new Request.Builder()
+                        .post(body)
+                        .url(InterfaceUrl.ALTER_BUCKET)
+                        .build();
+                try {
+                    Response response = client.newCall(request).execute();
+                    String result = response.body().string();
+                    JSONObject object = new JSONObject(result);
+                    String ret = object.optString(RequestConfigKey.RET);
+                    if (ret.equals(RequestConfigKey.REQUEST_SUCCESS)) {
+                        showToast("修改直播间成功");
+                        startActivity(LiveBucket.class);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
-
-            @Override
-            public void onError(Request request, Exception e) {
-
-            }
-
-            @Override
-            public void onResponse(Object response) {
-
-            }
-        });
-
+        }).start();
     }
 
     /**
@@ -231,21 +275,25 @@ public class LiveSetting extends BaseActivity {
      */
     private void fillBucketInfo(Broadcast broad) {
         keyWord = broad.getKeyWord();
+        Log.i(TAG, "fillBucketInfo: "+keyWord);
         String name = broad.getName();
         updateView(name,broad.getBctypeId(),broad.getTytypeId());
         updateLabel(keyWord);
     }
 
     private void updateLabel(String keyWord){
+        Log.i(TAG, "updateLabel: "+keyWord);
         if (keyWord != null) {
+            if (keyWord.equals("")) {
+                goneView(labelOne);
+                goneView(labelTwo);
+                goneView(labelThree);
+                goneView(labelFour);
+                return;
+            }
             String[] label = keyWord.split("_");
+            Log.i(TAG, "updateLabel: "+label.length);
             switch (label.length) {
-                case 0:
-                    goneView(labelOne);
-                    goneView(labelTwo);
-                    goneView(labelThree);
-                    goneView(labelFour);
-                    break;
                 case 1:
                     labelOne.setText(label[0]);
                     showView(labelOne);
@@ -294,12 +342,12 @@ public class LiveSetting extends BaseActivity {
         TypeBean typeBean = new TypeBean();
         HashMap<String,String> main = typeBean.getMainClassify();
         HashMap<String,String> minor = typeBean.getMinorClassify();
-        final String mainTypeName = main.get(mainTypeId);
-        final String minorTypeName = minor.get(minorTypeId);
+        mainType = main.get(mainTypeId);
+        minorType = minor.get(minorTypeId);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                classify.setText(mainTypeName+"-"+minorTypeName);
+                classify.setText(mainType +"-"+minorType);
                 title.setText(name);
             }
         });

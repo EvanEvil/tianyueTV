@@ -63,7 +63,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
     String headUrl;
     String picPath;
     User user;//用户信息
-
+    Integer bCard;
     /**
      * 拍照相关
      */
@@ -105,6 +105,10 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
         }
         if (headUrl != null && !"".equals(headUrl)) {
             Picasso.with(getActivity()).load(headUrl).into(headPic);
+        }
+        bCard = user.getbCard();
+        if (bCard == AuditStateConfig.AUDIT_SUCCESS) {
+            certification.setText("我的直播间");
         }
     }
 

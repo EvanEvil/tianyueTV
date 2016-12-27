@@ -60,9 +60,11 @@ public class LabelManage extends BaseActivity implements LabelManageAdapter.Labe
         Bundle bundle = intent.getExtras();
         String label = bundle.getString("label");
         if (label != null) {
-            String[] labels = label.split("_");
-            for (int i = 0; i < labels.length; i++) {
-                data.add(labels[i]);
+            if (!label.equals("")) {
+                String[] labels = label.split("_");
+                for (int i = 0; i < labels.length; i++) {
+                    data.add(labels[i]);
+                }
             }
         }
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);

@@ -122,27 +122,24 @@ public class CertificationTwo extends BaseActivity {
      * 上传第一张图片
      */
     private void upLoadFirstPic(){
-        UpLoadFileUtil.getInstance().setCompleteResultListener(new UpLoadFileUtil.CompleteResultListener() {
-            @Override
-            public void result(boolean isSuccess, String result) {
-                Log.e("onComplete", "onComplete: " + isSuccess + ":" + result);
-                if (isSuccess) {
-                    try {
-                        JSONObject object = new JSONObject(result);
-                        int code = object.optInt("code");
-                        if (code == 200) {
-                            firstPath = object.optString("url");
-                            Log.i(TAG, "result: "+firstPath);
-                            upLoadLastPic();
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+        UpLoadFileUtil.getInstance().setCompleteResultListener((isSuccess, result) -> {
+            Log.e("onComplete", "onComplete: " + isSuccess + ":" + result);
+            if (isSuccess) {
+                try {
+                    JSONObject object = new JSONObject(result);
+                    int code = object.optInt("code");
+                    if (code == 200) {
+                        firstPath = object.optString("url");
+                        Log.i(TAG, "result: "+firstPath);
+                        upLoadLastPic();
                     }
-                } else {
-                    showToast("上传照片失败");
-                    dismissDialog();
-                    return;
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+            } else {
+                showToast("上传照片失败");
+                dismissDialog();
+                return;
             }
         }).upLoadFile(new File(firstPath));
     }
@@ -150,26 +147,23 @@ public class CertificationTwo extends BaseActivity {
      * 上传第二张图片
      */
     private void upLoadLastPic(){
-        UpLoadFileUtil.getInstance().setCompleteResultListener(new UpLoadFileUtil.CompleteResultListener() {
-            @Override
-            public void result(boolean isSuccess, String result) {
-                if (isSuccess) {
-                    try {
-                        JSONObject object = new JSONObject(result);
-                        int code = object.optInt("code");
-                        if (code == 200) {
-                            lastPath = object.optString("url");
-                            Log.i(TAG, "result: "+lastPath);
-                            commitAttestation();
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+        UpLoadFileUtil.getInstance().setCompleteResultListener((isSuccess, result) -> {
+            if (isSuccess) {
+                try {
+                    JSONObject object = new JSONObject(result);
+                    int code = object.optInt("code");
+                    if (code == 200) {
+                        lastPath = object.optString("url");
+                        Log.i(TAG, "result: "+lastPath);
+                        commitAttestation();
                     }
-                } else {
-                    showToast("上传照片失败");
-                    dismissDialog();
-                    return;
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+            } else {
+                showToast("上传照片失败");
+                dismissDialog();
+                return;
             }
         }).upLoadFile(new File(lastPath));
     }
@@ -250,12 +244,7 @@ public class CertificationTwo extends BaseActivity {
         dialogBuilder.setFBFirstBtnText("拍照");
         dialogBuilder.setFBCancelBtnText("取消");
         dialogBuilder.setFBLastBtnText("相册");
-        dialogBuilder.setFBLastBtnClick(new FormBotomDefaultDialogBuilder.DialogBtnCallBack() {
-            @Override
-            public void dialogBtnOnClick() {
-                openPhoto(code);
-            }
-        });
+        dialogBuilder.setFBLastBtnClick(() -> openPhoto(code));
         dialogBuilder.show();
     }
 

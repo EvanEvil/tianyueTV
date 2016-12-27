@@ -38,9 +38,11 @@ public class StartLiveChatFragment extends BaseFragment {
 
     @Override
     protected void init() {
+        Bundle bundle = getArguments();
+        String topic = bundle.getString("topic");
         recycler.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false));
         dmsUtil = DmsUtil.instance(context);
-        dmsUtil.initDMS("10085");
+        dmsUtil.initDMS(topic);
         dmsUtil.connectDMS();
         dmsUtil.setMessageCallBack(messageCallBack);
         chatListAdapter = new ChatListAdapter(context,messageList,ChatListAdapter.INPUT_LIVE_TYPE);
