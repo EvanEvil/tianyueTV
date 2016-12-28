@@ -92,13 +92,17 @@ public class DiscoveryFragment extends BaseFragment {
         });
         //监听edittext是否获取焦点
         search_edit.setOnFocusChangeListener((v, hasFocus) -> {
-            if(hasFocus){
-                btn_search_cancle.setVisibility(View.VISIBLE);
-                KeyBoardUtil.openKeybord(search_edit,context);
-            }else{
-                btn_search_cancle.setVisibility(View.GONE);
-                KeyBoardUtil.closeKeybord(search_edit,context);
+            if(search_edit != null){
+                if(hasFocus){
+                    LogUtil.e("获取到了焦点");
+                    btn_search_cancle.setVisibility(View.VISIBLE);
+                    KeyBoardUtil.openKeybord(search_edit,context);
+                }else{
+                    btn_search_cancle.setVisibility(View.GONE);
+                    KeyBoardUtil.closeKeybord(search_edit,context);
+                }
             }
+
         });
         //button点击监听
         btn_search_cancle.setOnClickListener(v -> {
@@ -214,4 +218,21 @@ public class DiscoveryFragment extends BaseFragment {
 
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        LogUtil.e("onDestroyView");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LogUtil.e("onDestroy");
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        LogUtil.e("onDetach");
+    }
 }

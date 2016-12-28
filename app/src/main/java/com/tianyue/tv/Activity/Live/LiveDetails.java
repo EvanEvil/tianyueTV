@@ -41,7 +41,6 @@ import com.tianyue.tv.Adapter.LiveTabAdapter;
 import com.tianyue.tv.Bean.EventBusBean.EventMsg;
 import com.tianyue.tv.Bean.LiveChatMessage;
 import com.tianyue.tv.Bean.LiveHomeColumn;
-import com.tianyue.tv.Config.ParamConfigKey;
 import com.tianyue.tv.CustomView.Dialog.BarrageSettingDialog;
 import com.tianyue.tv.Fragment.LiveChatFragment;
 import com.tianyue.tv.Fragment.LiveGiftFragment;
@@ -78,7 +77,6 @@ import master.flame.danmaku.danmaku.parser.BaseDanmakuParser;
 import master.flame.danmaku.ui.widget.DanmakuView;
 
 import static com.tianyue.tv.R.id.barrage_setting_size_seekbar;
-import static com.tianyue.tv.R.id.top;
 
 /**
  * 播放界面
