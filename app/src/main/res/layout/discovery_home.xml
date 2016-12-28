@@ -5,47 +5,51 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
   <!--搜索-->
-  <android.support.v7.widget.CardView
-      android:id="@+id/card_view"
+  <LinearLayout
+      android:id="@+id/ll_search"
       android:layout_width="match_parent"
 
-      android:layout_height="45dp"
+      android:layout_height="wrap_content"
       android:layout_marginLeft="10dp"
       android:layout_marginRight="10dp"
-      android:layout_marginTop="10dp"
-      app:cardBackgroundColor="@color/white"
-      app:cardCornerRadius="1dp"
-      app:cardElevation="0dp">
+      android:layout_margin="10dp"
+      android:orientation="horizontal">
 
 
-    <ImageView
-        android:id="@+id/search_scan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center|start"
-        android:layout_marginStart="10dp"
-        android:src="@mipmap/icon_magnifying_glass"
-        android:tint="#B3B3B3" />
 
 
-    <TextView
+
+    <EditText
         android:id="@+id/search_edit"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:layout_gravity="center|end"
-        android:layout_marginStart="40dp"
-        android:background="@color/white"
+
+        android:background="@mipmap/icon_search"
         android:gravity="center_vertical"
         android:maxLines="1"
-        android:text="@string/discover_search_hint"
+        android:hint="@string/discover_search_hint"
         android:textColor="#71000000"
+        android:paddingLeft="10dp"
+        android:drawablePadding="5dp"
+        android:drawableLeft="@mipmap/icon_magnifying_glass"
         android:textSize="14sp" />
 
+    <Button
+        android:id="@+id/btn_search_cancle"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:visibility="gone"
+        android:textColor="@android:color/holo_red_dark"
+        android:text="@string/discover_search_cancle_button"/>
 
 
 
 
-  </android.support.v7.widget.CardView>
+
+  </LinearLayout>
   <!--大家都在搜-->
   <TextView
       android:layout_width="wrap_content"
