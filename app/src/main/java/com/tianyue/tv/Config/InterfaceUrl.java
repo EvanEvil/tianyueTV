@@ -14,6 +14,7 @@ public class InterfaceUrl {
      * password 密码
      */
     public final static String MOBILE_LOGIN = "http://www.tianyue.tv/mobileLogin";
+    //public final static String MOBILE_LOGIN = "http://192.168.0.88:8081/mobileLogin";
 
     /**
      * 注册获取验证码 请求方式:post

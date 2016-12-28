@@ -62,6 +62,8 @@ import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.OnekeyShare;
 import master.flame.danmaku.controller.DrawHandler;
 import master.flame.danmaku.danmaku.model.BaseDanmaku;
 import master.flame.danmaku.danmaku.model.DanmakuTimer;
@@ -166,6 +168,10 @@ public class LiveDetails extends BaseActivity implements
     ImageButton playPause;
     @BindView(R.id.live_details_back)
     ImageButton back;
+
+    ImageButton full_share;
+
+    ImageButton share;
     PLMediaPlayer mediaPlayer;
     /*********
      * 竖屏控件
@@ -232,7 +238,10 @@ public class LiveDetails extends BaseActivity implements
      */
     @Override
     protected void initView() {
+
         setContentView(R.layout.live_details_layout);
+        //shareSDK初始化
+        ShareSDK.initSDK(context,"1a50d1e1f069f");
         EventBus.getDefault().register(this);
         Log.e(TAG, "initView: ");
         initdmsUtil();
@@ -297,6 +306,8 @@ public class LiveDetails extends BaseActivity implements
      * 初始化 横屏 控件
      */
     private void initLandView() {
+        full_share = (ImageButton)findViewById(R.id.live_details_full_share);
+        full_share.setOnClickListener(v -> {showShare();});
         danmakuSp = getSharedPreferences("danmakuConfig", MODE_PRIVATE);
         //初始化横屏弹幕大小值
         danmakuTextSize = danmakuSp.getInt("danmakuSize", 3);
@@ -347,6 +358,8 @@ public class LiveDetails extends BaseActivity implements
      * 初始化 竖屏 控件
      */
     private void initPortView() {
+        share = (ImageButton) findViewById(R.id.live_details_share);
+        share.setOnClickListener(v -> {showShare();});
         tabLayout = (TabLayout) findViewById(R.id.live_details_tab);
         viewPager = (ViewPager) findViewById(R.id.live_details_viewPage);
         rl_port_top_controller = (RelativeLayout) findViewById(R.id.rl_port_land_top_controller);
@@ -504,7 +517,7 @@ public class LiveDetails extends BaseActivity implements
         }
         EventBus.getDefault().unregister(this);
 
-
+        ShareSDK.stopSDK(context);
 
 
     }
@@ -667,6 +680,8 @@ public class LiveDetails extends BaseActivity implements
                     isPort = true;
                 }
                 break;
+
+
         }
     }
     RadioGroup.OnCheckedChangeListener mOnCheckedChangeListener = new RadioGroup.OnCheckedChangeListener() {
@@ -1254,6 +1269,33 @@ public class LiveDetails extends BaseActivity implements
             mHandler.removeMessages(HIDDEN_LAND);
         }
 
+    }
+
+    private void showShare() {
+        ShareSDK.initSDK(this);
+        OnekeyShare oks = new OnekeyShare();
+        //关闭sso授权
+        oks.disableSSOWhenAuthorize();
+
+        // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间等使用
+        oks.setTitle("标题");
+        // titleUrl是标题的网络链接，QQ和QQ空间等使用
+        oks.setTitleUrl("http://sharesdk.cn");
+        // text是分享文本，所有平台都需要这个字段
+        oks.setText("我是分享文本");
+        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
+        //oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
+        // url仅在微信（包括好友和朋友圈）中使用
+        oks.setUrl("http://sharesdk.cn");
+        // comment是我对这条分享的评论，仅在人人网和QQ空间使用
+        oks.setComment("我是测试评论文本");
+        // site是分享此内容的网站名称，仅在QQ空间使用
+        oks.setSite(getString(R.string.app_name));
+        // siteUrl是分享此内容的网站地址，仅在QQ空间使用
+        oks.setSiteUrl("http://sharesdk.cn");
+
+// 启动分享GUI
+        oks.show(this);
     }
 
 
