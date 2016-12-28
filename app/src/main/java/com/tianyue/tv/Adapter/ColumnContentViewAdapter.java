@@ -57,7 +57,7 @@ public class ColumnContentViewAdapter extends RecyclerView.Adapter<ColumnContent
         if (column.getPicUrl() == null || column.getPicUrl().equals("")) {
             Picasso.with(context).load(column.getResourceId()).into(holder.preview);
         } else {
-        Picasso.with(context).load(column.getPicUrl()).into(holder.preview);
+            Picasso.with(context).load(column.getPicUrl()).into(holder.preview);
         }
         holder.nickName.setText(column.getNickName());
         holder.title.setText(column.getTitle());
@@ -72,7 +72,7 @@ public class ColumnContentViewAdapter extends RecyclerView.Adapter<ColumnContent
     @Override
     public int getItemCount() {
         if (type == TYPE_HOME) {
-            return 4;
+            return columnContent == null ? 0 : columnContent.size() >= 4 ? 4 : columnContent.size();
         }
         return columnContent == null ? 0 : columnContent.size();
     }
