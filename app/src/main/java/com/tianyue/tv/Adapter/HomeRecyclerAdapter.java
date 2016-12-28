@@ -64,16 +64,16 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof  HeadViewHolder){
-            bindHeadView((HeadViewHolder) holder,position);
-        }else if (holder instanceof ContentViewHolder) {
+        if (holder instanceof HeadViewHolder) {
+            bindHeadView((HeadViewHolder) holder, position);
+        } else if (holder instanceof ContentViewHolder) {
             Log.i(TAG, "onBindViewHolder: ");
             bindContentView((ContentViewHolder) holder, position);
         }
 
     }
 
-    private void bindHeadView(HeadViewHolder holder, int position){
+    private void bindHeadView(HeadViewHolder holder, int position) {
 
     }
 
@@ -82,18 +82,18 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         holder.title.setText(liveHomeColumns.get(position - 1).getClassify());
         holder.more.setOnClickListener(v -> {
             if (onColumnMoreListener != null) {
-                onColumnMoreListener.onMoreClick(position);
+                onColumnMoreListener.onMoreClick(position - 1, liveHomeColumns);
             }
         });
         holder.recyclerView.setLayoutManager(new GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false));
         ColumnContentViewAdapter columnContentViewAdapter = new ColumnContentViewAdapter(context, liveHomeColumns.get(position - 1).
-                getContents(),ColumnContentViewAdapter.TYPE_HOME);
+                getContents(), ColumnContentViewAdapter.TYPE_HOME);
         holder.recyclerView.setAdapter(columnContentViewAdapter);
         holder.recyclerView.setNestedScrollingEnabled(false);
         /**
          * 回调子项监听 抛出子项位置和父项位置
          */
-        columnContentViewAdapter.setOnColumnChildClickListener(childPosition -> onColumnChildClickListener.onChildClick(position,childPosition));
+        columnContentViewAdapter.setOnColumnChildClickListener(childPosition -> onColumnChildClickListener.onChildClick(position - 1, childPosition,liveHomeColumns));
 
     }
 
@@ -107,6 +107,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     /**
      * 添加头部View 填充数据长度+1
+     *
      * @return
      */
     @Override
@@ -185,18 +186,19 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         this.onHomeRecyclerListener = onHomeRecyclerListener;
     }
 
-    public void setOnColumnMoreListener(OnColumnMoreListener onColumnMoreListener){
+    public void setOnColumnMoreListener(OnColumnMoreListener onColumnMoreListener) {
         this.onColumnMoreListener = onColumnMoreListener;
     }
 
-    public void setOnColumnChildClickListener(OnColumnChildClickListener onColumnChildClickListener){
+    public void setOnColumnChildClickListener(OnColumnChildClickListener onColumnChildClickListener) {
         this.onColumnChildClickListener = onColumnChildClickListener;
     }
+
     /**
      * 栏目的点击
      */
     public interface OnColumnMoreListener {
-        void onMoreClick(int position);
+        void onMoreClick(int position, List<LiveHomeColumn> liveHomeColumns);
     }
 
     /**
@@ -209,7 +211,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     /**
      * 栏目子项的点击
      */
-    public interface OnColumnChildClickListener{
-        void onChildClick(int parentPosition,int childPosition);
+    public interface OnColumnChildClickListener {
+        void onChildClick(int parentPosition, int childPosition, List<LiveHomeColumn> liveHomeColumns);
     }
 }

@@ -4,12 +4,14 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.tianyue.mylibrary.view.ChangeToolbar;
 import com.tianyue.tv.Adapter.LiveTabAdapter;
+import com.tianyue.tv.Bean.LiveHomeColumn;
 import com.tianyue.tv.R;
 
 import java.util.ArrayList;
@@ -50,6 +52,9 @@ public class LiveHomeFragment extends BaseFragment {
 
         listFragment = new ArrayList<>();
         listFragment.add(liveFragment);
+        for (int i = 0; i < 6; i++) {
+            
+        }
         listFragment.add(new LiveOtherColumnFragment());
         listFragment.add(new LiveOtherColumnFragment());
         listFragment.add(new LiveOtherColumnFragment());
@@ -57,28 +62,26 @@ public class LiveHomeFragment extends BaseFragment {
         listFragment.add(new LiveOtherColumnFragment());
         listFragment.add(new LiveOtherColumnFragment());
 
-        liveFragment.setOnColumnMoreListener(position -> {
-            switch (position) {
-                case 1:
+        liveFragment.setOnColumnMoreListener((position, liveHomeColumns) -> {
+            Log.i(TAG, "init: " + liveHomeColumns.get(position).getClassify()+ "" + position);
+            switch (liveHomeColumns.get(position).getClassify()) {
+                case "匠人":
                     viewPage.setCurrentItem(1);
                     break;
-                case 2:
+                case "衣":
                     viewPage.setCurrentItem(2);
                     break;
-                case 3:
+                case "食":
                     viewPage.setCurrentItem(3);
                     break;
-                case 4:
+                case "住":
                     viewPage.setCurrentItem(4);
                     break;
-                case 5:
+                case "行":
                     viewPage.setCurrentItem(5);
                     break;
-                case 6:
+                case "知":
                     viewPage.setCurrentItem(6);
-                    break;
-                case 7:
-                    viewPage.setCurrentItem(7);
                     break;
             }
         });

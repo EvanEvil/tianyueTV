@@ -71,11 +71,9 @@ public class TypeBean {
 
     private void init() {
         for (int i = 0; i < mainTypeId.length; i++) {
-            Log.i(TAG, "init: " + mainTypeId[i] + mainTypeName[i]);
             String key = mainTypeId[i];
             String value = mainTypeName[i];
             mainClassify.put(key, value);
-            Log.i(TAG, "init: " + key + value + mainClassify.get(key));
         }
         for (int i = 0; i < minorTypeId.length; i++) {
             String key = minorTypeId[i];

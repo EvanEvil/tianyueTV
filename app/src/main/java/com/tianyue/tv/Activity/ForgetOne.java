@@ -89,12 +89,9 @@ public class ForgetOne extends BaseActivity {
                     if (ret != null) {
                         if (ret.equals(RequestConfigKey.REQUEST_SUCCESS)) {
                             code = object.optString(ParamConfigKey.P_CODE);
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    TimeCountUtil time = new TimeCountUtil(ForgetOne.this, 60 * 1000, 1000, getCode);
-                                    time.start();
-                                }
+                            runOnUiThread(() -> {
+                                TimeCountUtil time = new TimeCountUtil(ForgetOne.this, 60 * 1000, 1000, getCode);
+                                time.start();
                             });
                         } else if (ret.equals(RequestConfigKey.REQUEST_ERROR)) {
                             showToast("手机号不存在");

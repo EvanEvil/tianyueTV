@@ -149,6 +149,7 @@ public class SplashActivity extends BaseActivity {
                 showToast("请求失败，检查您的网络是否可用");
 //                dismissDialogs();
                 startActivity(LoginActivity.class);
+                finish();
             }
 
             @Override

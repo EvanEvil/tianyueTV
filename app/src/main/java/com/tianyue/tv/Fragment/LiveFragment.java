@@ -1,5 +1,6 @@
 package com.tianyue.tv.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -94,11 +95,17 @@ public class LiveFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
         recyclerView.setAdapter(homeRecyclerAdapter);
 
-        homeRecyclerAdapter.setOnColumnMoreListener(position -> onColumnMoreListener.onMoreClick(position));
+        homeRecyclerAdapter.setOnColumnMoreListener((position, liveHomeColumns1) -> onColumnMoreListener.onMoreClick(position,liveHomeColumns1));
 
         homeRecyclerAdapter.setOnHomeRecyclerListener(position -> startActivity(LiveDetails.class));
 
-        homeRecyclerAdapter.setOnColumnChildClickListener((parentPosition, childPosition) -> startActivity(LiveDetails.class));
+        homeRecyclerAdapter.setOnColumnChildClickListener((parentPosition, childPosition, liveHomeColumns1) -> {
+            LiveHomeColumn.LiveHomeColumnContent content  =  liveHomeColumns1.get(parentPosition).getContents().get(childPosition);
+            Log.i(TAG, "onChildClick: "+content.getQl_push_flow());
+            Intent intent = new Intent(getActivity(),LiveDetails.class);
+            intent.putExtra("live_column",content);
+            startActivity(intent);
+        });
         new Thread(() -> {
             requestBroad();
         }).start();
@@ -171,12 +178,15 @@ public class LiveFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             }
         }
         fillMainType(columnContentJR.size(),200,columnContentJR);
-        fillMainType(columnContentY.size(),200,columnContentY);
-        fillMainType(columnContentS.size(),200,columnContentS);
-        fillMainType(columnContentZ.size(),200,columnContentZ);
-        fillMainType(columnContentX.size(),200,columnContentX);
-        fillMainType(columnContentZI.size(),200,columnContentZI);
-        getActivity().runOnUiThread(() -> homeRecyclerAdapter.notifyDataSetChanged());
+        fillMainType(columnContentY.size(),300,columnContentY);
+        fillMainType(columnContentS.size(),400,columnContentS);
+        fillMainType(columnContentZ.size(),500,columnContentZ);
+        fillMainType(columnContentX.size(),600,columnContentX);
+        fillMainType(columnContentZI.size(),700,columnContentZI);
+        getActivity().runOnUiThread(() -> {
+            rootView.setRefreshing(false);
+            homeRecyclerAdapter.notifyDataSetChanged();
+        });
 
 
 //            if (isFirst) {
@@ -209,8 +219,11 @@ public class LiveFragment extends BaseFragment implements SwipeRefreshLayout.OnR
      */
     private LiveHomeColumn.LiveHomeColumnContent fillBroadColumn(HomeBroadcast.DataListBean bean) {
         LiveHomeColumn.LiveHomeColumnContent content = new LiveHomeColumn.LiveHomeColumnContent();
-        content.setPicUrl(bean.getHeadUrl());
+        content.setPicUrl(bean.getImage());
         content.setTitle(bean.getName());
+        content.setNumber(bean.getOnlineNum()+"");
+        content.setUserId(bean.getUser_id()+"");
+        content.setHeadUrl(bean.getHeadUrl());
         content.setNickName(bean.getNickName());
         content.setIsPushPOM(bean.getIsPushPOM());
         content.setQl_push_flow(bean.getQl_push_flow());
@@ -232,7 +245,7 @@ public class LiveFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         }
         if (size != 0) {
             LiveHomeColumn column = new LiveHomeColumn();
-            column.setClassify(main.get(type));
+            column.setClassify(main.get(type+""));
             column.setContents(list);
             liveHomeColumns.add(column);
         }
@@ -241,10 +254,12 @@ public class LiveFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void onRefresh() {
-        new Handler().postDelayed(() -> {
-            rootView.setRefreshing(false);
-            homeRecyclerAdapter.notifyDataSetChanged();
-        }, 2000);
+//        new Handler().postDelayed(() -> {
+//            rootView.setRefreshing(false);
+//            homeRecyclerAdapter.notifyDataSetChanged();
+//        }, 2000);
+        liveHomeColumns.clear();
+        requestBroad();
     }
 
     public void setOnColumnMoreListener(OnColumnMoreListener onColumnMoreListener) {
@@ -252,7 +267,7 @@ public class LiveFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     }
 
     public interface OnColumnMoreListener {
-        void onMoreClick(int position);
+        void onMoreClick(int position,List<LiveHomeColumn> liveHomeColumns);
     }
 
 }

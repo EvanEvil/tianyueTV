@@ -1,5 +1,8 @@
 package com.tianyue.tv.Bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
 /**
@@ -26,15 +29,33 @@ public class LiveHomeColumn {
         this.classify = classify;
     }
 
-    public static class LiveHomeColumnContent {
+    public static class LiveHomeColumnContent implements Parcelable {
         private String title;
         private String picUrl;
+        private String headUrl;
+        private String userId;
         private int resourceId;
         private String nickName;
         private String number;
         private String isPushPOM;
         private String playAddress;
         private String ql_push_flow;
+
+        public String getUserId() {
+            return userId;
+        }
+
+        public void setUserId(String userId) {
+            this.userId = userId;
+        }
+
+        public String getHeadUrl() {
+            return headUrl;
+        }
+
+        public void setHeadUrl(String headUrl) {
+            this.headUrl = headUrl;
+        }
 
         public String getIsPushPOM() {
             return isPushPOM;
@@ -99,6 +120,53 @@ public class LiveHomeColumn {
         public void setResourceId(int resourceId) {
             this.resourceId = resourceId;
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.title);
+            dest.writeString(this.picUrl);
+            dest.writeString(this.headUrl);
+            dest.writeString(this.userId);
+            dest.writeInt(this.resourceId);
+            dest.writeString(this.nickName);
+            dest.writeString(this.number);
+            dest.writeString(this.isPushPOM);
+            dest.writeString(this.playAddress);
+            dest.writeString(this.ql_push_flow);
+        }
+
+        public LiveHomeColumnContent() {
+        }
+
+        protected LiveHomeColumnContent(Parcel in) {
+            this.title = in.readString();
+            this.picUrl = in.readString();
+            this.headUrl = in.readString();
+            this.userId = in.readString();
+            this.resourceId = in.readInt();
+            this.nickName = in.readString();
+            this.number = in.readString();
+            this.isPushPOM = in.readString();
+            this.playAddress = in.readString();
+            this.ql_push_flow = in.readString();
+        }
+
+        public static final Parcelable.Creator<LiveHomeColumnContent> CREATOR = new Parcelable.Creator<LiveHomeColumnContent>() {
+            @Override
+            public LiveHomeColumnContent createFromParcel(Parcel source) {
+                return new LiveHomeColumnContent(source);
+            }
+
+            @Override
+            public LiveHomeColumnContent[] newArray(int size) {
+                return new LiveHomeColumnContent[size];
+            }
+        };
     }
 
 }

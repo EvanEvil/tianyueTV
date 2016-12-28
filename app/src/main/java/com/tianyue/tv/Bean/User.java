@@ -1,10 +1,13 @@
 package com.tianyue.tv.Bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * 用户信息
  * Created by hasee on 2016/9/7.
  */
-public class User {
+public class User implements Parcelable {
     private String id;
     private String uuid;
     private String nickName;
@@ -150,4 +153,62 @@ public class User {
         this.baudit = baudit;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.uuid);
+        dest.writeString(this.nickName);
+        dest.writeString(this.userName);
+        dest.writeString(this.password);
+        dest.writeString(this.telephone);
+        dest.writeString(this.identity);
+        dest.writeString(this.identityCard);
+        dest.writeValue(this.bCard);
+        dest.writeString(this.cardImage);
+        dest.writeString(this.sex);
+        dest.writeValue(this.baudit);
+        dest.writeString(this.age);
+        dest.writeString(this.headUrl);
+        dest.writeString(this.province);
+        dest.writeString(this.live_streaming_address);
+    }
+
+    public User() {
+    }
+
+    protected User(Parcel in) {
+        this.id = in.readString();
+        this.uuid = in.readString();
+        this.nickName = in.readString();
+        this.userName = in.readString();
+        this.password = in.readString();
+        this.telephone = in.readString();
+        this.identity = in.readString();
+        this.identityCard = in.readString();
+        this.bCard = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.cardImage = in.readString();
+        this.sex = in.readString();
+        this.baudit = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.age = in.readString();
+        this.headUrl = in.readString();
+        this.province = in.readString();
+        this.live_streaming_address = in.readString();
+    }
+
+    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel source) {
+            return new User(source);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 }

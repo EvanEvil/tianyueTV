@@ -40,6 +40,7 @@ import com.tianyue.tv.Activity.BaseActivity;
 import com.tianyue.tv.Adapter.LiveTabAdapter;
 import com.tianyue.tv.Bean.EventBusBean.EventMsg;
 import com.tianyue.tv.Bean.LiveChatMessage;
+import com.tianyue.tv.Bean.LiveHomeColumn;
 import com.tianyue.tv.Config.ParamConfigKey;
 import com.tianyue.tv.CustomView.Dialog.BarrageSettingDialog;
 import com.tianyue.tv.Fragment.LiveChatFragment;
@@ -77,6 +78,7 @@ import master.flame.danmaku.danmaku.parser.BaseDanmakuParser;
 import master.flame.danmaku.ui.widget.DanmakuView;
 
 import static com.tianyue.tv.R.id.barrage_setting_size_seekbar;
+import static com.tianyue.tv.R.id.top;
 
 /**
  * 播放界面
@@ -116,7 +118,7 @@ public class LiveDetails extends BaseActivity implements
 
                     break;
                 case HIDDEN_PORT:
-                   hidePortController();
+                    hidePortController();
                     break;
             }
         }
@@ -136,7 +138,6 @@ public class LiveDetails extends BaseActivity implements
     private SharedPreferences danmakuSp;
     /**
      * 弹幕位置(0上,1中,2下)
-     *
      */
     private int danmakuPositon;
 
@@ -192,7 +193,11 @@ public class LiveDetails extends BaseActivity implements
      **********/
     private ImageButton settings;
 
-    String playPath = ParamConfigKey.TEST_PATH;
+
+
+
+    /*********************************/
+    String playPath = "";
     private boolean isLivePlay = false;
     private boolean isPort = true;
     private AVOptions options;
@@ -226,9 +231,10 @@ public class LiveDetails extends BaseActivity implements
      */
     public EditText et_landText;
     public DmsUtil dmsUtil;
-    private String topic = "10085";
+    private String topic = "";
     private View.OnTouchListener surfaceviewOnTouchListener;
     private List<LiveChatMessage> messageList = new ArrayList<>();
+    private LiveHomeColumn.LiveHomeColumnContent content;
 
 
     /**************************初始化部分********************************/
@@ -241,17 +247,21 @@ public class LiveDetails extends BaseActivity implements
 
         setContentView(R.layout.live_details_layout);
         //shareSDK初始化
-        ShareSDK.initSDK(context,"1a50d1e1f069f");
+        ShareSDK.initSDK(context, "1a50d1e1f069f");
         EventBus.getDefault().register(this);
-        Log.e(TAG, "initView: ");
+        content = getIntent().getParcelableExtra("live_column");
+
+        topic = content.getUserId();
+        if (content.getIsPushPOM().equals("0")) {
+            playPath = content.getPlayAddress();
+        } else {
+            playPath = content.getQl_push_flow();
+        }
+
+        Log.i(TAG, "initView: " + topic);
+
+
         initdmsUtil();
-
-//         spUtil = MyApplication.instance().getSpUtil();
-//        if(spUtil==null){
-//            spUtil = new SpUtil("danmakuConfig");
-//            MyApplication.instance().setSpUtil(spUtil);
-//        }
-
 
 
         if (getResources().getConfiguration().orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
@@ -261,17 +271,13 @@ public class LiveDetails extends BaseActivity implements
         }
 
 
-
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         initPlaySettings();
         audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
         playView.getHolder().addCallback(surfaceCallback);
-        surfaceviewOnTouchListener = new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                detector.onTouchEvent(event);
-                return true;
-            }
+        surfaceviewOnTouchListener = (v, event) -> {
+            detector.onTouchEvent(event);
+            return true;
         };
         playView.setOnTouchListener(surfaceviewOnTouchListener);
         if (isPort) {
@@ -306,14 +312,16 @@ public class LiveDetails extends BaseActivity implements
      * 初始化 横屏 控件
      */
     private void initLandView() {
-        full_share = (ImageButton)findViewById(R.id.live_details_full_share);
-        full_share.setOnClickListener(v -> {showShare();});
+        full_share = (ImageButton) findViewById(R.id.live_details_full_share);
+        full_share.setOnClickListener(v -> {
+            showShare();
+        });
         danmakuSp = getSharedPreferences("danmakuConfig", MODE_PRIVATE);
         //初始化横屏弹幕大小值
         danmakuTextSize = danmakuSp.getInt("danmakuSize", 3);
-        Log.e(TAG,"读取sp的值："+danmakuTextSize);
-        danmakuAlpha = danmakuSp.getInt("danmakuAlpha",180);
-        Log.e(TAG,"读取sp弹幕透明度的值："+danmakuAlpha);
+        Log.e(TAG, "读取sp的值：" + danmakuTextSize);
+        danmakuAlpha = danmakuSp.getInt("danmakuAlpha", 180);
+        Log.e(TAG, "读取sp弹幕透明度的值：" + danmakuAlpha);
         //弹幕默认位置:顶部弹幕
         danmakuPositon = 0;
         settings = (ImageButton) findViewById(R.id.live_details_full_setting);
@@ -332,7 +340,7 @@ public class LiveDetails extends BaseActivity implements
 
                     showToast("发送的消息不能为空哦");
 
-                }else{
+                } else {
                     sendDanmaku();
                 }
 
@@ -340,16 +348,17 @@ public class LiveDetails extends BaseActivity implements
         });
         settings.setOnClickListener(this);
     }
-    class MyOnFocusChangeListener implements View.OnFocusChangeListener{
+
+    class MyOnFocusChangeListener implements View.OnFocusChangeListener {
 
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
-            if(hasFocus){   //获得焦点
-                Toast.makeText(getApplicationContext(),"获得焦点",Toast.LENGTH_SHORT).show();
-                        mHandler.removeMessages(HIDDEN_LAND);
-            }else{  //失去焦点
-                Toast.makeText(getApplicationContext(),"失去焦点",Toast.LENGTH_SHORT).show();
-                        hideLandController();
+            if (hasFocus) {   //获得焦点
+                Toast.makeText(getApplicationContext(), "获得焦点", Toast.LENGTH_SHORT).show();
+                mHandler.removeMessages(HIDDEN_LAND);
+            } else {  //失去焦点
+                Toast.makeText(getApplicationContext(), "失去焦点", Toast.LENGTH_SHORT).show();
+                hideLandController();
             }
         }
     }
@@ -359,7 +368,9 @@ public class LiveDetails extends BaseActivity implements
      */
     private void initPortView() {
         share = (ImageButton) findViewById(R.id.live_details_share);
-        share.setOnClickListener(v -> {showShare();});
+        share.setOnClickListener(v -> {
+            showShare();
+        });
         tabLayout = (TabLayout) findViewById(R.id.live_details_tab);
         viewPager = (ViewPager) findViewById(R.id.live_details_viewPage);
         rl_port_top_controller = (RelativeLayout) findViewById(R.id.rl_port_land_top_controller);
@@ -428,7 +439,7 @@ public class LiveDetails extends BaseActivity implements
             mediaPlayer.setOnPreparedListener(this);
             mediaPlayer.setOnInfoListener(this);
             mediaPlayer.setOnCompletionListener(this);
-//            mediaPlayer.setOnVideoSizeChangedListener(this);
+            mediaPlayer.setOnVideoSizeChangedListener(this);
             mediaPlayer.setOnErrorListener(this);
             mediaPlayer.setDisplay(playView.getHolder());
             mediaPlayer.prepareAsync();
@@ -455,7 +466,7 @@ public class LiveDetails extends BaseActivity implements
 
     @Override
     protected void onStart() {
-        Log.e(TAG,"onStart");
+        Log.e(TAG, "onStart");
         super.onStart();
 
     }
@@ -512,7 +523,7 @@ public class LiveDetails extends BaseActivity implements
             danmakuView.release();
             danmakuView = null;
         }
-        if(mHandler != null){
+        if (mHandler != null) {
             mHandler.removeCallbacksAndMessages(null);
         }
         EventBus.getDefault().unregister(this);
@@ -521,11 +532,12 @@ public class LiveDetails extends BaseActivity implements
 
 
     }
-    @Subscribe(threadMode = ThreadMode.MAIN,sticky = false,priority = 1)
-    public void onMsgSuccess(EventMsg eventMsg){
-        if(eventMsg.isHiddenTabLayout()){
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = false, priority = 1)
+    public void onMsgSuccess(EventMsg eventMsg) {
+        if (eventMsg.isHiddenTabLayout()) {
             tabLayout.setVisibility(View.GONE);
-        }else{
+        } else {
             tabLayout.setVisibility(View.VISIBLE);
         }
 
@@ -684,54 +696,55 @@ public class LiveDetails extends BaseActivity implements
 
         }
     }
+
     RadioGroup.OnCheckedChangeListener mOnCheckedChangeListener = new RadioGroup.OnCheckedChangeListener() {
 
 
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
-            switch (checkedId){
+            switch (checkedId) {
                 case R.id.barrage_setting_location_top:
-                    Toast.makeText(getApplicationContext(),"顶部点击了",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "顶部点击了", Toast.LENGTH_SHORT).show();
                     danmakuPositon = 0;
                     break;
                 case R.id.barrage_setting_location_mid:
-                    Toast.makeText(getApplicationContext(),"中间点击了",Toast.LENGTH_SHORT).show();
-                    danmakuPositon =  1;
+                    Toast.makeText(getApplicationContext(), "中间点击了", Toast.LENGTH_SHORT).show();
+                    danmakuPositon = 1;
                     break;
                 case R.id.barrage_setting_location_bottom:
-                    Toast.makeText(getApplicationContext(),"底部点击了",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "底部点击了", Toast.LENGTH_SHORT).show();
                     danmakuPositon = 2;
                     break;
             }
             ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) danmakuView.getLayoutParams();
-            layoutParams.setMargins(0,0,0,0);
+            layoutParams.setMargins(0, 0, 0, 0);
 
             setDanmakuPosition();
         }
     };
 
     private void setDanmakuPosition() {
-        WindowManager wm = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         int width = wm.getDefaultDisplay().getWidth();
         int height = wm.getDefaultDisplay().getHeight();
-        Log.e(TAG,"宽:"+width+",高:"+height);//宽:1794,高:1080
+        Log.e(TAG, "宽:" + width + ",高:" + height);//宽:1794,高:1080
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
 
-                if(danmakuPositon == 0){
+                if (danmakuPositon == 0) {
                     ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) danmakuView.getLayoutParams();
 
                     layoutParams.bottomMargin = 600;
                     danmakuView.setLayoutParams(layoutParams);
 
-                }else if(danmakuPositon == 1){
+                } else if (danmakuPositon == 1) {
                     ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) danmakuView.getLayoutParams();
-                    layoutParams.topMargin =300;
+                    layoutParams.topMargin = 300;
                     layoutParams.bottomMargin = 300;
 
                     danmakuView.setLayoutParams(layoutParams);
-                }else if(danmakuPositon == 2){
+                } else if (danmakuPositon == 2) {
                     ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) danmakuView.getLayoutParams();
                     layoutParams.topMargin = 800;
 
@@ -759,14 +772,14 @@ public class LiveDetails extends BaseActivity implements
     private void initdmsUtil() {
 
         dmsUtil = MyApplication.instance().getDmsUtil();
-        if(dmsUtil == null){
+        if (dmsUtil == null) {
             dmsUtil = DmsUtil.instance(this);
             dmsUtil.initDMS(topic);
             dmsUtil.connectDMS();
             dmsUtil.setSendMessageCallBack(this);
             dmsUtil.setMessageCallBack(this);
-           MyApplication.instance().setDmsUtil(dmsUtil);
-       }
+            MyApplication.instance().setDmsUtil(dmsUtil);
+        }
 
     }
 
@@ -777,7 +790,7 @@ public class LiveDetails extends BaseActivity implements
     SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            switch (seekBar.getId()){
+            switch (seekBar.getId()) {
                 case R.id.barrage_setting_volume_seekbar://音量
                     audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
                     break;
@@ -788,14 +801,14 @@ public class LiveDetails extends BaseActivity implements
                     break;
                 case R.id.barrage_setting_alpha_seekbar://弹幕透明度
                     danmakuAlpha = progress;
-                    Log.e(TAG,"拖动修改弹幕透明度："+progress);
+                    Log.e(TAG, "拖动修改弹幕透明度：" + progress);
                     break;
                 case barrage_setting_size_seekbar://弹幕大小
-                        //修改
+                    //修改
                     danmakuTextSize = progress;
 
 
-                    Log.e(TAG,"拖动修改弹幕大小："+progress);
+                    Log.e(TAG, "拖动修改弹幕大小：" + progress);
                     break;
 
             }
@@ -808,15 +821,15 @@ public class LiveDetails extends BaseActivity implements
 
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
-            switch (seekBar.getId()){
+            switch (seekBar.getId()) {
                 case R.id.barrage_setting_size_seekbar:
                     //保存当前size值
-                    Log.e(TAG,"保存当前值："+seekBar.getProgress());
-                    getSharedPreferences("danmakuConfig", MODE_PRIVATE).edit().putInt("danmakuSize",seekBar.getProgress()).commit();
+                    Log.e(TAG, "保存当前值：" + seekBar.getProgress());
+                    getSharedPreferences("danmakuConfig", MODE_PRIVATE).edit().putInt("danmakuSize", seekBar.getProgress()).commit();
                     break;
                 case R.id.barrage_setting_alpha_seekbar:
-                    danmakuSp.edit().putInt("danmakuAlpha",seekBar.getProgress()).commit();
-                    Log.e(TAG,"保存弹幕透明度值："+seekBar.getProgress());
+                    danmakuSp.edit().putInt("danmakuAlpha", seekBar.getProgress()).commit();
+                    Log.e(TAG, "保存弹幕透明度值：" + seekBar.getProgress());
                     break;
             }
         }
@@ -882,7 +895,7 @@ public class LiveDetails extends BaseActivity implements
                     showDanmaku = true;
                     danmakuView.start();
                     Log.e("liveDetails", "开启线程");
-                   // generateSomeDanmaku();
+                    // generateSomeDanmaku();
                 }
 
                 @Override
@@ -919,7 +932,7 @@ public class LiveDetails extends BaseActivity implements
         maxLinesPair.put(BaseDanmaku.TYPE_SCROLL_RL, 2);
 
         //设置是否禁止重叠
-        HashMap<Integer,Boolean> overlappingEnablePair = new HashMap<>();
+        HashMap<Integer, Boolean> overlappingEnablePair = new HashMap<>();
         overlappingEnablePair.put(BaseDanmaku.TYPE_SCROLL_RL, true);
         overlappingEnablePair.put(BaseDanmaku.TYPE_FIX_TOP, true);
         danmakuContext.setDanmakuStyle(IDisplayer.DANMAKU_STYLE_NONE)
@@ -931,8 +944,8 @@ public class LiveDetails extends BaseActivity implements
                 .preventOverlapping(overlappingEnablePair);
 
 
-
     }
+
     private BaseCacheStuffer.Proxy mCacheStufferAdapter = new BaseCacheStuffer.Proxy() {
 
         @Override
@@ -949,6 +962,7 @@ public class LiveDetails extends BaseActivity implements
             }
         }
     };
+
     /**
      * 绘制背景(自定义弹幕样式)
      */
@@ -1016,14 +1030,14 @@ public class LiveDetails extends BaseActivity implements
         //BaseDanmaku danmaku = danmakuContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL);
         danmaku = danmakuContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL, danmakuContext);
         //设置字体颜色
-        danmaku.textColor = Color.argb(danmakuAlpha,255,255,255);
+        danmaku.textColor = Color.argb(danmakuAlpha, 255, 255, 255);
 
         danmaku.text = content;
         danmaku.priority = 1;//0 表示可能会被各种过滤器过滤并隐藏显示 //1 表示一定会显示, 一般用于本机发送的弹幕
         danmaku.padding = 5;
 
         //设置弹幕字体大小
-        danmaku.textSize = sp2px(danmakuTextSize+13);
+        danmaku.textSize = sp2px(danmakuTextSize + 13);
 
         danmaku.setTime(danmakuView.getCurrentTime());
         if (withBorder) {
@@ -1031,8 +1045,7 @@ public class LiveDetails extends BaseActivity implements
             danmaku.borderColor = Color.GREEN;
         }
         //设置弹幕透明度
-        danmakuView.setAlpha((float) (danmakuAlpha/255.0));
-
+        danmakuView.setAlpha((float) (danmakuAlpha / 255.0));
 
 
         danmakuView.addDanmaku(danmaku);
@@ -1140,10 +1153,10 @@ public class LiveDetails extends BaseActivity implements
 
     @Override
     public void onSuccess(String result) {
-        Log.e(TAG,"发送成功"+"--:屏幕:--"+isPort);
-        if(isPort){
+        Log.e(TAG, "发送成功" + "--:屏幕:--" + isPort);
+        if (isPort) {
 
-        }else{
+        } else {
             et_landText.setText("");
         }
 
@@ -1160,7 +1173,7 @@ public class LiveDetails extends BaseActivity implements
         String nickName = receives[0];
         String sendTime = receives[1];
         String message = receives[2];
-        Log.e(TAG,"收到消息:"+message+"--:屏幕:--"+isPort);
+        Log.e(TAG, "收到消息:" + message + "--:屏幕:--" + isPort);
 
         LiveChatMessage chatMessage = new LiveChatMessage();
         chatMessage.setNickName(DmsUtil.unescape(nickName));
@@ -1172,12 +1185,12 @@ public class LiveDetails extends BaseActivity implements
             }
         }
         //竖屏通知chatFragment更新数据
-        if(isPort){
+        if (isPort) {
             messageList.add(chatMessage);
             EventBus.getDefault().post(chatMessage);
-        }else{
+        } else {
             //横屏时,接收到消息,发到弹幕上
-            addDanmaku(message,false);
+            addDanmaku(message, false);
         }
 
     }
@@ -1205,11 +1218,11 @@ public class LiveDetails extends BaseActivity implements
                 //显示
                 showMediaController();
                 //发消息隐藏
-               if(isPort){
-                   mHandler.sendEmptyMessageDelayed(HIDDEN_PORT,5000);
-               }else{
-                   mHandler.sendEmptyMessageDelayed(HIDDEN_LAND,5000);
-               }
+                if (isPort) {
+                    mHandler.sendEmptyMessageDelayed(HIDDEN_PORT, 5000);
+                } else {
+                    mHandler.sendEmptyMessageDelayed(HIDDEN_LAND, 5000);
+                }
             }
 
             return true;
@@ -1236,11 +1249,11 @@ public class LiveDetails extends BaseActivity implements
         isshowMediaController = true;
 
         //显示控制器
-        if(isPort){
+        if (isPort) {
             showPortController();
             //把隐藏消息移除
             mHandler.removeMessages(HIDDEN_PORT);
-        }else{
+        } else {
             showLandController();
             mHandler.removeMessages(HIDDEN_LAND);
         }
@@ -1248,7 +1261,7 @@ public class LiveDetails extends BaseActivity implements
 
     private void showLandController() {
         ll_land_top_controller.setVisibility(View.VISIBLE);
-         ll_land_bottom_controller.setVisibility(View.VISIBLE);
+        ll_land_bottom_controller.setVisibility(View.VISIBLE);
         isshowMediaController = true;
     }
 
@@ -1260,11 +1273,11 @@ public class LiveDetails extends BaseActivity implements
 
     private void hideMediaController() {
         //隐藏控制器
-        if(isPort){
+        if (isPort) {
             hidePortController();
             //把隐藏消息移除
             mHandler.removeMessages(HIDDEN_PORT);
-        }else{
+        } else {
             hideLandController();
             mHandler.removeMessages(HIDDEN_LAND);
         }
