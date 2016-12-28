@@ -16,6 +16,7 @@ import com.tianyue.tv.Gson.LoginGson;
 import com.tianyue.tv.MyApplication;
 import com.tianyue.tv.R;
 import com.tianyue.tv.Util.DESUtil;
+import com.tianyue.tv.Util.StatusBarUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.Callback;
 
@@ -54,7 +55,7 @@ public class LoginActivity extends BaseActivity {
      */
     @Override
     protected void initView() {
-//        StatusBarUtil.setTransparentStatuBar(this);
+        StatusBarUtil.setTransparentStatuBar(this);
 
 
 

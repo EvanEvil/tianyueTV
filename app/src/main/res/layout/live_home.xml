@@ -8,7 +8,7 @@
     <com.tianyue.mylibrary.view.ChangeToolbar
         android:id="@+id/home_toolbar"
         style="@style/toolbar"
-        android:layout_height="@dimen/y55">
+        android:layout_height="@dimen/y85">
         <ImageView
             style="@style/title"
             android:layout_gravity="center"

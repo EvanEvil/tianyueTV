@@ -6,7 +6,8 @@
     android:background="#E9EAEA"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
-    <include layout="@layout/layout_card_search" />
+    <include layout="@layout/layout_card_search"
+        />
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

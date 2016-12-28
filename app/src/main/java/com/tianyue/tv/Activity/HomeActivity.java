@@ -11,7 +11,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.tianyue.mylibrary.util.StatusBarUtil;
 import com.tianyue.tv.Adapter.HomePagerAdapter;
 import com.tianyue.tv.Fragment.BaseFragment;
 import com.tianyue.tv.Fragment.DiscoveryFragment;
@@ -19,6 +18,7 @@ import com.tianyue.tv.Fragment.LiveHomeFragment;
 import com.tianyue.tv.Fragment.MyFragment;
 import com.tianyue.tv.R;
 import com.tianyue.tv.Util.LogUtil;
+import com.tianyue.tv.Util.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,8 +58,9 @@ public class HomeActivity extends BaseActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_layout);
-        LogUtil.e("这是logutils打印的日志");
-        StatusBarUtil.setColorNoTranslucent(this,getResources().getColor(R.color.white));
+
+        //StatusBarUtil.setColorNoTranslucent(this,getResources().getColor(R.color.white));
+        StatusBarUtil.setTransparentStatuBar(this);
         radioGroup.setOnCheckedChangeListener(checkedChangeListener);
         fragmentManager = getSupportFragmentManager();
         if (savedInstanceState != null) {
