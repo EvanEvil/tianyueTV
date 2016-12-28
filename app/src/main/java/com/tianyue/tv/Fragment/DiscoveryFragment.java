@@ -4,15 +4,21 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tianyue.tv.Activity.Discovery.TotalStationSearchActivity;
 import com.tianyue.tv.R;
 import com.tianyue.tv.Util.ConstantUtil;
+import com.tianyue.tv.Util.KeyBoardUtil;
+import com.tianyue.tv.Util.LogUtil;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -43,6 +49,10 @@ public class DiscoveryFragment extends BaseFragment {
 
     @BindView(R.id.tv_more)
     TextView mMoreText; //查看更多
+    @BindView(R.id.search_edit)
+    EditText search_edit;
+    @BindView(R.id.btn_search_cancle)
+    Button btn_search_cancle;
     private boolean isShowMore = true;
 
     private List<String> hotSearchTags = new ArrayList<>();
@@ -57,7 +67,49 @@ public class DiscoveryFragment extends BaseFragment {
      */
     @Override
     protected void init() {
+        //监听editText是否为空,动态修改button文字
+        search_edit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()== 0){
+
+                    btn_search_cancle.setText("取消");
+                }else{
+                    btn_search_cancle.setVisibility(View.VISIBLE);
+                    btn_search_cancle.setText("搜索");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                LogUtil.e("输入结束");
+            }
+        });
+        //监听edittext是否获取焦点
+        search_edit.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                btn_search_cancle.setVisibility(View.VISIBLE);
+                KeyBoardUtil.openKeybord(search_edit,context);
+            }else{
+                btn_search_cancle.setVisibility(View.GONE);
+                KeyBoardUtil.closeKeybord(search_edit,context);
+            }
+        });
+        //button点击监听
+        btn_search_cancle.setOnClickListener(v -> {
+            if("取消".equals(btn_search_cancle.getText())){
+                KeyBoardUtil.closeKeybord(search_edit,context);
+                btn_search_cancle.setVisibility(View.GONE);
+                showToast("取消");
+            }else{
+                lunchActivity(search_edit.getText().toString().trim());
+            }
+        });
         getDiscoveryData();
     }
 
@@ -75,11 +127,11 @@ public class DiscoveryFragment extends BaseFragment {
      */
     private void getTags() {
         //getTagFromServer(); 后期实现
-        hotSearchTags.add("苍井空");
+        hotSearchTags.add("百合");
         hotSearchTags.add("匠人直播");
-        hotSearchTags.add("天越网");
+        hotSearchTags.add("天越");
         hotSearchTags.add("lol");
-        hotSearchTags.add("特朗普");
+        hotSearchTags.add("小啊");
         hotSearchTags.add("小帝帝的男主播");
         hotSearchTags.add("小帝帝开车");
         hotSearchTags.add("小帝帝城会玩");
@@ -154,15 +206,7 @@ public class DiscoveryFragment extends BaseFragment {
             mMoreText.setCompoundDrawables(downDrawable, null, null, null);
         }
     }
-    /**
-     * 前往搜索界面
-     */
-    @OnClick(R.id.card_view)
-    void startSearchActivity()
-    {
-        //showToast("尚未开通此功能");
-        startActivity(TotalStationSearchActivity.class);
-    }
+
     private void getDiscoveryData(){
 
 

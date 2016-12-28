@@ -194,6 +194,8 @@ public class TotalStationSearchActivity extends BaseActivity {
                 finish();
             });
 
+        }else if(searchInfo != null && searchInfo.getRet().equals("error")){
+            setEmptyLayout();
         }
     }
 
