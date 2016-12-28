@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -244,8 +246,23 @@ public class CertificationTwo extends BaseActivity {
         dialogBuilder.setFBFirstBtnText("拍照");
         dialogBuilder.setFBCancelBtnText("取消");
         dialogBuilder.setFBLastBtnText("相册");
+        dialogBuilder.setFBFirstBtnClick(() -> openCamera(code));
         dialogBuilder.setFBLastBtnClick(() -> openPhoto(code));
         dialogBuilder.show();
+    }
+
+    /**
+     * 打开相机
+     * @param code
+     */
+    private void openCamera(int code) {
+        String state = Environment.getExternalStorageState(); //拿到sdcard是否可用的状态码
+        if (state.equals(Environment.MEDIA_MOUNTED)){   //如果可用
+            Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+            startActivityForResult(intent,code);
+        }else {
+            Toast.makeText(context,"sdcard不可用",Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**

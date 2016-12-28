@@ -419,6 +419,7 @@ public class LiveDetails extends BaseActivity implements
             mediaPlayer.setOnErrorListener(this);
             mediaPlayer.setDisplay(playView.getHolder());
             mediaPlayer.prepareAsync();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
