@@ -26,7 +26,7 @@
             android:layout_width="@dimen/x120"
             android:layout_height="@dimen/y120"
             android:layout_centerHorizontal="true"
-            android:src="@mipmap/head_default" />
+            tools:src="@mipmap/head_default" />
         <TextView
             android:layout_alignBottom="@id/my_home_headIcon"
             android:layout_alignRight="@id/my_home_headIcon"
@@ -38,7 +38,7 @@
 
             <ImageView
                 android:layout_marginRight="@dimen/x15"
-                android:layout_marginTop="@dimen/y19"
+                android:layout_marginTop="@dimen/y27"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

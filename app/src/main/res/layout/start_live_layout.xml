@@ -45,7 +45,7 @@
         android:drawableLeft="@mipmap/start_live_renshu"
         android:drawablePadding="@dimen/x5"
         android:gravity="bottom"
-        android:text="12k"
+        tools:text="12k"
         android:textColor="@color/white" />
 
     <TextView
@@ -61,7 +61,7 @@
         android:drawableLeft="@mipmap/start_live_fans"
         android:drawablePadding="@dimen/x5"
         android:gravity="bottom"
-        android:text="1520"
+        tools:text="1520"
         android:textColor="@color/white" />
 
     <LinearLayout
@@ -90,6 +90,7 @@
         <ImageButton
             android:id="@+id/start_live_push"
             style="@style/start_live_button"
+            android:visibility="gone"
             android:src="@mipmap/push" />
 
         <ImageButton

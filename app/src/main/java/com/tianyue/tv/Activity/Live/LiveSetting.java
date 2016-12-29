@@ -150,37 +150,36 @@ public class LiveSetting extends BaseActivity {
      */
     private void applyForBucket() {
         Log.i(TAG, "applyForBucket: "+keyWord);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                OkHttpClient client = new OkHttpClient();
-                RequestBody body = new FormEncodingBuilder()
-                        .add("user_id",user.getId())
-                        .add("Name",title.getText().toString())
-                        .add("Namelevel",mainType)
-                        .add("typeName",minorType)
-                        .add("keyword", keyWord)
-                        .build();
-                Request request = new Request.Builder()
-                        .post(body)
-                        .url(InterfaceUrl.APPLY_FOR_BUCKET)
-                        .build();
-                try {
-                    Response response = client.newCall(request).execute();
-                    String result = response.body().string();
-                    JSONObject object = new JSONObject(result);
-                    String ret = object.optString(RequestConfigKey.RET);
-                    if (ret.equals(RequestConfigKey.REQUEST_SUCCESS)) {
-                        showToast("申请直播间成功");
-                        user.setBaudit(1);
-                        startActivity(LiveBucket.class);
-                    }
-                    Log.i(TAG, "applyForBucket: "+result);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        new Thread(() -> {
+            OkHttpClient client = new OkHttpClient();
+            RequestBody body = new FormEncodingBuilder()
+                    .add("user_id",user.getId())
+                    .add("Name",title.getText().toString())
+                    .add("Namelevel",mainType)
+                    .add("typeName",minorType)
+                    .add("keyword", keyWord)
+                    .build();
+            Request request = new Request.Builder()
+                    .post(body)
+                    .url(InterfaceUrl.APPLY_FOR_BUCKET)
+                    .build();
+            try {
+                Response response = client.newCall(request).execute();
+                String result = response.body().string();
+                JSONObject object = new JSONObject(result);
+                String ret = object.optString(RequestConfigKey.RET);
+                if (ret.equals(RequestConfigKey.REQUEST_SUCCESS)) {
+                    showToast("申请直播间成功");
+                    user.setBaudit(1);
+                    MyApplication.instance().setUser(user);
+                    startActivity(LiveBucket.class);
+                    finish();
                 }
+                Log.i(TAG, "applyForBucket: "+result);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         }).start();
     }
@@ -253,6 +252,7 @@ public class LiveSetting extends BaseActivity {
                 if (ret.equals(RequestConfigKey.REQUEST_SUCCESS)) {
                     showToast("修改直播间成功");
                     startActivity(LiveBucket.class);
+                    finish();
                 }
             } catch (IOException e) {
                 e.printStackTrace();

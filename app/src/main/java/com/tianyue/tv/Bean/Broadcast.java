@@ -1,10 +1,13 @@
 package com.tianyue.tv.Bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * 直播间信息类
  * Created by hasee on 2016/11/11.
  */
-public class Broadcast {
+public class Broadcast implements Parcelable {
     //    //直播实时截图（以判断接收七牛还是奥点云）
 //    private String image;
 //    //七牛播放地址
@@ -224,5 +227,72 @@ public class Broadcast {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.ql_push_flow);
+        dest.writeString(this.image);
+        dest.writeString(this.city);
+        dest.writeInt(this.cityCode);
+        dest.writeString(this.publishAddress);
+        dest.writeInt(this.onlineNum);
+        dest.writeInt(this.focusNum);
+        dest.writeString(this.keyWord);
+        dest.writeString(this.tytypeId);
+        dest.writeInt(this.uid);
+        dest.writeString(this.ql_playAddress);
+        dest.writeString(this.stream);
+        dest.writeString(this.playAddress);
+        dest.writeString(this.appid);
+        dest.writeString(this.name);
+        dest.writeInt(this.blive);
+        dest.writeInt(this.id);
+        dest.writeInt(this.endTime);
+        dest.writeInt(this.beginTime);
+        dest.writeString(this.isPushPOM);
+        dest.writeString(this.bctypeId);
+    }
+
+    public Broadcast() {
+    }
+
+    protected Broadcast(Parcel in) {
+        this.ql_push_flow = in.readString();
+        this.image = in.readString();
+        this.city = in.readString();
+        this.cityCode = in.readInt();
+        this.publishAddress = in.readString();
+        this.onlineNum = in.readInt();
+        this.focusNum = in.readInt();
+        this.keyWord = in.readString();
+        this.tytypeId = in.readString();
+        this.uid = in.readInt();
+        this.ql_playAddress = in.readString();
+        this.stream = in.readString();
+        this.playAddress = in.readString();
+        this.appid = in.readString();
+        this.name = in.readString();
+        this.blive = in.readInt();
+        this.id = in.readInt();
+        this.endTime = in.readInt();
+        this.beginTime = in.readInt();
+        this.isPushPOM = in.readString();
+        this.bctypeId = in.readString();
+    }
+
+    public static final Parcelable.Creator<Broadcast> CREATOR = new Parcelable.Creator<Broadcast>() {
+        @Override
+        public Broadcast createFromParcel(Parcel source) {
+            return new Broadcast(source);
+        }
+
+        @Override
+        public Broadcast[] newArray(int size) {
+            return new Broadcast[size];
+        }
+    };
 }

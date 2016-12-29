@@ -120,6 +120,7 @@ public class GuideActivity extends BaseActivity implements ViewPager.OnPageChang
 
     private void enterApp() {
         startActivity(LoginActivity.class);
+        spUtil.put("guide", false);
         finish();
     }
 
@@ -130,9 +131,7 @@ public class GuideActivity extends BaseActivity implements ViewPager.OnPageChang
 
     @OnClick(R.id.guide_layout_start)
     public void onClick() {
-        startActivity(LoginActivity.class);
-        spUtil.put("guide", false);
-        finish();
+        enterApp();
     }
 
     /**

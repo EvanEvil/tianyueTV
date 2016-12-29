@@ -70,7 +70,11 @@ public class LiveFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             @Override
             public void onRefresh() {
                 LogUtil.e("正在刷新");
-                new Handler().postDelayed(() -> mXRecyclerView.refreshComplete(), 2000);
+                new Handler().postDelayed(() -> mXRecyclerView.refreshComplete(),3000);
+//                getActivity().runOnUiThread(() -> liveHomeColumns.clear());
+//                new Thread(() -> {
+//                    requestBroad();
+//                }).start();
             }
 
             @Override
@@ -79,29 +83,6 @@ public class LiveFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             }
         });
         liveHomeColumns = new ArrayList<>();
-//        int[] resourseId = {
-//                R.mipmap.tu_1,
-//                R.mipmap.tu_2,
-//                R.mipmap.tu_3,
-//                R.mipmap.tu_4
-//        };
-//        String[] classifys = {
-//                "匠人", "衣", "食", "住", "行", "知"
-//        };
-//        for (int i = 0; i < classifys.length; i++) {
-//            LiveHomeColumn column = new LiveHomeColumn();
-//            column.setClassify(classifys[i]);
-//            List<LiveHomeColumn.LiveHomeColumnContent> columnContent = new ArrayList<LiveHomeColumn.LiveHomeColumnContent>();
-//            for (int j = 0; j < 10; j++) {
-//                LiveHomeColumn.LiveHomeColumnContent content = new LiveHomeColumn.LiveHomeColumnContent();
-//                content.setTitle("老黄下象棋");
-//                content.setResourceId(resourseId[j % 4]);
-//                content.setNickName("老黄");
-//                columnContent.add(content);
-//            }
-//            column.setContents(columnContent);
-//            liveHomeColumns.add(column);
-//        }
 
         homeRecyclerAdapter = new HomeRecyclerAdapter(context, liveHomeColumns);
 
@@ -109,15 +90,15 @@ public class LiveFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
         mXRecyclerView.setAdapter(homeRecyclerAdapter);
 
-        homeRecyclerAdapter.setOnColumnMoreListener((position, liveHomeColumns1) -> onColumnMoreListener.onMoreClick(position,liveHomeColumns1));
+        homeRecyclerAdapter.setOnColumnMoreListener((position, liveHomeColumns1) -> onColumnMoreListener.onMoreClick(position, liveHomeColumns1));
 
         homeRecyclerAdapter.setOnHomeRecyclerListener(position -> startActivity(LiveDetails.class));
 
         homeRecyclerAdapter.setOnColumnChildClickListener((parentPosition, childPosition, liveHomeColumns1) -> {
-            LiveHomeColumn.LiveHomeColumnContent content  =  liveHomeColumns1.get(parentPosition).getContents().get(childPosition);
-            Log.i(TAG, "onChildClick: "+content.getQl_push_flow());
-            Intent intent = new Intent(getActivity(),LiveDetails.class);
-            intent.putExtra("live_column",content);
+            LiveHomeColumn.LiveHomeColumnContent content = liveHomeColumns1.get(parentPosition).getContents().get(childPosition);
+            Log.i(TAG, "onChildClick: " + content.getQl_push_flow());
+            Intent intent = new Intent(getActivity(), LiveDetails.class);
+            intent.putExtra("live_column", content);
             startActivity(intent);
         });
         new Thread(() -> {
@@ -141,13 +122,14 @@ public class LiveFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         client.newCall(request).enqueue(new com.squareup.okhttp.Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
-
+//                mXRecyclerView.refreshComplete();
+                showToast("获取信息失败");
             }
 
             @Override
             public void onResponse(Response response) throws IOException {
                 String result = response.body().string();
-                Log.i(TAG, "onResponse: " + result);
+                LogUtil.i(result);
                 Gson gson = new Gson();
                 HomeBroadcast homeBroadcast = gson.fromJson(result, HomeBroadcast.class);
                 fillBroad(homeBroadcast);
@@ -191,14 +173,14 @@ public class LiveFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                 columnContentZI.add(fillBroadColumn(bean));
             }
         }
-        fillMainType(columnContentJR.size(),200,columnContentJR);
-        fillMainType(columnContentY.size(),300,columnContentY);
-        fillMainType(columnContentS.size(),400,columnContentS);
-        fillMainType(columnContentZ.size(),500,columnContentZ);
-        fillMainType(columnContentX.size(),600,columnContentX);
-        fillMainType(columnContentZI.size(),700,columnContentZI);
+        fillMainType(columnContentJR.size(), 200, columnContentJR);
+        fillMainType(columnContentY.size(), 300, columnContentY);
+        fillMainType(columnContentS.size(), 400, columnContentS);
+        fillMainType(columnContentZ.size(), 500, columnContentZ);
+        fillMainType(columnContentX.size(), 600, columnContentX);
+        fillMainType(columnContentZI.size(), 700, columnContentZI);
 //        getActivity().runOnUiThread(() -> {
-//            rootView.setRefreshing(false);
+//            mXRecyclerView.refreshComplete();
 //            homeRecyclerAdapter.notifyDataSetChanged();
 //        });
 
@@ -235,8 +217,8 @@ public class LiveFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         LiveHomeColumn.LiveHomeColumnContent content = new LiveHomeColumn.LiveHomeColumnContent();
         content.setPicUrl(bean.getImage());
         content.setTitle(bean.getName());
-        content.setNumber(bean.getOnlineNum()+"");
-        content.setUserId(bean.getUser_id()+"");
+        content.setNumber(bean.getOnlineNum() + "");
+        content.setUserId(bean.getUser_id() + "");
         content.setHeadUrl(bean.getHeadUrl());
         content.setNickName(bean.getNickName());
         content.setIsPushPOM(bean.getIsPushPOM());
@@ -259,7 +241,7 @@ public class LiveFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         }
         if (size != 0) {
             LiveHomeColumn column = new LiveHomeColumn();
-            column.setClassify(main.get(type+""));
+            column.setClassify(main.get(type + ""));
             column.setContents(list);
             liveHomeColumns.add(column);
         }
@@ -272,8 +254,7 @@ public class LiveFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 //            rootView.setRefreshing(false);
 //            homeRecyclerAdapter.notifyDataSetChanged();
 //        }, 2000);
-        liveHomeColumns.clear();
-        requestBroad();
+
     }
 
     public void setOnColumnMoreListener(OnColumnMoreListener onColumnMoreListener) {
@@ -281,7 +262,7 @@ public class LiveFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     }
 
     public interface OnColumnMoreListener {
-        void onMoreClick(int position,List<LiveHomeColumn> liveHomeColumns);
+        void onMoreClick(int position, List<LiveHomeColumn> liveHomeColumns);
     }
 
 }

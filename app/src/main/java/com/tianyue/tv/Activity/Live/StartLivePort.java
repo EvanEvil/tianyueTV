@@ -45,6 +45,7 @@ import com.tencent.tauth.IRequestListener;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
+import com.tianyue.mylibrary.view.ChangeToolbar;
 import com.tianyue.pushlive.config.Config;
 import com.tianyue.pushlive.ui.CameraPreviewFrameView;
 import com.tianyue.pushlive.ui.RotateLayout;
@@ -129,6 +130,8 @@ public class StartLivePort extends BaseActivity implements
     TabLayout tab;
     @BindView(R.id.start_live_layout_viewPage)
     ViewPager viewPager;
+    @BindView(R.id.start_live_layout_toolbar)
+    ChangeToolbar toolbar;
     User user;
     //腾讯接口
     Tencent mTencent;
@@ -199,6 +202,7 @@ public class StartLivePort extends BaseActivity implements
     @Override
     protected void initView() {
         setContentView(R.layout.start_live_layout);
+        toolbar.setNavigationOnClickListener(v -> finish());
         user = MyApplication.instance().getUser();
         tab.setTabMode(TabLayout.MODE_FIXED);
         String[] tabs = getResources().getStringArray(R.array.start_live_tab);

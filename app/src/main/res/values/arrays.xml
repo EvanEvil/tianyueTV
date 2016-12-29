@@ -2,7 +2,7 @@
 <resources>
     <string-array name="live_title">
         <item>互动</item>
-        <item>礼物排行榜</item>
+        <item>商铺</item>
     </string-array>
     <string-array name="live_home_tab">
         <item>推荐</item>

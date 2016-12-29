@@ -97,6 +97,7 @@ public class LiveBucket extends BaseActivity {
                         Broadcast broad = gson.fromJson(ject.toString(), Broadcast.class);
                         Log.i(TAG, "parseNetworkResponse: " + broad.getName());
                         user.setLive_streaming_address(broad.getQl_playAddress());
+                        MyApplication.instance().setUser(user);
                     } else if (ret.equals(RequestConfigKey.REQUEST_ERROR)) {
                         showToast("获取直播间信息失败");
                     }

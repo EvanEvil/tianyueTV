@@ -13,6 +13,7 @@ import com.tianyue.mylibrary.view.ChangeToolbar;
 import com.tianyue.tv.Adapter.LiveTabAdapter;
 import com.tianyue.tv.Bean.LiveHomeColumn;
 import com.tianyue.tv.R;
+import com.tianyue.tv.Util.LogUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,18 +53,27 @@ public class LiveHomeFragment extends BaseFragment {
 
         listFragment = new ArrayList<>();
         listFragment.add(liveFragment);
+
+
+        int type = 100;
         for (int i = 0; i < 6; i++) {
-            
+            LiveOtherColumnFragment fragment = new LiveOtherColumnFragment();
+            type = type + 100;
+            Bundle bundle = new Bundle();
+            bundle.putString("type",type+"");
+            fragment.setArguments(bundle);
+            listFragment.add(fragment);
+            LogUtil.i(type+"");
         }
-        listFragment.add(new LiveOtherColumnFragment());
-        listFragment.add(new LiveOtherColumnFragment());
-        listFragment.add(new LiveOtherColumnFragment());
-        listFragment.add(new LiveOtherColumnFragment());
-        listFragment.add(new LiveOtherColumnFragment());
-        listFragment.add(new LiveOtherColumnFragment());
+//        listFragment.add(new LiveOtherColumnFragment());
+//        listFragment.add(new LiveOtherColumnFragment());
+//        listFragment.add(new LiveOtherColumnFragment());
+//        listFragment.add(new LiveOtherColumnFragment());
+//        listFragment.add(new LiveOtherColumnFragment());
+//        listFragment.add(new LiveOtherColumnFragment());
 
         liveFragment.setOnColumnMoreListener((position, liveHomeColumns) -> {
-            Log.i(TAG, "init: " + liveHomeColumns.get(position).getClassify()+ "" + position);
+            Log.i(TAG, "init: " + liveHomeColumns.get(position).getClassify() + "" + position);
             switch (liveHomeColumns.get(position).getClassify()) {
                 case "匠人":
                     viewPage.setCurrentItem(1);
