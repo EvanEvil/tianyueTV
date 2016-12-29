@@ -197,6 +197,8 @@ public class LiveChatFragment extends BaseFragment {
     public void onDestroy() {
         Log.i(TAG, "onDestroy: ");
         super.onDestroy();
+        //反注册
+        EventBus.getDefault().unregister(this);
     }
     @Subscribe(threadMode = ThreadMode.MAIN,sticky = false,priority = 1)
     public void onMsgSuccess(LiveChatMessage msg){
