@@ -3,12 +3,13 @@ package com.tianyue.tv.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
@@ -38,7 +39,7 @@ import butterknife.BindView;
  * 首页 推荐的Fragment
  * Created by hasee on 2016/8/15.
  */
-public class LiveFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class LiveFragment extends BaseFragment  {
 
     @BindView(R.id.live_home_fragment_recycler)
     XRecyclerView mXRecyclerView;
@@ -50,6 +51,36 @@ public class LiveFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     OnColumnMoreListener onColumnMoreListener;
 
     private List<LiveHomeColumn> liveHomeColumns;
+
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case REFRESHING_SUCCESS:    //下拉刷新完成
+
+                    homeRecyclerAdapter.notifyDataSetChanged();
+                    mXRecyclerView.refreshComplete();
+                    LogUtil.e("刷新完成");
+                    break;
+
+            }
+
+        }
+    };
+    /**
+     * 下拉刷新完成
+     */
+    public final int REFRESHING_SUCCESS = 1;
+    /**
+     * 第一次请求网络
+     */
+    public final int FIRST_REQUEST = 2;
+    /**
+     * 下拉刷新请求网络
+     */
+    public final int REFRESHING_REQUEST = 3;
+
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,11 +101,12 @@ public class LiveFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             @Override
             public void onRefresh() {
                 LogUtil.e("正在刷新");
-                new Handler().postDelayed(() -> mXRecyclerView.refreshComplete(),3000);
-//                getActivity().runOnUiThread(() -> liveHomeColumns.clear());
-//                new Thread(() -> {
-//                    requestBroad();
-//                }).start();
+                liveHomeColumns = new ArrayList<LiveHomeColumn>();
+                //开启子线程拉取数据，请求完成后，使用handler发消息通知主界面更新数据
+                new Thread(() -> {
+                    requestBroad();
+                }).start();
+
             }
 
             @Override
@@ -84,16 +116,20 @@ public class LiveFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         });
         liveHomeColumns = new ArrayList<>();
 
+        //第一次创建适配器，没有数据，所以界面什么都不显示
         homeRecyclerAdapter = new HomeRecyclerAdapter(context, liveHomeColumns);
 
+        //设置recyclerview
         mXRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-
         mXRecyclerView.setAdapter(homeRecyclerAdapter);
-
+        TextView textView = new TextView(context);
+        textView.setText("第一次进入，还没访问服务器数据哦");
+        mXRecyclerView.setEmptyView(textView);
+        //点击更多监听
         homeRecyclerAdapter.setOnColumnMoreListener((position, liveHomeColumns1) -> onColumnMoreListener.onMoreClick(position, liveHomeColumns1));
-
+        //轮播图的点击监听，跳转到播放页面
         homeRecyclerAdapter.setOnHomeRecyclerListener(position -> startActivity(LiveDetails.class));
-
+        //item的点击监听，跳转到播放页面
         homeRecyclerAdapter.setOnColumnChildClickListener((parentPosition, childPosition, liveHomeColumns1) -> {
             LiveHomeColumn.LiveHomeColumnContent content = liveHomeColumns1.get(parentPosition).getContents().get(childPosition);
             Log.i(TAG, "onChildClick: " + content.getQl_push_flow());
@@ -101,6 +137,7 @@ public class LiveFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             intent.putExtra("live_column", content);
             startActivity(intent);
         });
+        //开启线程拉取服务器的数据
         new Thread(() -> {
             requestBroad();
         }).start();
@@ -114,6 +151,7 @@ public class LiveFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     /**
      * 请求直播间数据
+     *
      */
     private void requestBroad() {
         OkHttpClient client = new OkHttpClient();
@@ -122,20 +160,26 @@ public class LiveFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         client.newCall(request).enqueue(new com.squareup.okhttp.Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
+                LogUtil.e("onFailure");
             }
 
             @Override
             public void onResponse(Response response) throws IOException {
                 String result = response.body().string();
-                LogUtil.i(result);
+                LogUtil.e("onResponse:"+result);
                 Gson gson = new Gson();
+                //解析json数据到javabean
                 HomeBroadcast homeBroadcast = gson.fromJson(result, HomeBroadcast.class);
                 fillBroad(homeBroadcast);
+                //发消息通知主线程更新
+                Message message = Message.obtain();
+                message.what = REFRESHING_SUCCESS;
+                mHandler.sendMessage(message);
             }
         });
     }
 
-
+    //手动填充6个集合的数据（服务器返回的是一堆数据）
     private void fillBroad(HomeBroadcast homeBroadcast) {
         List<LiveHomeColumn.LiveHomeColumnContent> columnContentJR = new ArrayList<LiveHomeColumn.LiveHomeColumnContent>();
         List<LiveHomeColumn.LiveHomeColumnContent> columnContentY = new ArrayList<LiveHomeColumn.LiveHomeColumnContent>();
@@ -144,10 +188,10 @@ public class LiveFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         List<LiveHomeColumn.LiveHomeColumnContent> columnContentX = new ArrayList<LiveHomeColumn.LiveHomeColumnContent>();
         List<LiveHomeColumn.LiveHomeColumnContent> columnContentZI = new ArrayList<LiveHomeColumn.LiveHomeColumnContent>();
 
-//        boolean isFirst = true;
-//        String oneType = "";
-//        TypeBean typeBean = new TypeBean();
-//        HashMap<String, String> main = typeBean.getMainClassify();
+        boolean isFirst = true;
+        String oneType = "";
+        TypeBean typeBean = new TypeBean();
+        HashMap<String, String> main = typeBean.getMainClassify();
         List<HomeBroadcast.DataListBean> data = homeBroadcast.getDataList();
         for (HomeBroadcast.DataListBean bean : data) {
 //            String type = main.get(bean.getBctypeId());
@@ -247,13 +291,7 @@ public class LiveFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     }
 
 
-    @Override
-    public void onRefresh() {
-//        new Handler().postDelayed(() -> {
-//            rootView.setRefreshing(false);
-//            homeRecyclerAdapter.notifyDataSetChanged();
-//        }, 2000);
-    }
+
 
     public void setOnColumnMoreListener(OnColumnMoreListener onColumnMoreListener) {
         this.onColumnMoreListener = onColumnMoreListener;
