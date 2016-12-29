@@ -236,7 +236,7 @@ public class StartLivePort extends BaseActivity implements
     private void initLive(AspectFrameLayout afl, CameraPreviewFrameView glSurfaceView) {
         //AVProfile优先级高于Quality
         StreamingProfile.AudioProfile aProfile = new StreamingProfile.AudioProfile(44100, 96 * 1024);
-        StreamingProfile.VideoProfile vProfile = new StreamingProfile.VideoProfile(30, 1000 * 1024, 48);
+        StreamingProfile.VideoProfile vProfile = new StreamingProfile.VideoProfile(30, 1920 * 1080, 48);
         StreamingProfile.AVProfile avProfile = new StreamingProfile.AVProfile(vProfile, aProfile);
         mProfile = new StreamingProfile();
         try {
@@ -460,6 +460,7 @@ public class StartLivePort extends BaseActivity implements
                 StreamingState = "正在直播";
                 handler.removeMessages(VIEW_START);
                 handler.sendEmptyMessage(VIEW_START);
+                showToast("开始直播");
                 break;
             case SHUTDOWN:
                 Log.i(TAG, "onStateChanged: " + "关闭直播流");
@@ -470,6 +471,7 @@ public class StartLivePort extends BaseActivity implements
                     handler.removeMessages(VIEW_STOP);
                     handler.sendEmptyMessage(VIEW_STOP);
                     StreamingState = "直播停止";
+                    showToast("直播停止");
                 }
                 break;
             case IOERROR:

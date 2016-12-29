@@ -42,6 +42,7 @@ import com.tianyue.tv.Bean.EventBusBean.EventMsg;
 import com.tianyue.tv.Bean.LiveChatMessage;
 import com.tianyue.tv.Bean.LiveHomeColumn;
 import com.tianyue.tv.Config.ParamConfigKey;
+import com.tianyue.tv.Config.RequestConfigKey;
 import com.tianyue.tv.CustomView.Dialog.BarrageSettingDialog;
 import com.tianyue.tv.Fragment.LiveChatFragment;
 import com.tianyue.tv.Fragment.LiveGiftFragment;
@@ -197,7 +198,7 @@ public class LiveDetails extends BaseActivity implements
 
 
     /*********************************/
-    String playPath = "";
+    String playPath = ParamConfigKey.TEST_PATH;
     private boolean isLivePlay = false;
     private boolean isPort = true;
     private AVOptions options;
@@ -231,7 +232,7 @@ public class LiveDetails extends BaseActivity implements
      */
     public EditText et_landText;
     public DmsUtil dmsUtil;
-    private String topic = "";
+    private String topic = "10085";
     private View.OnTouchListener surfaceviewOnTouchListener;
     private List<LiveChatMessage> messageList = new ArrayList<>();
     private LiveHomeColumn.LiveHomeColumnContent content;
@@ -251,11 +252,13 @@ public class LiveDetails extends BaseActivity implements
         EventBus.getDefault().register(this);
         content = getIntent().getParcelableExtra("live_column");
 
-        topic = content.getUserId();
-        if (content.getIsPushPOM().equals("0")) {
-            playPath = content.getPlayAddress();
-        } else {
-            playPath = content.getQl_push_flow();
+        if (content != null) {
+            topic = content.getUserId();
+            if (content.getIsPushPOM().equals("0")) {
+                playPath = content.getPlayAddress();
+            } else {
+                playPath = content.getQl_push_flow();
+            }
         }
 
         Log.i(TAG, "initView: " + topic);
