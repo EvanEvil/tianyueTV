@@ -61,6 +61,7 @@ public class HomeBroadcast {
          * 奥点云播放地址
          */
         private String playAddress;
+        private String focusNum;
         /**
          * 房间名
          */
@@ -71,6 +72,15 @@ public class HomeBroadcast {
          * 主分类
          */
         private int bctypeId;
+
+
+        public String getFocusNum() {
+            return focusNum;
+        }
+
+        public void setFocusNum(String focusNum) {
+            this.focusNum = focusNum;
+        }
 
         public String getQl_push_flow() {
             return ql_push_flow;

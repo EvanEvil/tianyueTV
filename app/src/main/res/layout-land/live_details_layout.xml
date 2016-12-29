@@ -57,12 +57,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="老王做模型"
+            tools:text="老王做模型"
             android:textColor="#b1b1b1" />
         <TextView
+            android:id="@+id/live_details_lookerNumber"
             android:background="@null"
             android:drawableLeft="@mipmap/live_details_full_renshu"
-            android:text="23k"
+            tools:text="23k"
             android:gravity="bottom"
             android:layout_marginRight="@dimen/x27"
             android:layout_gravity="center_vertical"
@@ -72,9 +73,10 @@
             style="@style/hint_text_default_small"
             android:layout_height="@dimen/y40" />
         <TextView
+            android:id="@+id/live_details_fans"
             android:background="@null"
             android:drawableLeft="@mipmap/live_details_full_fans"
-            android:text="23k"
+            tools:text="23k"
             style="@style/hint_text_default_small"
             android:gravity="bottom"
             android:layout_marginRight="@dimen/x27"

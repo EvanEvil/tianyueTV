@@ -327,16 +327,13 @@ public class StartLivePort extends BaseActivity implements
 //                }
                 break;
             case R.id.start_live_flash:
-                this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (!flashState) {
-                            mediaStreamingManager.turnLightOn();
-                            flashState = true;
-                        } else {
-                            mediaStreamingManager.turnLightOff();
-                            flashState = false;
-                        }
+                this.runOnUiThread(() -> {
+                    if (!flashState) {
+                        mediaStreamingManager.turnLightOn();
+                        flashState = true;
+                    } else {
+                        mediaStreamingManager.turnLightOff();
+                        flashState = false;
                     }
                 });
                 break;

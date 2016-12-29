@@ -32,10 +32,12 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pili.pldroid.player.AVOptions;
 import com.pili.pldroid.player.PLMediaPlayer;
+import com.squareup.picasso.Picasso;
 import com.tianyue.tv.Activity.BaseActivity;
 import com.tianyue.tv.Adapter.LiveTabAdapter;
 import com.tianyue.tv.Bean.EventBusBean.EventMsg;
@@ -65,6 +67,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
+import de.hdodenhof.circleimageview.CircleImageView;
 import master.flame.danmaku.controller.DrawHandler;
 import master.flame.danmaku.danmaku.model.BaseDanmaku;
 import master.flame.danmaku.danmaku.model.DanmakuTimer;
@@ -169,6 +172,12 @@ public class LiveDetails extends BaseActivity implements
     ImageButton playPause;
     @BindView(R.id.live_details_back)
     ImageButton back;
+    @BindView(R.id.live_details_fans)
+    TextView fans;
+    @BindView(R.id.live_details_title)
+    TextView title;
+    @BindView(R.id.live_details_lookerNumber)
+    TextView lookerNumber;
 
     ImageButton full_share;
 
@@ -253,6 +262,9 @@ public class LiveDetails extends BaseActivity implements
 
         if (content != null) {
             topic = content.getUserId();
+            fans.setText(content.getFocusNum());
+            title.setText(content.getTitle());
+            lookerNumber.setText(content.getNumber());
             if (content.getIsPushPOM().equals("0")) {
                 playPath = content.getPlayAddress();
             } else {
@@ -370,6 +382,15 @@ public class LiveDetails extends BaseActivity implements
      */
     private void initPortView() {
         share = (ImageButton) findViewById(R.id.live_details_share);
+        CircleImageView headPic = (CircleImageView) findViewById(R.id.live_details_anchorHeadIcon);
+        TextView nickName = (TextView) findViewById(R.id.live_details_anchorNickName);
+        if (content != null) {
+            if (content.getPicUrl() != null) {
+                Picasso.with(this).load(content.getPicUrl()).into(headPic);
+            }
+            nickName.setText(content.getNickName());
+        }
+
         share.setOnClickListener(v -> {
             showShare();
         });

@@ -122,8 +122,6 @@ public class LiveFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         client.newCall(request).enqueue(new com.squareup.okhttp.Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
-//                mXRecyclerView.refreshComplete();
-                showToast("获取信息失败");
             }
 
             @Override
@@ -224,6 +222,7 @@ public class LiveFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         content.setIsPushPOM(bean.getIsPushPOM());
         content.setQl_push_flow(bean.getQl_push_flow());
         content.setPlayAddress(bean.getPlayAddress());
+        content.setFocusNum(bean.getFocusNum());
         return content;
     }
 
@@ -254,7 +253,6 @@ public class LiveFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 //            rootView.setRefreshing(false);
 //            homeRecyclerAdapter.notifyDataSetChanged();
 //        }, 2000);
-
     }
 
     public void setOnColumnMoreListener(OnColumnMoreListener onColumnMoreListener) {

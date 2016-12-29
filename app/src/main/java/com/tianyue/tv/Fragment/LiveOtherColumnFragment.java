@@ -85,12 +85,9 @@ public class LiveOtherColumnFragment extends BaseFragment implements SwipeRefres
 
     @Override
     public void onRefresh() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                rootView.setRefreshing(false);
-                columnContentViewAdapter.notifyDataSetChanged();
-            }
+        new Handler().postDelayed(() -> {
+            rootView.setRefreshing(false);
+            columnContentViewAdapter.notifyDataSetChanged();
         },2000);
     }
 
@@ -135,6 +132,7 @@ public class LiveOtherColumnFragment extends BaseFragment implements SwipeRefres
         content.setIsPushPOM(bean.getIsPushPOM());
         content.setQl_push_flow(bean.getQl_push_flow());
         content.setPlayAddress(bean.getPlayAddress());
+        content.setFocusNum(bean.getFocusNum());
         return content;
     }
 }

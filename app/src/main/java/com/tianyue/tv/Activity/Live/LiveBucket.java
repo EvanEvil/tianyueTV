@@ -95,7 +95,6 @@ public class LiveBucket extends BaseActivity {
                         JSONObject ject = array.getJSONObject(0);
                         Gson gson = new Gson();
                         Broadcast broad = gson.fromJson(ject.toString(), Broadcast.class);
-                        Log.i(TAG, "parseNetworkResponse: " + broad.getName());
                         user.setLive_streaming_address(broad.getQl_playAddress());
                         MyApplication.instance().setUser(user);
                     } else if (ret.equals(RequestConfigKey.REQUEST_ERROR)) {
@@ -104,7 +103,6 @@ public class LiveBucket extends BaseActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Log.i(TAG, "parseNetworkResponse: " + result);
                 return null;
             }
 

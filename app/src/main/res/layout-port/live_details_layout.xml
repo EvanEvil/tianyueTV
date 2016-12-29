@@ -43,7 +43,7 @@
                 android:layout_toRightOf="@id/live_details_back"
                 android:drawableLeft="@mipmap/live_details_renshu"
                 android:drawablePadding="@dimen/x5"
-                android:text="人数:2000"
+                tools:text="人数:2000"
                 android:textColor="@color/white" />
 
             <TextView
@@ -52,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="老王做模型"
+                tools:text="老王做模型"
                 android:textColor="@color/white" />
 
             <ImageButton
@@ -139,7 +139,7 @@
         </LinearLayout>
 
     </RelativeLayout>
-    主播昵称
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/x64"
@@ -161,7 +161,7 @@
             android:layout_marginLeft="@dimen/x18"
             android:layout_marginTop="@dimen/y5"
             android:layout_toRightOf="@id/live_details_anchorHeadIcon"
-            android:text="主播昵称"
+            tools:text="主播昵称"
             android:textColor="@android:color/black" />
 
         <CheckBox
@@ -176,7 +176,6 @@
             android:drawableLeft="@drawable/like_selector"
             android:drawablePadding="@dimen/x5"
             android:text="关注" />
-
         <TextView
             android:id="@+id/live_details_fans"
             android:layout_width="wrap_content"
@@ -186,8 +185,18 @@
             android:layout_marginRight="@dimen/x13"
             android:layout_toLeftOf="@id/live_details_attention"
             android:gravity="center"
-            android:text="粉丝：204"
+            tools:text=""
             android:textColor="@android:color/black" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/live_details_attention"
+            android:layout_alignTop="@id/live_details_attention"
+            android:layout_toLeftOf="@id/live_details_fans"
+            android:gravity="center"
+            android:text="粉丝："
+            android:textColor="@android:color/black" />
+
 
 
     </RelativeLayout>

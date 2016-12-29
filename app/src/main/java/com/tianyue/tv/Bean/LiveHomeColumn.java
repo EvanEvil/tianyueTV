@@ -34,12 +34,21 @@ public class LiveHomeColumn {
         private String picUrl;
         private String headUrl;
         private String userId;
+        private String focusNum;
         private int resourceId;
         private String nickName;
         private String number;
         private String isPushPOM;
         private String playAddress;
         private String ql_push_flow;
+
+        public String getFocusNum() {
+            return focusNum;
+        }
+
+        public void setFocusNum(String focusNum) {
+            this.focusNum = focusNum;
+        }
 
         public String getUserId() {
             return userId;
@@ -132,6 +141,7 @@ public class LiveHomeColumn {
             dest.writeString(this.picUrl);
             dest.writeString(this.headUrl);
             dest.writeString(this.userId);
+            dest.writeString(this.focusNum);
             dest.writeInt(this.resourceId);
             dest.writeString(this.nickName);
             dest.writeString(this.number);
@@ -148,6 +158,7 @@ public class LiveHomeColumn {
             this.picUrl = in.readString();
             this.headUrl = in.readString();
             this.userId = in.readString();
+            this.focusNum = in.readString();
             this.resourceId = in.readInt();
             this.nickName = in.readString();
             this.number = in.readString();

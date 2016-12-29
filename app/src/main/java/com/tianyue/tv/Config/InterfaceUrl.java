@@ -78,8 +78,8 @@ public class InterfaceUrl {
      * 传参：无 如果需要分页加上 tyid  分类表 TypeId
      *
      */
-    public final static String ALL_BROADCAST_LIVE = "http://www.tianyue.tv/mobileAllBroadcastLiving";
-//    public final static String ALL_BROADCAST_LIVE = "http://192.168.0.88:8081/mobileAllBroadcastLiving";
+//    public final static String ALL_BROADCAST_LIVE = "http://www.tianyue.tv/mobileAllBroadcastLiving";
+    public final static String ALL_BROADCAST_LIVE = "http://192.168.0.88:8081/mobileAllBroadcastLiving";
     /**
      * 获取用户信息
      * 传参：用户uId  post
