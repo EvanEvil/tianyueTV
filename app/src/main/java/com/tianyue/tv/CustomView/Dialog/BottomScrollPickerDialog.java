@@ -165,7 +165,6 @@ public class BottomScrollPickerDialog extends Dialog implements View.OnClickList
                 if (confirmCallback != null) {
                     confirmCallback.onBtnCallback();
                 }
-                dismiss();
                 break;
         }
     }

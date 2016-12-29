@@ -10,6 +10,15 @@ import com.tencent.bugly.crashreport.CrashReport;
 import com.tianyue.tv.Bean.User;
 import com.tianyue.tv.Config.SettingsConfig;
 import com.tianyue.tv.Util.DmsUtil;
+import com.tianyue.tv.Util.LogUtil;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.StreamCorruptedException;
 
 /**
  * Created by hasee on 2016/8/23.
@@ -33,6 +42,7 @@ public class MyApplication extends Application {
         OkGo.getInstance().debug("OkGo");
 
     }
+
     public DmsUtil mDmsUtil;
 
     public DmsUtil getDmsUtil() {
@@ -64,7 +74,7 @@ public class MyApplication extends Application {
         editor = sp.edit();
         wifi_state = sp.getInt("wifi", 0);
         hardware_state = sp.getInt("hardware", 0);
-        initSettings(wifi_state,hardware_state);
+        initSettings(wifi_state, hardware_state);
     }
 
     /**
@@ -116,8 +126,9 @@ public class MyApplication extends Application {
     public User getUser() {
         if (user != null) {
             return user;
+        } else {
+            return (User) getObject("user");
         }
-        return null;
     }
 
     /**
@@ -131,8 +142,78 @@ public class MyApplication extends Application {
 
     public void setUser(User user) {
         this.user = user;
+        saveObject("user",user);
     }
 
+    /**
+     * 保存信息
+     *
+     * @param object
+     */
+    private void saveObject(String name, Object object) {
+        FileOutputStream fos = null;
+        ObjectOutputStream oos = null;
+        try {
+
+            fos = mContext.openFileOutput(name,Context.MODE_PRIVATE);
+            oos = new ObjectOutputStream(fos);
+            oos.writeObject(object);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (oos != null) {
+                try {
+                    oos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
+
+    private Object getObject(String name) {
+        FileInputStream fis = null;
+        ObjectInputStream ois = null;
+        try {
+            fis = mContext.openFileInput(name);
+            ois = new ObjectInputStream(fis);
+            return ois.readObject();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (StreamCorruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ois != null) {
+                try {
+                    ois.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
 
     public static Context getAppContext() {
         return mContext.getApplicationContext();

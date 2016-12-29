@@ -19,6 +19,7 @@
             tools:text="飞翔的荷兰人"
             android:textColor="@color/white"
             style="@style/text_default_large" />
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_marginTop="@dimen/y68"
             android:id="@+id/my_home_headIcon"

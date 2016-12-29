@@ -119,7 +119,10 @@ public class LiveSetting extends BaseActivity {
                 break;
             case R.id.my_live_setting_classify:
                 final BottomScrollPickerDialog dialog = new BottomScrollPickerDialog(this);
-                dialog.setOnLastBottomScrollCallback(() -> classify.setText(mainType + "-" + minorType));
+                dialog.setOnLastBottomScrollCallback(() -> {
+                    classify.setText(mainType + "-" + minorType);
+                    dialog.dismiss();
+                });
                 dialog.setOnBottomScrollDataCallBack((data, position, type) -> {
                     switch (type) {
                         case BottomScrollPickerDialog.SCROLL_PICKER_ONE_TYPE:
