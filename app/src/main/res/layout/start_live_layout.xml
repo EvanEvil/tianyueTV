@@ -90,7 +90,6 @@
         <ImageButton
             android:id="@+id/start_live_push"
             style="@style/start_live_button"
-            android:visibility="gone"
             android:src="@mipmap/push" />
 
         <ImageButton

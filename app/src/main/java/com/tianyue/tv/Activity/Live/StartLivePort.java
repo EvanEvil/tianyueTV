@@ -306,7 +306,7 @@ public class StartLivePort extends BaseActivity implements
     }
 
 
-    @OnClick({R.id.start_live_play, R.id.start_live_camera,
+    @OnClick({R.id.start_live_play, R.id.start_live_camera,R.id.start_live_push,
             R.id.start_live_flash, R.id.start_live_orientation, R.id.start_live_share})
     public void onClick(View v) {
         switch (v.getId()) {
@@ -343,16 +343,13 @@ public class StartLivePort extends BaseActivity implements
                 mProfile.setEncodingOrientation(isEncOrientationPort ? StreamingProfile.ENCODING_ORIENTATION.PORT : StreamingProfile.ENCODING_ORIENTATION.LAND);
                 mediaStreamingManager.setStreamingProfile(mProfile);
                 setRequestedOrientation(isEncOrientationPort ? ActivityInfo.SCREEN_ORIENTATION_PORTRAIT : ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mediaStreamingManager.notifyActivityOrientationChanged();
+                runOnUiThread(() -> {
+                    mediaStreamingManager.notifyActivityOrientationChanged();
 //                        if (isEncOrientationPort) {
 //                            orientation.setText("切换横屏");
 //                        } else {
 //                            orientation.setText("切换竖屏");
 //                        }
-                    }
                 });
                 mediaStreamingManager.stopStreaming();
                 break;
@@ -360,6 +357,13 @@ public class StartLivePort extends BaseActivity implements
                 User user = MyApplication.instance().getUser();
                 if (user != null) {
                     shareQQ(user.getNickName());
+                }
+                break;
+            case R.id.start_live_push:
+                if (bottom.getVisibility() == View.VISIBLE) {
+                    bottom.setVisibility(View.GONE);
+                } else {
+                    bottom.setVisibility(View.VISIBLE);
                 }
                 break;
         }

@@ -1,5 +1,6 @@
 package com.tianyue.tv.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -15,6 +16,7 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
+import com.tianyue.tv.Activity.Live.LiveDetails;
 import com.tianyue.tv.Adapter.ColumnContentViewAdapter;
 import com.tianyue.tv.Bean.HomeBroadcast;
 import com.tianyue.tv.Bean.LiveHomeColumn;
@@ -32,7 +34,7 @@ import butterknife.BindView;
  * 首页 其他栏目的Fragment
  * Created by hasee on 2016/12/7.
  */
-public class LiveOtherColumnFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
+public class LiveOtherColumnFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.live_other_column_recycler)
     RecyclerView recyclerView;
@@ -41,6 +43,7 @@ public class LiveOtherColumnFragment extends BaseFragment implements SwipeRefres
 
     ColumnContentViewAdapter columnContentViewAdapter;
     List<LiveHomeColumn.LiveHomeColumnContent> columnContent;
+
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.live_other_column_fragment, container, false);
@@ -55,7 +58,7 @@ public class LiveOtherColumnFragment extends BaseFragment implements SwipeRefres
         new Thread(() -> {
             requestBroad(type);
         }).start();
-        recyclerView.setLayoutManager(new GridLayoutManager(context,2,GridLayoutManager.VERTICAL,false));
+        recyclerView.setLayoutManager(new GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false));
 
         columnContent = new ArrayList<>();
 //
@@ -72,8 +75,14 @@ public class LiveOtherColumnFragment extends BaseFragment implements SwipeRefres
 //            content.setNickName("老黄");
 //            columnContent.add(content);
 //        }
-        columnContentViewAdapter = new ColumnContentViewAdapter(context,columnContent);
+        columnContentViewAdapter = new ColumnContentViewAdapter(context, columnContent);
 
+        columnContentViewAdapter.setOnColumnChildClickListener(childPosition -> {
+            LiveHomeColumn.LiveHomeColumnContent content = columnContent.get(childPosition);
+            Intent intent = new Intent(getActivity(), LiveDetails.class);
+            intent.putExtra("live_column", content);
+            startActivity(intent);
+        });
         recyclerView.setAdapter(columnContentViewAdapter);
 
     }
@@ -88,7 +97,7 @@ public class LiveOtherColumnFragment extends BaseFragment implements SwipeRefres
         new Handler().postDelayed(() -> {
             rootView.setRefreshing(false);
             columnContentViewAdapter.notifyDataSetChanged();
-        },2000);
+        }, 2000);
     }
 
     /**
@@ -96,12 +105,11 @@ public class LiveOtherColumnFragment extends BaseFragment implements SwipeRefres
      */
     private void requestBroad(String type) {
         OkHttpClient client = new OkHttpClient();
-        RequestBody body = new FormEncodingBuilder().add("tyid",type).build();
+        RequestBody body = new FormEncodingBuilder().add("tyid", type).build();
         Request request = new Request.Builder().url(InterfaceUrl.ALL_BROADCAST_LIVE).post(body).build();
         client.newCall(request).enqueue(new com.squareup.okhttp.Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
-                showToast("获取信息失败");
             }
 
             @Override
@@ -118,6 +126,7 @@ public class LiveOtherColumnFragment extends BaseFragment implements SwipeRefres
             }
         });
     }
+
     /**
      * 填充单个直播间信息
      */

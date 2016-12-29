@@ -272,7 +272,6 @@ public class LiveDetails extends BaseActivity implements
             }
         }
 
-        Log.i(TAG, "initView: " + topic);
 
 
         initdmsUtil();
@@ -385,8 +384,8 @@ public class LiveDetails extends BaseActivity implements
         CircleImageView headPic = (CircleImageView) findViewById(R.id.live_details_anchorHeadIcon);
         TextView nickName = (TextView) findViewById(R.id.live_details_anchorNickName);
         if (content != null) {
-            if (content.getPicUrl() != null) {
-                Picasso.with(this).load(content.getPicUrl()).into(headPic);
+            if (content.getHeadUrl() != null) {
+                Picasso.with(this).load(content.getHeadUrl()).into(headPic);
             }
             nickName.setText(content.getNickName());
         }
