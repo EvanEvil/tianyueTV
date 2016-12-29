@@ -5,13 +5,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.gson.Gson;
+import com.jcodecraeer.xrecyclerview.ProgressStyle;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -24,8 +25,7 @@ import com.tianyue.tv.Bean.LiveHomeColumn;
 import com.tianyue.tv.Bean.TypeBean;
 import com.tianyue.tv.Config.InterfaceUrl;
 import com.tianyue.tv.R;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.Callback;
+import com.tianyue.tv.Util.LogUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,8 +34,6 @@ import java.util.List;
 
 import butterknife.BindView;
 
-import static com.tianyue.tv.Adapter.HomeRecyclerAdapter.*;
-
 /**
  * 首页 推荐的Fragment
  * Created by hasee on 2016/8/15.
@@ -43,9 +41,9 @@ import static com.tianyue.tv.Adapter.HomeRecyclerAdapter.*;
 public class LiveFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.live_home_fragment_recycler)
-    RecyclerView recyclerView;
-    @BindView(R.id.live_home_fragment_root)
-    SwipeRefreshLayout rootView;
+    XRecyclerView mXRecyclerView;
+//    @BindView(R.id.live_home_fragment_root)
+//    SwipeRefreshLayout rootView;
 
     HomeRecyclerAdapter homeRecyclerAdapter;
 
@@ -62,8 +60,24 @@ public class LiveFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     @Override
     protected void init() {
 
-        rootView.setOnRefreshListener(this);
+        //rootView.setOnRefreshListener(this);
+        mXRecyclerView.setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader);
+        mXRecyclerView.setLoadingMoreProgressStyle(ProgressStyle.BallRotate);
+        //设置下拉箭头
+        mXRecyclerView.setArrowImageView(R.mipmap.iconfont_downgrey);
+        //加载监听
+        mXRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+                LogUtil.e("正在刷新");
+                new Handler().postDelayed(() -> mXRecyclerView.refreshComplete(), 2000);
+            }
 
+            @Override
+            public void onLoadMore() {
+                LogUtil.e("加载更多");
+            }
+        });
         liveHomeColumns = new ArrayList<>();
 //        int[] resourseId = {
 //                R.mipmap.tu_1,
@@ -91,9 +105,9 @@ public class LiveFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
         homeRecyclerAdapter = new HomeRecyclerAdapter(context, liveHomeColumns);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        mXRecyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-        recyclerView.setAdapter(homeRecyclerAdapter);
+        mXRecyclerView.setAdapter(homeRecyclerAdapter);
 
         homeRecyclerAdapter.setOnColumnMoreListener((position, liveHomeColumns1) -> onColumnMoreListener.onMoreClick(position,liveHomeColumns1));
 
@@ -183,10 +197,10 @@ public class LiveFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         fillMainType(columnContentZ.size(),500,columnContentZ);
         fillMainType(columnContentX.size(),600,columnContentX);
         fillMainType(columnContentZI.size(),700,columnContentZI);
-        getActivity().runOnUiThread(() -> {
-            rootView.setRefreshing(false);
-            homeRecyclerAdapter.notifyDataSetChanged();
-        });
+//        getActivity().runOnUiThread(() -> {
+//            rootView.setRefreshing(false);
+//            homeRecyclerAdapter.notifyDataSetChanged();
+//        });
 
 
 //            if (isFirst) {

@@ -22,7 +22,6 @@ import com.tianyue.tv.Activity.Live.LiveBucket;
 import com.tianyue.tv.Activity.Live.LiveSetting;
 import com.tianyue.tv.Activity.My.AccountSecurity;
 import com.tianyue.tv.Activity.My.AuditFailure;
-import com.tianyue.tv.Activity.My.AuditSuccess;
 import com.tianyue.tv.Activity.My.Auditing;
 import com.tianyue.tv.Activity.My.CertificationOne;
 import com.tianyue.tv.Activity.My.Settings;

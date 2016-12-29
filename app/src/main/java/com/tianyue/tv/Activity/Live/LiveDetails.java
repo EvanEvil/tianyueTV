@@ -42,7 +42,6 @@ import com.tianyue.tv.Bean.EventBusBean.EventMsg;
 import com.tianyue.tv.Bean.LiveChatMessage;
 import com.tianyue.tv.Bean.LiveHomeColumn;
 import com.tianyue.tv.Config.ParamConfigKey;
-import com.tianyue.tv.Config.RequestConfigKey;
 import com.tianyue.tv.CustomView.Dialog.BarrageSettingDialog;
 import com.tianyue.tv.Fragment.LiveChatFragment;
 import com.tianyue.tv.Fragment.LiveGiftFragment;

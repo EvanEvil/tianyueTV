@@ -3,10 +3,14 @@ package com.tianyue.tv.Activity.Discovery;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -47,6 +51,8 @@ public class TotalStationSearchActivity extends BaseActivity {
     public XRecyclerView mXRecyclerView;
     @BindView(R.id.search_text_clear)
     ImageView mSearchTextClear; //清除搜索
+    @BindView(R.id.search_card_view)
+    CardView search_card_view;
 
     private String tag;
     private AnimationDrawable mAnimationDrawable;
@@ -60,6 +66,9 @@ public class TotalStationSearchActivity extends BaseActivity {
     protected void initView() {
         //加载布局
         setContentView(R.layout.activity_total_station_search);
+        //给editText设置出现动画
+//        Animation leftAnimation = inFromLeftAnimation();
+//        search_card_view.startAnimation(leftAnimation);
         //设置加载动画
         mmLoadingView.setImageResource(R.drawable.anim_search_loading);
         mAnimationDrawable = (AnimationDrawable) mmLoadingView.getDrawable();
@@ -232,5 +241,21 @@ public class TotalStationSearchActivity extends BaseActivity {
     @Override
     protected void init() {
         super.init();
+    }
+
+    /**
+     * 定义从右侧进入的动画效果
+     * @return
+     */
+    protected Animation inFromLeftAnimation() {
+        Animation inFromLeft = new TranslateAnimation(
+                Animation.RELATIVE_TO_SELF, 1.0f,
+                Animation.RELATIVE_TO_SELF, 0.0f,
+                Animation.RELATIVE_TO_SELF, 0.0f,
+                Animation.RELATIVE_TO_SELF, 0.0f);
+        inFromLeft.setDuration(1000);
+        inFromLeft.setFillAfter(true);
+        inFromLeft.setInterpolator(new AccelerateInterpolator());
+        return inFromLeft;
     }
 }
