@@ -1,7 +1,11 @@
 package com.tianyue.tv.Activity.Live;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
@@ -10,8 +14,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -145,6 +152,8 @@ public class StartLivePort extends BaseActivity implements
     Tencent mTencent;
     String APP_ID = "1105729532";
 
+
+    private final int TAKE_PHOTO_REQUEST_CODE = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -218,6 +227,10 @@ public class StartLivePort extends BaseActivity implements
 //                lookerNumber.setText(broadcast.getOnlineNum());
 //            }
 //        }
+        checkPermission();
+    }
+
+    private void initCamera(){
         toolbar.setNavigationOnClickListener(v -> finish());
         user = MyApplication.instance().getUser();
         tab.setTabMode(TabLayout.MODE_FIXED);
@@ -249,7 +262,6 @@ public class StartLivePort extends BaseActivity implements
         cameraPreviewFrameView.setListener(this);
         initLive(afl, cameraPreviewFrameView);
     }
-
     /**
      * 初始化直播预览界面
      */
@@ -612,6 +624,52 @@ public class StartLivePort extends BaseActivity implements
         });
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode){
+            case TAKE_PHOTO_REQUEST_CODE:
+                if(grantResults.length >0 &&grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                    initCamera();
+                    //用户同意授权
+                }else{
+                    //用户拒绝授权
+                    finish();
+                }
+                break;
+        }
+    }
+
+    /**
+     * 检查权限是否开启
+     */
+    private void checkPermission(){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA},
+                                          TAKE_PHOTO_REQUEST_CODE);
+        } else{
+            initCamera();
+        }
+    }
+
+//    public void call(View v) {
+//        //检查权限
+//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+//                != PackageManager.PERMISSION_GRANTED) {
+//            //进入到这里代表没有权限.
+//
+//            if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.CALL_PHONE)){
+//                //已经禁止提示了
+//                showToast("您已禁止该权限，需要重新开启。");
+//            }else{
+//                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CODE);
+//
+//            }
+//
+//        } else {
+//            initCamera();
+//        }
+//    }
     /*************************************
      * 实现接口类
      ********************************************/
