@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso;
 import com.tianyue.tv.Base.BaseViewHolder;
 import com.tianyue.tv.Bean.LiveHomeColumn;
 import com.tianyue.tv.R;
+import com.tianyue.tv.Util.LogUtil;
 
 import java.util.List;
 
@@ -54,8 +55,9 @@ public class ColumnContentViewAdapter extends RecyclerView.Adapter<ColumnContent
     public void onBindViewHolder(ColumnChildViewHolder holder, final int position) {
 
         LiveHomeColumn.LiveHomeColumnContent column = columnContent.get(position);
+        LogUtil.i(column.getPicUrl());
         if (column.getPicUrl() == null || column.getPicUrl().equals("")) {
-            Picasso.with(context).load(column.getResourceId()).into(holder.preview);
+//            Picasso.with(context).load(column.getResourceId()).into(holder.preview);
         } else {
             Picasso.with(context).load(column.getPicUrl()).into(holder.preview);
         }

@@ -88,6 +88,7 @@
         <activity android:name=".Activity.ForgetOne"/>
         <activity android:name=".Activity.ForgetTwo"/>
         <activity android:name=".Activity.LoadWebActivity"/>
+        <activity android:name=".Activity.AnchorEnlistActivity"/>
 
         <!-- 直播相关模块 -->
         <activity

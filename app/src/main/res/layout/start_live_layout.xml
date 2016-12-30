@@ -45,8 +45,8 @@
         android:drawableLeft="@mipmap/start_live_renshu"
         android:drawablePadding="@dimen/x5"
         android:gravity="bottom"
-        tools:text="12k"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        tools:text="12k" />
 
     <TextView
         android:id="@+id/start_live_layout_fans"
@@ -61,21 +61,21 @@
         android:drawableLeft="@mipmap/start_live_fans"
         android:drawablePadding="@dimen/x5"
         android:gravity="bottom"
-        tools:text="1520"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        tools:text="1520" />
 
     <LinearLayout
         android:id="@+id/start_live_layout_column"
-        android:layout_below="@id/start_live_layout_toolbar"
         android:layout_width="@dimen/x55"
         android:layout_height="@dimen/y327"
         android:layout_alignParentRight="true"
+        android:layout_below="@id/start_live_layout_toolbar"
         android:orientation="vertical">
 
         <!--<ImageButton-->
-            <!--android:visibility="invisible"-->
-            <!--style="@style/start_live_button"-->
-            <!--android:src="@mipmap/start_live_setting" />-->
+        <!--android:visibility="invisible"-->
+        <!--style="@style/start_live_button"-->
+        <!--android:src="@mipmap/start_live_setting" />-->
 
         <ImageButton
             android:id="@+id/start_live_camera"
@@ -90,6 +90,7 @@
         <ImageButton
             android:id="@+id/start_live_push"
             style="@style/start_live_button"
+            android:visibility="gone"
             android:src="@mipmap/push" />
 
         <ImageButton
@@ -111,7 +112,7 @@
     <LinearLayout
         android:id="@+id/start_live_layout_bottom"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/y312"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="#a8000000"
         android:orientation="vertical">
@@ -119,9 +120,8 @@
         <android.support.v4.view.ViewPager
             android:id="@+id/start_live_layout_viewPage"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/y252"
             android:layout_weight="1">
-
         </android.support.v4.view.ViewPager>
 
         <TextView
@@ -129,15 +129,29 @@
             android:layout_height="1dp"
             android:background="#646464" />
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/start_live_layout_tab"
+        <LinearLayout
+            android:layout_marginRight="@dimen/x10"
             android:layout_width="match_parent"
             android:layout_height="@dimen/y60"
-            app:tabTextColor="@color/white"
-            app:tabSelectedTextColor="@color/white"
-            app:tabIndicatorColor="#e47c32"
-            app:tabIndicatorHeight="@dimen/y3"
-            android:layout_alignParentBottom="true" />
+            android:orientation="horizontal">
+            <android.support.design.widget.TabLayout
+                android:id="@+id/start_live_layout_tab"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                app:tabIndicatorColor="#e47c32"
+                app:tabIndicatorHeight="@dimen/y3"
+                app:tabSelectedTextColor="@color/white"
+                app:tabTextColor="@color/white" />
+            <ImageButton
+                android:id="@+id/start_live_chat"
+                android:src="@mipmap/start_live_gone"
+                android:background="@null"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_height="match_parent" />
+        </LinearLayout>
     </LinearLayout>
 
     <TextView

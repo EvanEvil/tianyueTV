@@ -1,5 +1,6 @@
 package com.tianyue.tv.Activity.Live;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
@@ -51,6 +52,7 @@ import com.tianyue.pushlive.ui.CameraPreviewFrameView;
 import com.tianyue.pushlive.ui.RotateLayout;
 import com.tianyue.tv.Activity.BaseActivity;
 import com.tianyue.tv.Adapter.LiveTabAdapter;
+import com.tianyue.tv.Bean.Broadcast;
 import com.tianyue.tv.Bean.User;
 import com.tianyue.tv.Fragment.LiveGiftFragment;
 import com.tianyue.tv.Fragment.StartLiveChatFragment;
@@ -122,6 +124,8 @@ public class StartLivePort extends BaseActivity implements
     ImageButton flash;
     @BindView(R.id.start_live_share)
     ImageButton share;
+    @BindView(R.id.start_live_chat)
+    ImageButton chat;
     @BindView(R.id.start_live_layout_column)
     LinearLayout column;
     @BindView(R.id.start_live_layout_bottom)
@@ -132,6 +136,10 @@ public class StartLivePort extends BaseActivity implements
     ViewPager viewPager;
     @BindView(R.id.start_live_layout_toolbar)
     ChangeToolbar toolbar;
+    @BindView(R.id.start_live_layout_number)
+    TextView lookerNumber;
+    @BindView(R.id.start_live_layout_fans)
+    TextView fans;
     User user;
     //腾讯接口
     Tencent mTencent;
@@ -202,6 +210,14 @@ public class StartLivePort extends BaseActivity implements
     @Override
     protected void initView() {
         setContentView(R.layout.start_live_layout);
+//        Intent intent = getIntent();
+//        if (intent != null) {
+//            Broadcast broadcast = intent.getParcelableExtra("broad");
+//            if (broadcast != null) {
+//                fans.setText(broadcast.getFocusNum());
+//                lookerNumber.setText(broadcast.getOnlineNum());
+//            }
+//        }
         toolbar.setNavigationOnClickListener(v -> finish());
         user = MyApplication.instance().getUser();
         tab.setTabMode(TabLayout.MODE_FIXED);
@@ -213,12 +229,12 @@ public class StartLivePort extends BaseActivity implements
         List<Fragment> fragments = new ArrayList<>();
         StartLiveChatFragment startLiveChatFragment = new StartLiveChatFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("topic",user.getId());
+        bundle.putString("topic", user.getId());
         startLiveChatFragment.setArguments(bundle);
         fragments.add(startLiveChatFragment);
         fragments.add(new LiveGiftFragment());
 
-        viewPager.setAdapter(new LiveTabAdapter(getSupportFragmentManager(),fragments,list));
+        viewPager.setAdapter(new LiveTabAdapter(getSupportFragmentManager(), fragments, list));
         tab.setupWithViewPager(viewPager);
 
         publishUrlFromServer = user.getLive_streaming_address();
@@ -306,7 +322,7 @@ public class StartLivePort extends BaseActivity implements
     }
 
 
-    @OnClick({R.id.start_live_play, R.id.start_live_camera,R.id.start_live_push,
+    @OnClick({R.id.start_live_play, R.id.start_live_camera, R.id.start_live_chat,
             R.id.start_live_flash, R.id.start_live_orientation, R.id.start_live_share})
     public void onClick(View v) {
         switch (v.getId()) {
@@ -359,11 +375,13 @@ public class StartLivePort extends BaseActivity implements
                     shareQQ(user.getNickName());
                 }
                 break;
-            case R.id.start_live_push:
-                if (bottom.getVisibility() == View.VISIBLE) {
-                    bottom.setVisibility(View.GONE);
+            case R.id.start_live_chat:
+                if (viewPager.getVisibility() == View.VISIBLE) {
+                    viewPager.setVisibility(View.GONE);
+                    chat.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.start_live_show));
                 } else {
-                    bottom.setVisibility(View.VISIBLE);
+                    viewPager.setVisibility(View.VISIBLE);
+                    chat.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.start_live_gone));
                 }
                 break;
         }
@@ -378,7 +396,7 @@ public class StartLivePort extends BaseActivity implements
         int height = column.getHeight();
         Log.i(TAG, "onConfigurationChanged: width" + width + "height" + height);
         ViewGroup.LayoutParams params = column.getLayoutParams();
-        ViewGroup.LayoutParams bottomParams =  bottom.getLayoutParams();
+        ViewGroup.LayoutParams bottomParams = bottom.getLayoutParams();
         params.height = width;
         params.width = height;
         int portHeightDimen = (int) getResources().getDimension(R.dimen.y312);

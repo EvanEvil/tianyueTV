@@ -19,6 +19,7 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
+import com.tianyue.tv.Activity.AnchorEnlistActivity;
 import com.tianyue.tv.Activity.Live.LiveDetails;
 import com.tianyue.tv.Adapter.HomeRecyclerAdapter;
 import com.tianyue.tv.Bean.HomeBroadcast;
@@ -129,7 +130,7 @@ public class LiveFragment extends BaseFragment  {
         //点击更多监听
         homeRecyclerAdapter.setOnColumnMoreListener((position, liveHomeColumns1) -> onColumnMoreListener.onMoreClick(position, liveHomeColumns1));
         //轮播图的点击监听，跳转到播放页面
-        homeRecyclerAdapter.setOnHomeRecyclerListener(position -> startActivity(LiveDetails.class));
+        homeRecyclerAdapter.setOnHomeRecyclerListener(position -> startActivity(AnchorEnlistActivity.class));
         //item的点击监听，跳转到播放页面
         homeRecyclerAdapter.setOnColumnChildClickListener((parentPosition, childPosition, liveHomeColumns1) -> {
             LiveHomeColumn.LiveHomeColumnContent content = liveHomeColumns1.get(parentPosition).getContents().get(childPosition);

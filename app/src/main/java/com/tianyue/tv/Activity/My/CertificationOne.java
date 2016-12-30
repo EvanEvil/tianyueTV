@@ -18,12 +18,7 @@ public class CertificationOne extends BaseActivity {
     @Override
     protected void initView() {
         setContentView(R.layout.certification_notice_layout);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> finish());
     }
 
 

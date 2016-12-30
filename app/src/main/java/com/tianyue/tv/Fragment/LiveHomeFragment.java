@@ -53,8 +53,6 @@ public class LiveHomeFragment extends BaseFragment {
 
         listFragment = new ArrayList<>();
         listFragment.add(liveFragment);
-
-
         int type = 100;
         for (int i = 0; i < 6; i++) {
             LiveOtherColumnFragment fragment = new LiveOtherColumnFragment();

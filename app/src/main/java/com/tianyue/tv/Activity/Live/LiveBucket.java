@@ -1,4 +1,9 @@
 package com.tianyue.tv.Activity.Live;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -46,8 +51,11 @@ public class LiveBucket extends BaseActivity {
     TextView setting;
     @BindView(R.id.my_live_bucket_start)
     Button startLive;
+    Broadcast broadInfo;
 
+    private final static int UPDATE_UI = 1;
     User user;
+
     @Override
     protected void initView() {
         setContentView(R.layout.my_live_bucket);
@@ -64,6 +72,7 @@ public class LiveBucket extends BaseActivity {
             case R.id.my_live_bucket_fans:
                 break;
             case R.id.my_live_bucket_store:
+                showToast("暂未开放");
                 break;
             case R.id.my_live_bucket_money:
                 showToast("暂未开放");
@@ -72,17 +81,37 @@ public class LiveBucket extends BaseActivity {
                 startActivity(LiveSetting.class);
                 break;
             case R.id.my_live_bucket_start:
+                if (broadInfo != null) {
+                    Intent intent = new Intent(this,StartLivePort.class);
+                    intent.putExtra("broad",broadInfo);
+                    startActivity(intent);
+                    return;
+                }
                 startActivity(StartLivePort.class);
                 break;
         }
     }
+
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case UPDATE_UI:
+                    Bundle bundle = msg.getData();
+                    int fansNumber = bundle.getInt("fans");
+                    runOnUiThread(() -> fans.setText("我的粉丝数:"+fansNumber));
+                    break;
+            }
+        }
+    };
+
     /**
      * 查询直播间
      */
     private void queryBucket() {
         OkHttpUtils.post()
                 .url(InterfaceUrl.QUERY_BUCKET)
-                .addParams("userId", user .getId())
+                .addParams("userId", user.getId())
                 .build().execute(new Callback() {
             @Override
             public Object parseNetworkResponse(Response response) throws IOException {
@@ -97,6 +126,14 @@ public class LiveBucket extends BaseActivity {
                         Broadcast broad = gson.fromJson(ject.toString(), Broadcast.class);
                         user.setLive_streaming_address(broad.getQl_playAddress());
                         MyApplication.instance().setUser(user);
+                        broadInfo = broad;
+                        //更新UI界面 显示粉丝数
+                        Message message = new Message();
+                        message.what = UPDATE_UI;
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("fans", broad.getFocusNum());
+                        message.setData(bundle);
+                        handler.handleMessage(message);
                     } else if (ret.equals(RequestConfigKey.REQUEST_ERROR)) {
                         showToast("获取直播间信息失败");
                     }

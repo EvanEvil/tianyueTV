@@ -11,7 +11,7 @@
         android:layout_height="@dimen/y85">
         <ImageView
             style="@style/title"
-            android:layout_gravity="center"
+            android:layout_gravity="bottom"
             android:src="@mipmap/live_home_logo" />
     </com.tianyue.mylibrary.view.ChangeToolbar>
     <TextView

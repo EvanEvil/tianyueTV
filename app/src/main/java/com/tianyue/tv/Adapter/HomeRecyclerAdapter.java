@@ -126,12 +126,9 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         @Override
         protected void init() {
             rollPagerView.setHintView(new IconHintView(context, R.mipmap.carousel_pic_check, R.mipmap.carousel_pic_uncheck));
-            rollPagerView.setOnItemClickListener(new OnItemClickListener() {
-                @Override
-                public void onItemClick(int position) {
-                    if (onHomeRecyclerListener != null) {
-                        onHomeRecyclerListener.onRollItemClick(position);
-                    }
+            rollPagerView.setOnItemClickListener(position -> {
+                if (onHomeRecyclerListener != null) {
+                    onHomeRecyclerListener.onRollItemClick(position);
                 }
             });
             CarouselLoopAdapter carouselAdapter = new CarouselLoopAdapter(rollPagerView);
@@ -140,9 +137,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         class CarouselLoopAdapter extends LoopPagerAdapter {
             private int[] imgs = {
-                    R.mipmap.test_one,
-                    R.mipmap.test_two,
-                    R.mipmap.test_three,
+                    R.mipmap.guide_anchor
             };
 
             public CarouselLoopAdapter(RollPagerView viewPager) {

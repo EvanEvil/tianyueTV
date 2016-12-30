@@ -10,4 +10,5 @@
     <string name="cancel">取消</string>
     <string name="discover_search_hint">搜你所爱</string>
     <string name="discover_search_cancle_button">取消</string>
+    <string name="anchor_enlist_button_text"><b>即刻入驻</b></string>
 </resources>
