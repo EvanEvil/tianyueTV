@@ -189,8 +189,7 @@ public class LiveFragment extends BaseFragment  {
         List<LiveHomeColumn.LiveHomeColumnContent> columnContentX = new ArrayList<LiveHomeColumn.LiveHomeColumnContent>();
         List<LiveHomeColumn.LiveHomeColumnContent> columnContentZI = new ArrayList<LiveHomeColumn.LiveHomeColumnContent>();
 
-        boolean isFirst = true;
-        String oneType = "";
+
         TypeBean typeBean = new TypeBean();
         HashMap<String, String> main = typeBean.getMainClassify();
         List<HomeBroadcast.DataListBean> data = homeBroadcast.getDataList();

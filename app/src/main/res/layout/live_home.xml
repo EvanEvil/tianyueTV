@@ -27,6 +27,11 @@
     app:tabIndicatorColor="#e47c32"
     app:tabSelectedTextColor="#e47c32">
 </android.support.design.widget.TabLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/live_home_tab"
+        android:background="#ebebeb" />
     <android.support.v4.view.ViewPager
         android:id="@+id/live_home_viewPage"
         android:layout_width="match_parent"

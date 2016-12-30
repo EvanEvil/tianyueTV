@@ -3,6 +3,7 @@ package com.tianyue.tv.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.gson.Gson;
+import com.jcodecraeer.xrecyclerview.ProgressStyle;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -34,47 +37,77 @@ import butterknife.BindView;
  * 首页 其他栏目的Fragment
  * Created by hasee on 2016/12/7.
  */
-public class LiveOtherColumnFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class LiveOtherColumnFragment extends BaseFragment  {
 
     @BindView(R.id.live_other_column_recycler)
-    RecyclerView recyclerView;
-    @BindView(R.id.live_other_column_root)
-    SwipeRefreshLayout rootView;
+    XRecyclerView recyclerView;
+//    @BindView(R.id.live_other_column_root)
+//    SwipeRefreshLayout rootView;
 
     ColumnContentViewAdapter columnContentViewAdapter;
     List<LiveHomeColumn.LiveHomeColumnContent> columnContent;
+    /**
+     * 下拉刷新完成
+     */
+    public final int REFRESHING_SUCCESS = 1;
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.live_other_column_fragment, container, false);
     }
 
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case REFRESHING_SUCCESS:    //下拉刷新完成
+
+
+                    columnContentViewAdapter.notifyDataSetChanged();
+                    recyclerView.refreshComplete();
+                    LogUtil.e("刷新完成");
+                    break;
+
+            }
+
+        }
+    };
     @Override
     protected void init() {
         Bundle bundle = getArguments();
         String type = bundle.getString("type");
         LogUtil.i(type);
-        rootView.setOnRefreshListener(this);
+//        rootView.setOnRefreshListener(this);
         new Thread(() -> {
             requestBroad(type);
         }).start();
         recyclerView.setLayoutManager(new GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false));
+        recyclerView.setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader);
+        recyclerView.setLoadingMoreProgressStyle(ProgressStyle.BallRotate);
+        //设置下拉箭头
+        recyclerView.setArrowImageView(R.mipmap.iconfont_downgrey);
+        //加载监听
+        recyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+                LogUtil.e("正在刷新");
+                //  liveHomeColumns.clear();
 
+                //开启子线程拉取数据，请求完成后，使用handler发消息通知主界面更新数据
+                new Thread(() -> {
+                    requestBroad(type);
+                }).start();
+
+            }
+
+            @Override
+            public void onLoadMore() {
+                LogUtil.e("加载更多");
+            }
+        });
         columnContent = new ArrayList<>();
-//
-//        int[] resourseId = {
-//                R.mipmap.tu_1,
-//                R.mipmap.tu_2,
-//                R.mipmap.tu_3,
-//                R.mipmap.tu_4
-//        };
-//        for (int j = 0; j < 10; j++) {
-//            LiveHomeColumn.LiveHomeColumnContent content = new LiveHomeColumn.LiveHomeColumnContent();
-//            content.setTitle("老黄下象棋");
-//            content.setResourceId(resourseId[j%4]);
-//            content.setNickName("老黄");
-//            columnContent.add(content);
-//        }
+
         columnContentViewAdapter = new ColumnContentViewAdapter(context, columnContent);
 
         columnContentViewAdapter.setOnColumnChildClickListener(childPosition -> {
@@ -92,13 +125,7 @@ public class LiveOtherColumnFragment extends BaseFragment implements SwipeRefres
 
     }
 
-    @Override
-    public void onRefresh() {
-        new Handler().postDelayed(() -> {
-            rootView.setRefreshing(false);
-            columnContentViewAdapter.notifyDataSetChanged();
-        }, 2000);
-    }
+
 
     /**
      * 请求直播间数据
@@ -119,10 +146,13 @@ public class LiveOtherColumnFragment extends BaseFragment implements SwipeRefres
                 Gson gson = new Gson();
                 HomeBroadcast homeBroadcast = gson.fromJson(result, HomeBroadcast.class);
                 List<HomeBroadcast.DataListBean> list = homeBroadcast.getDataList();
+                columnContent.clear();
                 for (HomeBroadcast.DataListBean dataListBean : list) {
                     columnContent.add(fillBroadColumn(dataListBean));
                 }
-                getActivity().runOnUiThread(() -> columnContentViewAdapter.notifyDataSetChanged());
+                Message message = Message.obtain();
+                message.what = REFRESHING_SUCCESS;
+                mHandler.sendMessage(message);
             }
         });
     }

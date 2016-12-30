@@ -90,7 +90,7 @@ public class InterfaceUrl {
      * 修改用户信息
      * 传参： 用户userId  用户头像headUrl     post
      */
-    public final static String ALTER_USER_INFO = "http://192.168.0.88:8081/update_headUrl";
+    public final static String ALTER_USER_INFO = "http://www.tianyue.tv/update_headUrl";
     /**
      * 查询直播间信息
      * 传参： 用户uId    post
@@ -122,4 +122,9 @@ public class InterfaceUrl {
      */
     public final static String SEARCH_INFO  = "http://www.tianyue.tv/Querycorrespondence";
     public final static String TEST  = "http://www.baidu.com";
+
+    /**
+     * 注册协议
+     */
+    public final static String AGREEMENT = "http://www.tianyue.tv/m_agreement";
 }

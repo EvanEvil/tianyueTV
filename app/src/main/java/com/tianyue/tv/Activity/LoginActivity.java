@@ -37,7 +37,7 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.login_user_password)
     EditText pwdEdit;
     @BindView(R.id.login_register)
-    Button register;
+    TextView register;
     @BindView(R.id.login_forget_password)
     TextView forgetPwd;
     /**

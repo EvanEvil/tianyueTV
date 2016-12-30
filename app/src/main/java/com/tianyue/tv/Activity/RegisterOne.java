@@ -117,7 +117,7 @@ public class RegisterOne extends BaseActivity {
                 break;
             case R.id.register_one_agreement:
                 Bundle bundle = new Bundle();
-                bundle.putString("url","http://www.tianyue.tv/m_agreement");
+                bundle.putString("url",InterfaceUrl.AGREEMENT);
                 startActivity(LoadWebActivity.class,bundle);
                 break;
         }
