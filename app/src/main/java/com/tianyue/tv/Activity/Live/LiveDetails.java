@@ -50,6 +50,7 @@ import com.tianyue.tv.Fragment.LiveGiftFragment;
 import com.tianyue.tv.MyApplication;
 import com.tianyue.tv.R;
 import com.tianyue.tv.Util.DmsUtil;
+import com.tianyue.tv.Util.LogUtil;
 import com.tianyue.tv.Util.Util;
 
 import org.greenrobot.eventbus.EventBus;
@@ -278,8 +279,10 @@ public class LiveDetails extends BaseActivity implements
 
         if (getResources().getConfiguration().orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
             isPort = true;
+            LogUtil.e("当前朝向:"+isPort);
         } else {
             isPort = false;
+            LogUtil.e("当前朝向:"+isPort);
         }
 
 
@@ -303,12 +306,7 @@ public class LiveDetails extends BaseActivity implements
 
 
     }
-//    @Subscribe(threadMode = ThreadMode.MAIN,sticky = false,priority = 0)
-//    public void getMsg(Msg msg){
-//        String msg1 = msg.getMsg();
-//        addDanmaku(msg1,true);
-//        Toast.makeText(getApplicationContext(),"收到消息："+msg1,Toast.LENGTH_SHORT).show();
-//    }
+
 
     @Override
     protected boolean isKeepScreenNo() {
@@ -324,6 +322,7 @@ public class LiveDetails extends BaseActivity implements
      * 初始化 横屏 控件
      */
     private void initLandView() {
+        //一键分享
         full_share = (ImageButton) findViewById(R.id.live_details_full_share);
         full_share.setOnClickListener(v -> {
             showShare();
@@ -344,20 +343,18 @@ public class LiveDetails extends BaseActivity implements
         btn_land_sendDanmaku = (ImageButton) findViewById(R.id.live_details_send);
 
         //监听按钮
-        btn_land_sendDanmaku.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String message = et_landText.getText().toString();
-                if (message.equals("")) {
+        btn_land_sendDanmaku.setOnClickListener(v -> {
+            String message = et_landText.getText().toString();
+            if (message.equals("")) {
 
-                    showToast("发送的消息不能为空哦");
+                showToast("发送的消息不能为空哦");
 
-                } else {
+            } else {
 
-                    sendDanmaku();
-                }
-
+                sendDanmaku();
+                et_landText.setText("");
             }
+
         });
         settings.setOnClickListener(this);
     }
@@ -389,7 +386,7 @@ public class LiveDetails extends BaseActivity implements
             }
             nickName.setText(content.getNickName());
         }
-
+        //一键分享
         share.setOnClickListener(v -> {
             showShare();
         });
@@ -515,7 +512,7 @@ public class LiveDetails extends BaseActivity implements
 
     @Override
     protected void onPause() {
-        Log.i(TAG, "onPause: ");
+       LogUtil.e("onPause");
         super.onPause();
         if (mediaPlayer != null && isLivePlay) {
             mediaPlayer.pause();
@@ -529,12 +526,12 @@ public class LiveDetails extends BaseActivity implements
     @Override
     protected void onStop() {
         super.onStop();
-        Log.i(TAG, "onStop: ");
+        LogUtil.e("onStop");
     }
 
     @Override
     protected void onDestroy() {
-        Log.i(TAG, "onDestroy: ");
+        LogUtil.e("onDestroy");
         super.onDestroy();
         if (mediaPlayer != null) {
             mediaPlayer.stop();
@@ -1052,7 +1049,7 @@ public class LiveDetails extends BaseActivity implements
         //BaseDanmaku danmaku = danmakuContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL);
         danmaku = danmakuContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL, danmakuContext);
         //设置字体颜色
-        danmaku.textColor = Color.argb(danmakuAlpha, 255, 255, 255);
+        danmaku.textColor = Color.WHITE;
 
         danmaku.text = content;
         danmaku.priority = 1;//0 表示可能会被各种过滤器过滤并隐藏显示 //1 表示一定会显示, 一般用于本机发送的弹幕
@@ -1176,12 +1173,7 @@ public class LiveDetails extends BaseActivity implements
     @Override
     public void onSuccess(String result) {
         Log.e(TAG, "发送成功" + "--:屏幕:--" + isPort);
-        if (isPort) {
 
-        } else {
-
-            et_landText.setText("");
-        }
 
     }
 
@@ -1196,7 +1188,7 @@ public class LiveDetails extends BaseActivity implements
         String nickName = receives[0];
         String sendTime = receives[1];
         String message = receives[2];
-        Log.e(TAG, "收到消息:" + message + "--:屏幕:--" + isPort);
+        Log.e(TAG, "收到消息:" + message + "--:屏幕:--" + (getResources().getConfiguration().orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT));
 
         LiveChatMessage chatMessage = new LiveChatMessage();
         chatMessage.setNickName(DmsUtil.unescape(nickName));
@@ -1208,13 +1200,14 @@ public class LiveDetails extends BaseActivity implements
             }
         }
         //竖屏通知chatFragment更新数据
-        if (isPort) {
+        if (getResources().getConfiguration().orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
             messageList.add(chatMessage);
             EventBus.getDefault().post(chatMessage);
         } else {
             //横屏时,接收到消息,发到弹幕上
             addDanmaku(message, false);
         }
+
 
     }
 
