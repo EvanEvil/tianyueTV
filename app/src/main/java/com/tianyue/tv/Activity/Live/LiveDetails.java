@@ -223,12 +223,7 @@ public class LiveDetails extends BaseActivity implements
      * DanmakuContext可以用于对弹幕的各种全局配置进行设定，如设置字体、设置最大显示行数等。这里我们并没有什么特殊的要求，因此一切都保持默认。
      */
     private DanmakuContext danmakuContext;
-    private BaseDanmakuParser parser = new BaseDanmakuParser() {
-        @Override
-        protected IDanmakus parse() {
-            return new Danmakus();
-        }
-    };
+    private BaseDanmakuParser parser;
     private HashMap<Integer, Integer> maxLinesPair;// 弹幕最大行数
     private HashMap<Integer, Boolean> overlappingEnablePair;// 设置是否重叠
     /**
@@ -342,7 +337,51 @@ public class LiveDetails extends BaseActivity implements
         et_landText = (EditText) findViewById(R.id.et_landText);
         btn_land_sendDanmaku = (ImageButton) findViewById(R.id.live_details_send);
 
-        //监听按钮
+        LogUtil.e("初始化danmakuView");
+        danmakuView = (DanmakuView) findViewById(R.id.danmaku_view);
+        danmakuView.enableDanmakuDrawingCache(true);
+        LogUtil.e("初始化弹幕danmakuContext");
+        danmakuContext = DanmakuContext.create();
+        LogUtil.e("初始化弹幕parser");
+        parser = new BaseDanmakuParser() {
+            @Override
+            protected IDanmakus parse() {
+                return new Danmakus();
+            }
+        };
+
+
+        danmakuView.setCallback(new DrawHandler.Callback() {
+            @Override
+            public void prepared() {
+
+                showDanmaku = true;
+                danmakuView.start();
+                LogUtil.e("弹幕控件start");
+                 generateSomeDanmaku();
+            }
+
+            @Override
+            public void updateTimer(DanmakuTimer timer) {
+
+            }
+
+            @Override
+            public void danmakuShown(BaseDanmaku danmaku) {
+
+            }
+
+            @Override
+            public void drawingFinished() {
+
+            }
+        });
+
+
+        initDanmakuStyle();
+        danmakuView.prepare(parser, danmakuContext);//回调重写的prepared() 方法
+
+        //横屏发送弹幕监听
         btn_land_sendDanmaku.setOnClickListener(v -> {
             String message = et_landText.getText().toString();
             if (message.equals("")) {
@@ -903,39 +942,10 @@ public class LiveDetails extends BaseActivity implements
             //Evan
             MyOnFocusChangeListener myOnFocusChangeListener = new MyOnFocusChangeListener();
             et_landText.setOnFocusChangeListener(myOnFocusChangeListener);
-            danmakuView = (DanmakuView) findViewById(R.id.danmaku_view);
-            danmakuView.enableDanmakuDrawingCache(true);
 
-            danmakuView.start();
-            danmakuView.setCallback(new DrawHandler.Callback() {
-                @Override
-                public void prepared() {
 
-                    showDanmaku = true;
-                    danmakuView.start();
-                    Log.e("liveDetails", "开启线程");
-                    // generateSomeDanmaku();
-                }
 
-                @Override
-                public void updateTimer(DanmakuTimer timer) {
 
-                }
-
-                @Override
-                public void danmakuShown(BaseDanmaku danmaku) {
-
-                }
-
-                @Override
-                public void drawingFinished() {
-
-                }
-            });
-
-            danmakuContext = DanmakuContext.create();
-            initDanmakuStyle();
-            danmakuView.prepare(parser, danmakuContext);//回调重写的prepared() 方法
 
 
         }
@@ -1024,7 +1034,7 @@ public class LiveDetails extends BaseActivity implements
             @Override
             public void run() {
                 while (showDanmaku) {
-                    int time = new Random().nextInt(800);
+                    int time = new Random().nextInt(1500);
                     String content = "弹幕测试" + time + time;
                     addDanmaku(content, false);
                     try {
@@ -1059,6 +1069,7 @@ public class LiveDetails extends BaseActivity implements
         danmaku.textSize = sp2px(danmakuTextSize + 13);
 
         danmaku.setTime(danmakuView.getCurrentTime());
+        //本机弹幕修改边框
         if (withBorder) {
             danmaku.textColor = Color.RED;
             danmaku.borderColor = Color.GREEN;
@@ -1172,7 +1183,7 @@ public class LiveDetails extends BaseActivity implements
 
     @Override
     public void onSuccess(String result) {
-        Log.e(TAG, "发送成功" + "--:屏幕:--" + isPort);
+        Log.e(TAG, "发送成功" + "--:屏幕:--");
 
 
     }
@@ -1188,7 +1199,7 @@ public class LiveDetails extends BaseActivity implements
         String nickName = receives[0];
         String sendTime = receives[1];
         String message = receives[2];
-        Log.e(TAG, "收到消息:" + message + "--:屏幕:--" + (getResources().getConfiguration().orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT));
+
 
         LiveChatMessage chatMessage = new LiveChatMessage();
         chatMessage.setNickName(DmsUtil.unescape(nickName));
