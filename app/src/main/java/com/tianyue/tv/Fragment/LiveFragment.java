@@ -101,7 +101,8 @@ public class LiveFragment extends BaseFragment  {
             @Override
             public void onRefresh() {
                 LogUtil.e("正在刷新");
-                liveHomeColumns = new ArrayList<LiveHomeColumn>();
+              //  liveHomeColumns.clear();
+
                 //开启子线程拉取数据，请求完成后，使用handler发消息通知主界面更新数据
                 new Thread(() -> {
                     requestBroad();
@@ -215,6 +216,7 @@ public class LiveFragment extends BaseFragment  {
                 columnContentZI.add(fillBroadColumn(bean));
             }
         }
+        liveHomeColumns.clear();
         fillMainType(columnContentJR.size(), 200, columnContentJR);
         fillMainType(columnContentY.size(), 300, columnContentY);
         fillMainType(columnContentS.size(), 400, columnContentS);

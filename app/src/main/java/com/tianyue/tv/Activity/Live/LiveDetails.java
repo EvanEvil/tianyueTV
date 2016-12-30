@@ -81,7 +81,6 @@ import master.flame.danmaku.danmaku.parser.BaseDanmakuParser;
 import master.flame.danmaku.ui.widget.DanmakuView;
 
 import static com.tianyue.tv.R.id.barrage_setting_size_seekbar;
-import static com.tianyue.tv.R.id.top;
 
 /**
  * 播放界面
@@ -354,6 +353,7 @@ public class LiveDetails extends BaseActivity implements
                     showToast("发送的消息不能为空哦");
 
                 } else {
+
                     sendDanmaku();
                 }
 
@@ -711,7 +711,7 @@ public class LiveDetails extends BaseActivity implements
                     finish();
                 } else {
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-                    isPort = true;
+
                 }
                 break;
 
@@ -1179,6 +1179,7 @@ public class LiveDetails extends BaseActivity implements
         if (isPort) {
 
         } else {
+
             et_landText.setText("");
         }
 

@@ -60,6 +60,24 @@ public class SearchInfo {
         private int onlineNum;
         private String isPushPOM;
         private int bctypeId;
+        private String image;
+        private String focusNum;
+
+        public String getImage() {
+            return image;
+        }
+
+        public void setImage(String image) {
+            this.image = image;
+        }
+
+        public String getFocusNum() {
+            return focusNum;
+        }
+
+        public void setFocusNum(String focusNum) {
+            this.focusNum = focusNum;
+        }
 
         public int getTytypeId() {
             return tytypeId;

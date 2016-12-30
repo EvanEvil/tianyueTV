@@ -2,7 +2,6 @@ package com.tianyue.tv.Activity.Discovery;
 
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
-import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.text.TextUtils;
@@ -23,6 +22,7 @@ import com.lzy.okgo.request.BaseRequest;
 import com.tianyue.tv.Activity.BaseActivity;
 import com.tianyue.tv.Activity.Live.LiveDetails;
 import com.tianyue.tv.Adapter.SearchInfoAdapter;
+import com.tianyue.tv.Bean.LiveHomeColumn;
 import com.tianyue.tv.Bean.SearchInfo;
 import com.tianyue.tv.Config.InterfaceUrl;
 import com.tianyue.tv.R;
@@ -186,20 +186,10 @@ public class TotalStationSearchActivity extends BaseActivity {
             mXRecyclerView.setAdapter(mAdapter);
             //点击事件
             mAdapter.setOnItemClickListener((view, postion) -> {
-                //判断是7牛直播还是??直播
-                String isPushPOM = broadCastUser.get(postion).getIsPushPOM();
-                Bundle bundle = new Bundle();
-                if ("1".equals(isPushPOM)) {
-
-                    bundle.putString("liveUrl", broadCastUser.get(postion).getQl_push_flow());
-
-
-                } else {
-                    bundle.putString("liveUrl", broadCastUser.get(postion).getPlayAddress());
-
-                }
-                //根据地址进入直播间
-                startActivity(LiveDetails.class, bundle);
+                LiveHomeColumn.LiveHomeColumnContent content = fillBroadColumn(broadCastUser.get(postion));
+                Intent intent = new Intent(this, LiveDetails.class);
+                intent.putExtra("live_column", content);
+                startActivity(intent);
                 finish();
             });
 
@@ -257,5 +247,22 @@ public class TotalStationSearchActivity extends BaseActivity {
         inFromLeft.setFillAfter(true);
         inFromLeft.setInterpolator(new AccelerateInterpolator());
         return inFromLeft;
+    }
+    /**
+     * 填充单个直播间信息
+     */
+    private LiveHomeColumn.LiveHomeColumnContent fillBroadColumn(SearchInfo.BroadCastUserBean bean) {
+        LiveHomeColumn.LiveHomeColumnContent content = new LiveHomeColumn.LiveHomeColumnContent();
+        content.setPicUrl(bean.getImage());
+        content.setTitle(bean.getName());
+        content.setNumber(bean.getOnlineNum() + "");
+        content.setUserId(bean.getUser_id() + "");
+        content.setHeadUrl(bean.getHeadUrl());
+        content.setNickName(bean.getNickName());
+        content.setIsPushPOM(bean.getIsPushPOM());
+        content.setQl_push_flow(bean.getQl_push_flow());
+        content.setPlayAddress(bean.getPlayAddress());
+        content.setFocusNum(bean.getFocusNum());
+        return content;
     }
 }
