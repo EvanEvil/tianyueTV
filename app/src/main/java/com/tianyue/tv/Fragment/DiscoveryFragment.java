@@ -5,10 +5,12 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -31,7 +33,6 @@ import butterknife.OnClick;
 
 /**
  * Created by hasee on 2016/8/12.
- *
  */
 public class DiscoveryFragment extends BaseFragment {
 
@@ -45,7 +46,7 @@ public class DiscoveryFragment extends BaseFragment {
     TagFlowLayout mHideTagLayout;
 
     @BindView(R.id.more_layout) //查看更多根布局
-    LinearLayout mMoreLayout;
+            LinearLayout mMoreLayout;
 
     @BindView(R.id.tv_more)
     TextView mMoreText; //查看更多
@@ -69,12 +70,12 @@ public class DiscoveryFragment extends BaseFragment {
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.discovery_home, container,false);
+        View view = inflater.inflate(R.layout.discovery_home, container, false);
         return view;
     }
+
     /**
      * 初始化 发现 页面控件
-     *
      */
     @Override
     protected void init() {
@@ -87,10 +88,10 @@ public class DiscoveryFragment extends BaseFragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()== 0){
+                if (s.length() == 0) {
 
                     btn_search_cancle.setText("取消");
-                }else{
+                } else {
                     btn_search_cancle.setVisibility(View.VISIBLE);
                     btn_search_cancle.setText("搜索");
                 }
@@ -103,25 +104,39 @@ public class DiscoveryFragment extends BaseFragment {
         });
         //监听edittext是否获取焦点
         search_edit.setOnFocusChangeListener((v, hasFocus) -> {
-            if(search_edit != null){
-                if(hasFocus){
+            if (search_edit != null) {
+                if (hasFocus) {
                     LogUtil.e("获取到了焦点");
                     btn_search_cancle.setVisibility(View.VISIBLE);
-                    KeyBoardUtil.openKeybord(search_edit,context);
-                }else{
+                    KeyBoardUtil.openKeybord(search_edit, context);
+                } else {
                     btn_search_cancle.setVisibility(View.GONE);
-                    KeyBoardUtil.closeKeybord(search_edit,context);
+                    KeyBoardUtil.closeKeybord(search_edit, context);
                 }
             }
 
         });
+        //软键盘搜索监听
+        search_edit.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                String tag = search_edit.getText().toString().trim();
+                if (TextUtils.isEmpty(tag)) {
+                    showToast("搜索内容不能为空");
+                    return true;
+                }
+                search_edit.setText("");
+                lunchActivity(tag);
+            }
+            return false;
+        });
         //button点击监听  取消：隐藏键盘  搜索：开启搜索的Activity
         btn_search_cancle.setOnClickListener(v -> {
-            if("取消".equals(btn_search_cancle.getText())){
-                KeyBoardUtil.closeKeybord(search_edit,context);
+            if ("取消".equals(btn_search_cancle.getText())) {
+                KeyBoardUtil.closeKeybord(search_edit, context);
                 btn_search_cancle.setVisibility(View.GONE);
 
-            }else{
+            } else {
+                search_edit.setText("");
                 lunchActivity(search_edit.getText().toString().trim());
             }
         });
@@ -129,8 +144,7 @@ public class DiscoveryFragment extends BaseFragment {
     }
 
     @Override
-    public void finishCreateView(Bundle state)
-    {
+    public void finishCreateView(Bundle state) {
 
         mScrollView.setNestedScrollingEnabled(true);
         getTags();
@@ -138,7 +152,7 @@ public class DiscoveryFragment extends BaseFragment {
 
 
     /**
-     *  获取热门标签
+     * 获取热门标签
      */
     private void getTags() {
         //getTagFromServer(); 后期实现
@@ -163,17 +177,17 @@ public class DiscoveryFragment extends BaseFragment {
      */
     private void initTagLayout() {
         //如果集合数据为空，则隐藏流式布局
-        if(hotSearchTags.size() == 0){
+        if (hotSearchTags.size() == 0) {
             ll_hotSearch_tag.setVisibility(View.GONE);
             return;
         }
         //获取热搜标签集合前8个默认显示
         int defaultShow = 8;
-        if(hotSearchTags.size() < 8){
+        if (hotSearchTags.size() < 8) {
             defaultShow = hotSearchTags.size();
             frontTags = hotSearchTags.subList(0, defaultShow);
             mMoreLayout.setVisibility(View.GONE);
-        }else{
+        } else {
 
             frontTags = hotSearchTags.subList(0, defaultShow);
             mMoreLayout.setVisibility(View.VISIBLE);
@@ -210,18 +224,18 @@ public class DiscoveryFragment extends BaseFragment {
 
     /**
      * 热门标签搜索的点击跳转
-     * @param tag   搜索的标签
+     *
+     * @param tag 搜索的标签
      */
     private void lunchActivity(String tag) {
-        Intent intent = new Intent(getActivity(),TotalStationSearchActivity.class);
-        intent.putExtra(ConstantUtil.TAG,tag);
+        Intent intent = new Intent(getActivity(), TotalStationSearchActivity.class);
+        intent.putExtra(ConstantUtil.TAG, tag);
         startActivity(intent);
     }
 
     @OnClick(R.id.more_layout)
-    void showAndHideMoreLayout(){
-        if (isShowMore)
-        {
+    void showAndHideMoreLayout() {
+        if (isShowMore) {
             isShowMore = false;
             mScrollView.setVisibility(View.VISIBLE);
             mMoreText.setText("收起");
@@ -229,8 +243,7 @@ public class DiscoveryFragment extends BaseFragment {
             Drawable upDrawable = getResources().getDrawable(R.mipmap.ic_arrow_up_gray_round);
             upDrawable.setBounds(0, 0, upDrawable.getMinimumWidth(), upDrawable.getMinimumHeight());
             mMoreText.setCompoundDrawables(upDrawable, null, null, null);
-        } else
-        {
+        } else {
             isShowMore = true;
             mScrollView.setVisibility(View.GONE);
             mMoreText.setText("查看更多");
@@ -241,9 +254,7 @@ public class DiscoveryFragment extends BaseFragment {
         }
     }
 
-    private void getDiscoveryData(){
-
-
+    private void getDiscoveryData() {
 
 
     }

@@ -1,5 +1,6 @@
 package com.tianyue.tv.Activity.Discovery;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.support.v7.widget.CardView;
@@ -7,9 +8,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -41,10 +39,11 @@ public class TotalStationSearchActivity extends BaseActivity {
 
     @BindView(R.id.search_img)
     ImageView mSearchBtn;   //搜索button
-    @BindView(R.id.iv_search_loading)
-    ImageView mmLoadingView;    //加载中
+
     @BindView(R.id.search_layout)
     LinearLayout mSearchLayout; //搜索结果
+    @BindView(R.id.ll_search_failed)
+    LinearLayout ll_search_failed;//搜索失败
     @BindView(R.id.search_edit)
     EditText mSearchEdit;   //搜索框
     @BindView(R.id.recyclerview)
@@ -57,6 +56,7 @@ public class TotalStationSearchActivity extends BaseActivity {
     private String tag;
     private AnimationDrawable mAnimationDrawable;
     private SearchInfoAdapter mAdapter;
+    private ProgressDialog progressDialog;
 
 
     /**
@@ -66,12 +66,9 @@ public class TotalStationSearchActivity extends BaseActivity {
     protected void initView() {
         //加载布局
         setContentView(R.layout.activity_total_station_search);
-        //给editText设置出现动画
-//        Animation leftAnimation = inFromLeftAnimation();
-//        search_card_view.startAnimation(leftAnimation);
-        //设置加载动画
-        mmLoadingView.setImageResource(R.drawable.anim_search_loading);
-        mAnimationDrawable = (AnimationDrawable) mmLoadingView.getDrawable();
+
+
+
         //获取传递过来的热搜词
         Intent intent = getIntent();
         if (intent != null) {
@@ -81,8 +78,7 @@ public class TotalStationSearchActivity extends BaseActivity {
                 setEmptyLayout();
             } else {
                 //带热搜词点击跳转过来的
-                //显示加载中动画
-                showSearchAnim();
+
                 mSearchEdit.clearFocus();   //清除搜索框的焦点
                 mSearchEdit.setText(tag);
                 //从服务器拉取数据
@@ -198,9 +194,14 @@ public class TotalStationSearchActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 显示搜索结果（有数据）
+     */
     public void showSearchResult() {
-        mmLoadingView.setVisibility(View.GONE);
+        progressDialog.dismiss();
+        ll_search_failed.setVisibility(View.GONE);
         mSearchLayout.setVisibility(View.VISIBLE);
+
     }
 
 
@@ -208,21 +209,20 @@ public class TotalStationSearchActivity extends BaseActivity {
      * 搜索中的动画
      */
     private void showSearchAnim() {
+        //显示ProgressDialog
+        progressDialog = ProgressDialog.show(this, "拼命加载中...", "请稍后...", true, false);
 
 
-        mmLoadingView.setVisibility(View.VISIBLE);
-        mSearchLayout.setVisibility(View.GONE);
-        mAnimationDrawable.start();
     }
 
     /**
-     * 没有搜索到数据的时候调用的方法
+     * 搜索失败
      */
     public void setEmptyLayout() {
-
-        mmLoadingView.setVisibility(View.VISIBLE);
+        progressDialog.dismiss();
+        ll_search_failed.setVisibility(View.VISIBLE);
         mSearchLayout.setVisibility(View.GONE);
-        mmLoadingView.setImageResource(R.mipmap.search_failed);
+
     }
 
     /**
@@ -233,21 +233,7 @@ public class TotalStationSearchActivity extends BaseActivity {
         super.init();
     }
 
-    /**
-     * 定义从右侧进入的动画效果
-     * @return
-     */
-    protected Animation inFromLeftAnimation() {
-        Animation inFromLeft = new TranslateAnimation(
-                Animation.RELATIVE_TO_SELF, 1.0f,
-                Animation.RELATIVE_TO_SELF, 0.0f,
-                Animation.RELATIVE_TO_SELF, 0.0f,
-                Animation.RELATIVE_TO_SELF, 0.0f);
-        inFromLeft.setDuration(1000);
-        inFromLeft.setFillAfter(true);
-        inFromLeft.setInterpolator(new AccelerateInterpolator());
-        return inFromLeft;
-    }
+
     /**
      * 填充单个直播间信息
      */

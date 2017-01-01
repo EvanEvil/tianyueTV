@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#f0f0f0"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+              android:background="#f0f0f0"
+              android:orientation="vertical" android:layout_width="match_parent"
+              android:layout_height="match_parent">
   <!--搜索-->
   <LinearLayout
       android:id="@+id/ll_search"
@@ -26,9 +26,10 @@
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:layout_gravity="center|end"
-
+        android:imeOptions="actionSearch"
         android:background="@mipmap/icon_search"
         android:gravity="center_vertical"
+        android:inputType="text"
         android:maxLines="1"
         android:hint="@string/discover_search_hint"
         android:textColor="#71000000"
