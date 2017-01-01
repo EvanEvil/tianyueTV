@@ -50,12 +50,23 @@ public class DiscoveryFragment extends BaseFragment {
     @BindView(R.id.tv_more)
     TextView mMoreText; //查看更多
     @BindView(R.id.search_edit)
-    EditText search_edit;
+    EditText search_edit;   //搜索编辑框
+
     @BindView(R.id.btn_search_cancle)
-    Button btn_search_cancle;
+    Button btn_search_cancle;   //搜索取消按钮
+    @BindView(R.id.ll_hotSearch_tag)
+    LinearLayout ll_hotSearch_tag;
+    /**
+     * 是否显示更多
+     */
     private boolean isShowMore = true;
 
+    /**
+     * 热门标签
+     */
     private List<String> hotSearchTags = new ArrayList<>();
+    private List<String> frontTags;
+
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.discovery_home, container,false);
@@ -104,12 +115,12 @@ public class DiscoveryFragment extends BaseFragment {
             }
 
         });
-        //button点击监听
+        //button点击监听  取消：隐藏键盘  搜索：开启搜索的Activity
         btn_search_cancle.setOnClickListener(v -> {
             if("取消".equals(btn_search_cancle.getText())){
                 KeyBoardUtil.closeKeybord(search_edit,context);
                 btn_search_cancle.setVisibility(View.GONE);
-                showToast("取消");
+
             }else{
                 lunchActivity(search_edit.getText().toString().trim());
             }
@@ -131,25 +142,42 @@ public class DiscoveryFragment extends BaseFragment {
      */
     private void getTags() {
         //getTagFromServer(); 后期实现
-        hotSearchTags.add("百合");
-        hotSearchTags.add("匠人直播");
-        hotSearchTags.add("天越");
-        hotSearchTags.add("lol");
-        hotSearchTags.add("小啊");
-        hotSearchTags.add("小帝帝的男主播");
-        hotSearchTags.add("小帝帝开车");
-        hotSearchTags.add("小帝帝城会玩");
-        hotSearchTags.add("杨幂");
-        hotSearchTags.add("赵丽颖");
-        hotSearchTags.add("科比");
-        hotSearchTags.add("哈登");
-        hotSearchTags.add("林俊杰");
+//        hotSearchTags.add("百合");
+//        hotSearchTags.add("匠人直播");
+//        hotSearchTags.add("天越");
+//        hotSearchTags.add("lol");
+//        hotSearchTags.add("小啊");
+//        hotSearchTags.add("小帝帝的男主播");
+//        hotSearchTags.add("小帝帝开车");
+//        hotSearchTags.add("小帝帝城会玩");
+//        hotSearchTags.add("杨幂");
+//        hotSearchTags.add("赵丽颖");
+//        hotSearchTags.add("科比");
+//        hotSearchTags.add("哈登");
+//        hotSearchTags.add("林俊杰");
         initTagLayout();
     }
 
+    /**
+     * 初始化流式布局
+     */
     private void initTagLayout() {
-        //获取热搜标签集合前9个默认显示
-        List<String> frontTags = hotSearchTags.subList(0, 8);
+        //如果集合数据为空，则隐藏流式布局
+        if(hotSearchTags.size() == 0){
+            ll_hotSearch_tag.setVisibility(View.GONE);
+            return;
+        }
+        //获取热搜标签集合前8个默认显示
+        int defaultShow = 8;
+        if(hotSearchTags.size() < 8){
+            defaultShow = hotSearchTags.size();
+            frontTags = hotSearchTags.subList(0, defaultShow);
+            mMoreLayout.setVisibility(View.GONE);
+        }else{
+
+            frontTags = hotSearchTags.subList(0, defaultShow);
+            mMoreLayout.setVisibility(View.VISIBLE);
+        }
         mTagFlowLayout.setAdapter(new TagAdapter<String>(frontTags) {
 
             @Override
@@ -158,12 +186,14 @@ public class DiscoveryFragment extends BaseFragment {
                         .inflate(R.layout.layout_tags_item, parent, false);
                 mTags.setText(tag);
 
-                        mTags.setOnClickListener(v -> lunchActivity(tag));
+                mTags.setOnClickListener(v -> lunchActivity(tag));
 
 
                 return mTags;
             }
         });
+
+
         mHideTagLayout.setAdapter(new TagAdapter<String>(hotSearchTags) {
 
             @Override

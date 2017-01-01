@@ -3,7 +3,8 @@ package com.tianyue.tv.Bean;
 import java.util.List;
 
 /**
- * Created by Administrator on 2016/12/21.
+ * 发现模块搜索结果：正在直播的主播房间数据
+ * Created by Evan on 2016/12/21.
  */
 
 public class SearchInfo {

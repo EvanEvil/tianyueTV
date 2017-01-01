@@ -5,6 +5,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
+import android.util.DisplayMetrics;
 import android.widget.Toast;
 
 import java.util.regex.Matcher;
@@ -87,4 +88,29 @@ public class Util {
             }
         });
     }
+
+    /**
+     * 获取屏幕的宽
+     * @param activity
+     * @return
+     */
+    public  static int getScreenWidth(Activity activity){
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        return displayMetrics.widthPixels;
+    }
+
+    /**
+     * 获取屏幕的高
+     * @param activity
+     * @return
+     */
+    public  static int getScreenHeight(Activity activity){
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        return displayMetrics.heightPixels;
+    }
+
 }

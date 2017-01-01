@@ -52,68 +52,75 @@
 
   </LinearLayout>
   <!--大家都在搜-->
-  <TextView
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:padding="10dp"
-      android:text="大家都在搜"
-      android:textColor="#71000000"
-      android:textSize="14sp" />
-  <com.zhy.view.flowlayout.TagFlowLayout
-      android:id="@+id/tags_layout"
+  <LinearLayout
+      android:id="@+id/ll_hotSearch_tag"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_marginEnd="5dp"
-      android:layout_marginStart="5dp"
-      app:max_select="-1" />
-  <android.support.v4.widget.NestedScrollView
-      android:id="@+id/hide_scroll_view"
-      android:layout_width="wrap_content"
-      android:layout_height="200dp"
-      android:overScrollMode="never"
-      android:visibility="gone">
+      android:orientation="vertical">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="大家都在搜"
+        android:textColor="#71000000"
+        android:textSize="14sp" />
     <com.zhy.view.flowlayout.TagFlowLayout
-        android:id="@+id/hide_tags_layout"
+        android:id="@+id/tags_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="5dp"
         android:layout_marginStart="5dp"
         app:max_select="-1" />
-
-  </android.support.v4.widget.NestedScrollView>
-  <LinearLayout
-      android:id="@+id/more_layout"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="10dp"
-      android:clickable="true"
-      android:gravity="center"
-      android:orientation="horizontal"
-      >
-    <View
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginStart="30dp"
-        android:layout_weight="1"
-        android:background="#dcdcdc"/>
-    <TextView
-        android:id="@+id/tv_more"
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/hide_scroll_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawablePadding="5dp"
-        android:drawableStart="@mipmap/ic_arrow_down_gray_round"
-        android:gravity="center"
-        android:paddingEnd="5dp"
-        android:paddingStart="5dp"
-        android:text="查看更多"
-        android:textColor="#555555"
-        android:textSize="12sp" />
-    <View
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginEnd="30dp"
-        android:layout_weight="1"
-        android:background="#dcdcdc" />
+        android:layout_height="200dp"
+        android:overScrollMode="never"
+        android:visibility="gone">
+      <com.zhy.view.flowlayout.TagFlowLayout
+          android:id="@+id/hide_tags_layout"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginEnd="5dp"
+          android:layout_marginStart="5dp"
+          app:max_select="-1" />
 
+    </android.support.v4.widget.NestedScrollView>
+    <LinearLayout
+        android:id="@+id/more_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:clickable="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        >
+      <View
+          android:layout_width="0dp"
+          android:layout_height="1dp"
+          android:layout_marginStart="30dp"
+          android:layout_weight="1"
+          android:background="#dcdcdc"/>
+      <TextView
+          android:id="@+id/tv_more"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:drawablePadding="5dp"
+          android:drawableStart="@mipmap/ic_arrow_down_gray_round"
+          android:gravity="center"
+          android:paddingEnd="5dp"
+          android:paddingStart="5dp"
+          android:text="查看更多"
+          android:textColor="#555555"
+          android:textSize="12sp" />
+      <View
+          android:layout_width="0dp"
+          android:layout_height="1dp"
+          android:layout_marginEnd="30dp"
+          android:layout_weight="1"
+          android:background="#dcdcdc" />
+
+    </LinearLayout>
   </LinearLayout>
+
 </LinearLayout>
