@@ -10,10 +10,7 @@
       android:layout_centerInParent="true"
       android:layout_width="match_parent"
       android:layout_height="match_parent" />
-    <master.flame.danmaku.ui.widget.DanmakuView
-        android:id="@+id/danmaku_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+
     <LinearLayout
         android:id="@+id/LoadingView"
         android:layout_centerInParent="true"
@@ -164,4 +161,11 @@
             android:src="@mipmap/exit_full"
             style="@style/Live_Details_ImageButton"/>
     </LinearLayout>
+
+    <master.flame.danmaku.ui.widget.DanmakuView
+        android:id="@+id/danmaku_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"/>
 </RelativeLayout>

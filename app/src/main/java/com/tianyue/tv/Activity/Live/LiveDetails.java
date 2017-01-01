@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -62,7 +63,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -222,7 +222,7 @@ public class LiveDetails extends BaseActivity implements
     /**
      * DanmakuContext可以用于对弹幕的各种全局配置进行设定，如设置字体、设置最大显示行数等。这里我们并没有什么特殊的要求，因此一切都保持默认。
      */
-    private DanmakuContext danmakuContext;
+    private static  DanmakuContext danmakuContext;
     private BaseDanmakuParser parser;
     private HashMap<Integer, Integer> maxLinesPair;// 弹幕最大行数
     private HashMap<Integer, Boolean> overlappingEnablePair;// 设置是否重叠
@@ -290,6 +290,7 @@ public class LiveDetails extends BaseActivity implements
             return true;
         };
         playView.setOnTouchListener(surfaceviewOnTouchListener);
+
         if (isPort) {
             initPortView();
         } else {
@@ -335,22 +336,48 @@ public class LiveDetails extends BaseActivity implements
         ll_land_bottom_controller = (LinearLayout) findViewById(R.id.ll_land_bottom_controller);
 
         et_landText = (EditText) findViewById(R.id.et_landText);
+        MyOnFocusChangeListener myOnFocusChangeListener = new MyOnFocusChangeListener();
+        et_landText.setOnFocusChangeListener(myOnFocusChangeListener);
+
         btn_land_sendDanmaku = (ImageButton) findViewById(R.id.live_details_send);
 
-        LogUtil.e("初始化danmakuView");
+
+
+        initdanmaku();
+
+
+        //横屏发送弹幕监听
+        btn_land_sendDanmaku.setOnClickListener(v -> {
+            String message = et_landText.getText().toString();
+            if (message.equals("")) {
+
+                showToast("发送的消息不能为空哦");
+
+            } else {
+
+                sendDanmaku();
+                et_landText.setText("");
+            }
+
+        });
+        settings.setOnClickListener(this);
+    }
+
+    private void initdanmaku() {
+        //初始化横屏弹幕
         danmakuView = (DanmakuView) findViewById(R.id.danmaku_view);
+        LogUtil.e("横屏danmakuView被初始化了"+danmakuView);
         danmakuView.enableDanmakuDrawingCache(true);
-        LogUtil.e("初始化弹幕danmakuContext");
         danmakuContext = DanmakuContext.create();
-        LogUtil.e("初始化弹幕parser");
         parser = new BaseDanmakuParser() {
             @Override
             protected IDanmakus parse() {
                 return new Danmakus();
             }
         };
-
-
+        LogUtil.e("danmakuView:"+danmakuView);
+        LogUtil.e("danmakuContext:"+danmakuContext);
+        LogUtil.e("parser:"+parser);
         danmakuView.setCallback(new DrawHandler.Callback() {
             @Override
             public void prepared() {
@@ -358,7 +385,7 @@ public class LiveDetails extends BaseActivity implements
                 showDanmaku = true;
                 danmakuView.start();
                 LogUtil.e("弹幕控件start");
-                 generateSomeDanmaku();
+                // generateSomeDanmaku();
             }
 
             @Override
@@ -376,26 +403,21 @@ public class LiveDetails extends BaseActivity implements
 
             }
         });
-
-
         initDanmakuStyle();
         danmakuView.prepare(parser, danmakuContext);//回调重写的prepared() 方法
 
-        //横屏发送弹幕监听
-        btn_land_sendDanmaku.setOnClickListener(v -> {
-            String message = et_landText.getText().toString();
-            if (message.equals("")) {
+    }
 
-                showToast("发送的消息不能为空哦");
+    private void generateSomeDanmaku() {
 
-            } else {
-
-                sendDanmaku();
-                et_landText.setText("");
-            }
-
-        });
-        settings.setOnClickListener(this);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                   while(showDanmaku){
+                       addDanmaku("弹幕测试",false);
+                   }
+                }
+            }, 2000);
     }
 
     class MyOnFocusChangeListener implements View.OnFocusChangeListener {
@@ -823,7 +845,7 @@ public class LiveDetails extends BaseActivity implements
 
         String danmakuMsg = et_landText.getText().toString();
         dmsUtil.sendMessage(danmakuMsg);
-        addDanmaku(danmakuMsg, true);
+
 
     }
 
@@ -937,11 +959,13 @@ public class LiveDetails extends BaseActivity implements
             mHandler.sendEmptyMessageDelayed(HIDDEN_LAND, 5000);
         }
 
+        //如果是横屏,则初始化弹幕资源
+        if (getResources().getConfiguration().orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
 
-        if (isPort != true) {
-            //Evan
-            MyOnFocusChangeListener myOnFocusChangeListener = new MyOnFocusChangeListener();
-            et_landText.setOnFocusChangeListener(myOnFocusChangeListener);
+
+
+
+
 
 
 
@@ -1026,26 +1050,8 @@ public class LiveDetails extends BaseActivity implements
         return (int) (spValue * fontScale + 0.5f);
     }
 
-    /**
-     * 随机生成一些弹幕内容以供测试
-     */
-    private void generateSomeDanmaku() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (showDanmaku) {
-                    int time = new Random().nextInt(1500);
-                    String content = "弹幕测试" + time + time;
-                    addDanmaku(content, false);
-                    try {
-                        Thread.sleep(time);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }).start();
-    }
+
+
 
     /**
      * 添加弹幕
@@ -1054,10 +1060,17 @@ public class LiveDetails extends BaseActivity implements
      * @param withBorder 这个参数用于指定弹幕消息是否带有边框，这样才好将自己发送的弹幕和别人发送的弹幕进行区分。
      */
     public void addDanmaku(String content, boolean withBorder) {
+        //DanmakuContext danmakuContext = DanmakuContext.create();
+        showToast("log");
+        if (danmakuContext!=null) {
+            showToast("log");
+             danmaku = danmakuContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL,danmakuContext);
+        }
 
-        //TYPE_SCROLL_RL表示这是一条从右向左滚动的弹幕
-        //BaseDanmaku danmaku = danmakuContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL);
-        danmaku = danmakuContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL, danmakuContext);
+        if (danmaku == null || danmakuView == null) {
+                LogUtil.e(" danmakuView == null"+danmakuView);
+            return;
+        }
         //设置字体颜色
         danmaku.textColor = Color.WHITE;
 
@@ -1210,19 +1223,23 @@ public class LiveDetails extends BaseActivity implements
                 messageList.remove(i);
             }
         }
+        messageList.add(chatMessage);
+        LogUtil.e("收到消息:"+message+"朝向:"+(getResources().getConfiguration().orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT));
         //竖屏通知chatFragment更新数据
         if (getResources().getConfiguration().orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-            messageList.add(chatMessage);
+
             EventBus.getDefault().post(chatMessage);
         } else {
             //横屏时,接收到消息,发到弹幕上
-            addDanmaku(message, false);
+            LogUtil.e("接受到消息，发到横屏");
+            LogUtil.e("danmakuview是否在收到消息时为空?:"+danmakuView);
+              addDanmaku(message,true);
         }
 
 
     }
 
-
+    //首饰识别器
     private class MySimpleOnGestureListener implements GestureDetector.OnGestureListener {
         @Override
         public boolean onDown(MotionEvent e) {
@@ -1285,21 +1302,22 @@ public class LiveDetails extends BaseActivity implements
             mHandler.removeMessages(HIDDEN_LAND);
         }
     }
-
+    //显示横屏控制器
     private void showLandController() {
         ll_land_top_controller.setVisibility(View.VISIBLE);
         ll_land_bottom_controller.setVisibility(View.VISIBLE);
         isshowMediaController = true;
     }
-
+    //显示竖屏控制器
     private void showPortController() {
         rl_port_top_controller.setVisibility(View.VISIBLE);
         ll_port_land_bottom_controller.setVisibility(View.VISIBLE);
         isshowMediaController = true;
     }
 
+    //隐藏控制器
     private void hideMediaController() {
-        //隐藏控制器
+
         if (isPort) {
             hidePortController();
             //把隐藏消息移除
@@ -1338,5 +1356,17 @@ public class LiveDetails extends BaseActivity implements
         oks.show(this);
     }
 
-
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE){
+            //横屏
+            setContentView(R.layout.live_details_layout);
+            initLandView();
+        }else{
+            //竖屏
+            setContentView(R.layout.live_details_layout);
+            initPortView();
+        }
+    }
 }
