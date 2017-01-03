@@ -12,4 +12,5 @@
     <color name="code_clickable">#343434</color>
     <color name="bck_default">#ebebeb</color>
     <color name="default_bck_color">#a8000000</color>
+    <color name="statusbar_black">#000000</color>
 </resources>

@@ -127,4 +127,15 @@ public class InterfaceUrl {
      * 注册协议
      */
     public final static String AGREEMENT = "http://www.tianyue.tv/m_agreement";
+
+    /**
+     * 关注
+     */
+    public final static String REQUEST_ATTENTION = "192.168.0.88:8081/focusOnBc_app";
+
+    /**
+     * 取消关注
+     */
+    public final static String CANCEL_ATTENTION = "192.168.0.88:8081/deleteFocus_app";
+
 }

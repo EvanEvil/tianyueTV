@@ -20,6 +20,7 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -27,6 +28,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -36,6 +40,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lzy.okgo.OkGo;
 import com.pili.pldroid.player.AVOptions;
 import com.pili.pldroid.player.PLMediaPlayer;
 import com.squareup.picasso.Picasso;
@@ -44,6 +49,7 @@ import com.tianyue.tv.Adapter.LiveTabAdapter;
 import com.tianyue.tv.Bean.EventBusBean.EventMsg;
 import com.tianyue.tv.Bean.LiveChatMessage;
 import com.tianyue.tv.Bean.LiveHomeColumn;
+import com.tianyue.tv.Config.InterfaceUrl;
 import com.tianyue.tv.Config.ParamConfigKey;
 import com.tianyue.tv.CustomView.Dialog.BarrageSettingDialog;
 import com.tianyue.tv.Fragment.LiveChatFragment;
@@ -51,7 +57,9 @@ import com.tianyue.tv.Fragment.LiveGiftFragment;
 import com.tianyue.tv.MyApplication;
 import com.tianyue.tv.R;
 import com.tianyue.tv.Util.DmsUtil;
+import com.tianyue.tv.Util.KeyBoardUtil;
 import com.tianyue.tv.Util.LogUtil;
+import com.tianyue.tv.Util.StatusBarUtil;
 import com.tianyue.tv.Util.Util;
 
 import org.greenrobot.eventbus.EventBus;
@@ -94,21 +102,8 @@ public class LiveDetails extends BaseActivity implements
         PLMediaPlayer.OnErrorListener,
         PLMediaPlayer.OnCompletionListener,
         PLMediaPlayer.OnVideoSizeChangedListener, DmsUtil.SendMessageCallBack, DmsUtil.MessageCallBack {
-    private static final int HIDDEN_LAND = 1;
-    private static final int HIDDEN_PORT = 2;
-    /**
-     * 横屏顶部和底部控制器
-     */
-    private LinearLayout ll_land_top_controller;
-    private LinearLayout ll_land_bottom_controller;
-    /**
-     * 竖屏顶部底部控制器
-     */
-    private RelativeLayout rl_port_top_controller;
-    private LinearLayout ll_port_land_bottom_controller;
-    /**
-     * 横屏布局隐藏
-     */
+    private static final int HIDDEN_LAYOUT = 1;
+    private static final int SHOWN_LAYOUT = 2;
 
 
     private Handler mHandler = new Handler() {
@@ -116,16 +111,21 @@ public class LiveDetails extends BaseActivity implements
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
-                case HIDDEN_LAND:
-                    hideLandController();
+                case HIDDEN_LAYOUT://隐藏布局
+                    hideMediaController();
 
                     break;
-                case HIDDEN_PORT:
-                    hidePortController();
+                case SHOWN_LAYOUT://显示布局
+                    showMediaController();
                     break;
             }
         }
     };
+
+
+
+
+
     /**
      * 当前即将显示的弹幕
      */
@@ -143,45 +143,56 @@ public class LiveDetails extends BaseActivity implements
      * 弹幕位置(0上,1中,2下)
      */
     private int danmakuPositon;
+    private float videoHeight;
 
-    private void hidePortController() {
-        rl_port_top_controller.setVisibility(View.INVISIBLE);
-        ll_port_land_bottom_controller.setVisibility(View.INVISIBLE);
-        isshowMediaController = false;
-    }
 
-    private void hideLandController() {
-        ll_land_top_controller.setVisibility(View.INVISIBLE);
-        ll_land_bottom_controller.setVisibility(View.INVISIBLE);
-        isshowMediaController = false;
-    }
+
+
 
     //手势识别器
     private GestureDetector detector;
-    private boolean isshowMediaController = true;
-    /**********
-     * 通用控件
-     **********/
-    @BindView(R.id.live_details_full)
-    ImageButton fullButton;
+    private boolean isShowMediaController = true;
+
+
+    @BindView(R.id.ll_content)
+    LinearLayout ll_content;    //视频播放器以下的布局
+    @BindView(R.id.rl_shipin)
+    RelativeLayout rl_shipin;   //视频播放器布局
+    @BindView(R.id.tv_Top_fans)
+    TextView tv_Top_fans;       //粉丝数
+    @BindView(R.id.live_details_landTop_title)
+    TextView live_details_landTop_title;//顶部左边的标题
+    @BindView(R.id.tv_landTop_personNum)
+    TextView tv_landTop_personNum;//观看人数
     @BindView(R.id.live_details_playView)
-    SurfaceView playView;
-    @BindView(R.id.LoadingView)
-    View loadingView;
-    @BindView(R.id.live_details_pause)
-    ImageButton playPause;
-    @BindView(R.id.live_details_back)
-    ImageButton back;
-    @BindView(R.id.live_details_fans)
-    TextView fans;
-    @BindView(R.id.live_details_title)
-    TextView title;
-    @BindView(R.id.live_details_lookerNumber)
-    TextView lookerNumber;
+    SurfaceView playView;   //播放器
+    @BindView(R.id.live_details_Top_full_share)
+    ImageButton share; //一键分享
+    @BindView(R.id.live_details_landTop_full_setting)
+    ImageButton settings;   //横屏设置按钮
+    @BindView(R.id.live_details_bottom_pause)
+    ImageButton playPause;  //播放暂停
+    @BindView(R.id.ll_loadingView)
+    LinearLayout loadingView;   //加载中
+    @BindView(R.id.ll_landTop_controller)
+    LinearLayout ll_Top_controller; //顶部控制器
+    @BindView(R.id.rl_landbottom_controller)
+    RelativeLayout rl_landbottom_controller;//底部控制器
+    @BindView(R.id.ib_landbottom_forbidden)
+    ImageButton ib_landbottom_forbidden;
+    @BindView(R.id.ll_portbottom)
+    LinearLayout ll_portbottom; //竖屏底部特殊
+    @BindView(R.id.rl_landbottom)
+    RelativeLayout rl_landbottom; //横屏底部特殊
 
-    ImageButton full_share;
+    @BindView(R.id.et_chatMsg)
+    EditText et_chatMsg;
+    @BindView(R.id.btn_sendMsg) //竖屏发送消息
+    Button btn_sendMsg;
 
-    ImageButton share;
+
+
+
     PLMediaPlayer mediaPlayer;
     /*********
      * 竖屏控件
@@ -196,13 +207,6 @@ public class LiveDetails extends BaseActivity implements
     List<String> tabTitleList;
 
     LiveTabAdapter liveTabAdapter;
-
-    /*********
-     * 横屏控件
-     **********/
-    private ImageButton settings;
-
-
 
 
     /*********************************/
@@ -222,13 +226,14 @@ public class LiveDetails extends BaseActivity implements
     /**
      * DanmakuContext可以用于对弹幕的各种全局配置进行设定，如设置字体、设置最大显示行数等。这里我们并没有什么特殊的要求，因此一切都保持默认。
      */
-    private static  DanmakuContext danmakuContext;
+    private static DanmakuContext danmakuContext;
     private BaseDanmakuParser parser;
     private HashMap<Integer, Integer> maxLinesPair;// 弹幕最大行数
     private HashMap<Integer, Boolean> overlappingEnablePair;// 设置是否重叠
     /**
      * 横屏发送弹幕
      */
+    @BindView(R.id.live_details_landbottom_send)
     public ImageButton btn_land_sendDanmaku;
     /**
      * 横屏弹幕编辑框
@@ -250,16 +255,22 @@ public class LiveDetails extends BaseActivity implements
     protected void initView() {
 
         setContentView(R.layout.live_details_layout);
+        videoHeight = getResources().getDimension(R.dimen.x273);
+        showSystemUI();
         //shareSDK初始化
         ShareSDK.initSDK(context, "1a50d1e1f069f");
         EventBus.getDefault().register(this);
+        //一键分享
+        share.setOnClickListener(v -> showShare());
+
+
         content = getIntent().getParcelableExtra("live_column");
 
         if (content != null) {
             topic = content.getUserId();
-            fans.setText(content.getFocusNum());
-            title.setText(content.getTitle());
-            lookerNumber.setText(content.getNumber());
+            tv_Top_fans.setText(content.getFocusNum());
+            live_details_landTop_title.setText(content.getTitle());
+            tv_landTop_personNum.setText(content.getNumber());
             if (content.getIsPushPOM().equals("0")) {
                 playPath = content.getPlayAddress();
             } else {
@@ -268,16 +279,15 @@ public class LiveDetails extends BaseActivity implements
         }
 
 
-
         initdmsUtil();
 
 
         if (getResources().getConfiguration().orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
             isPort = true;
-            LogUtil.e("当前朝向:"+isPort);
+            LogUtil.e("当前朝向:" + isPort);
         } else {
             isPort = false;
-            LogUtil.e("当前朝向:"+isPort);
+            LogUtil.e("当前朝向:" + isPort);
         }
 
 
@@ -291,15 +301,54 @@ public class LiveDetails extends BaseActivity implements
         };
         playView.setOnTouchListener(surfaceviewOnTouchListener);
 
-        if (isPort) {
-            initPortView();
-        } else {
-            initLandView();
 
-        }
+        initPortView();
+
+        initLandView();
+        //隐藏横屏特殊控件
+        hideLandView();
+
+
         //2.实例化手势识别器，并且重写双击，点击，长按
         detector = new GestureDetector(this, new MySimpleOnGestureListener());
 
+
+    }
+
+    /**
+     * 竖屏的时候
+     *      隐藏横屏的一些控件
+     *      显示竖屏特殊的控件
+     */
+    private void hideLandView() {
+//        隐藏横屏的顶部和底部
+
+        settings.setVisibility(View.GONE);
+
+        tv_Top_fans.setVisibility(View.GONE);
+        tv_landTop_personNum.setVisibility(View.GONE);
+        ib_landbottom_forbidden.setVisibility(View.GONE);
+
+        rl_landbottom.setVisibility(View.INVISIBLE);
+        ll_portbottom.setVisibility(View.VISIBLE);
+
+
+    }
+    /**
+     * 横屏的时候
+     *      隐藏竖屏的一些控件
+     *      显示横屏控件
+     */
+    private void hidePortView() {
+        //        隐藏竖屏的顶部和底部
+        settings.setVisibility(View.VISIBLE);
+
+        tv_Top_fans.setVisibility(View.VISIBLE);
+        tv_landTop_personNum.setVisibility(View.VISIBLE);
+        ib_landbottom_forbidden.setVisibility(View.VISIBLE);
+        //底部
+        rl_landbottom.setVisibility(View.VISIBLE);
+        ll_portbottom.setVisibility(View.INVISIBLE);
 
     }
 
@@ -318,11 +367,7 @@ public class LiveDetails extends BaseActivity implements
      * 初始化 横屏 控件
      */
     private void initLandView() {
-        //一键分享
-        full_share = (ImageButton) findViewById(R.id.live_details_full_share);
-        full_share.setOnClickListener(v -> {
-            showShare();
-        });
+
         danmakuSp = getSharedPreferences("danmakuConfig", MODE_PRIVATE);
         //初始化横屏弹幕大小值
         danmakuTextSize = danmakuSp.getInt("danmakuSize", 3);
@@ -331,33 +376,19 @@ public class LiveDetails extends BaseActivity implements
         Log.e(TAG, "读取sp弹幕透明度的值：" + danmakuAlpha);
         //弹幕默认位置:顶部弹幕
         danmakuPositon = 0;
-        settings = (ImageButton) findViewById(R.id.live_details_full_setting);
-        ll_land_top_controller = (LinearLayout) findViewById(R.id.ll_land_top_controller);
-        ll_land_bottom_controller = (LinearLayout) findViewById(R.id.ll_land_bottom_controller);
+
 
         et_landText = (EditText) findViewById(R.id.et_landText);
         MyOnFocusChangeListener myOnFocusChangeListener = new MyOnFocusChangeListener();
         et_landText.setOnFocusChangeListener(myOnFocusChangeListener);
 
-        btn_land_sendDanmaku = (ImageButton) findViewById(R.id.live_details_send);
-
-
 
         initdanmaku();
 
 
-        //横屏发送弹幕监听
+        //横屏发送消息监听
         btn_land_sendDanmaku.setOnClickListener(v -> {
-            String message = et_landText.getText().toString();
-            if (message.equals("")) {
-
-                showToast("发送的消息不能为空哦");
-
-            } else {
-
-                sendDanmaku();
-                et_landText.setText("");
-            }
+          sendMessage(et_landText);
 
         });
         settings.setOnClickListener(this);
@@ -366,7 +397,7 @@ public class LiveDetails extends BaseActivity implements
     private void initdanmaku() {
         //初始化横屏弹幕
         danmakuView = (DanmakuView) findViewById(R.id.danmaku_view);
-        LogUtil.e("横屏danmakuView被初始化了"+danmakuView);
+        LogUtil.e("横屏danmakuView被初始化了" + danmakuView);
         danmakuView.enableDanmakuDrawingCache(true);
         danmakuContext = DanmakuContext.create();
         parser = new BaseDanmakuParser() {
@@ -375,9 +406,9 @@ public class LiveDetails extends BaseActivity implements
                 return new Danmakus();
             }
         };
-        LogUtil.e("danmakuView:"+danmakuView);
-        LogUtil.e("danmakuContext:"+danmakuContext);
-        LogUtil.e("parser:"+parser);
+        LogUtil.e("danmakuView:" + danmakuView);
+        LogUtil.e("danmakuContext:" + danmakuContext);
+        LogUtil.e("parser:" + parser);
         danmakuView.setCallback(new DrawHandler.Callback() {
             @Override
             public void prepared() {
@@ -410,14 +441,14 @@ public class LiveDetails extends BaseActivity implements
 
     private void generateSomeDanmaku() {
 
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                   while(showDanmaku){
-                       addDanmaku("弹幕测试",false);
-                   }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                while (showDanmaku) {
+                    addDanmaku("弹幕测试", false);
                 }
-            }, 2000);
+            }
+        }, 2000);
     }
 
     class MyOnFocusChangeListener implements View.OnFocusChangeListener {
@@ -426,10 +457,10 @@ public class LiveDetails extends BaseActivity implements
         public void onFocusChange(View v, boolean hasFocus) {
             if (hasFocus) {   //获得焦点
                 Toast.makeText(getApplicationContext(), "获得焦点", Toast.LENGTH_SHORT).show();
-                mHandler.removeMessages(HIDDEN_LAND);
+                mHandler.removeMessages(HIDDEN_LAYOUT);
             } else {  //失去焦点
                 Toast.makeText(getApplicationContext(), "失去焦点", Toast.LENGTH_SHORT).show();
-                hideLandController();
+                hideMediaController();
             }
         }
     }
@@ -438,7 +469,6 @@ public class LiveDetails extends BaseActivity implements
      * 初始化 竖屏 控件
      */
     private void initPortView() {
-        share = (ImageButton) findViewById(R.id.live_details_share);
         CircleImageView headPic = (CircleImageView) findViewById(R.id.live_details_anchorHeadIcon);
         TextView nickName = (TextView) findViewById(R.id.live_details_anchorNickName);
         if (content != null) {
@@ -447,14 +477,10 @@ public class LiveDetails extends BaseActivity implements
             }
             nickName.setText(content.getNickName());
         }
-        //一键分享
-        share.setOnClickListener(v -> {
-            showShare();
-        });
+
         tabLayout = (TabLayout) findViewById(R.id.live_details_tab);
         viewPager = (ViewPager) findViewById(R.id.live_details_viewPage);
-        rl_port_top_controller = (RelativeLayout) findViewById(R.id.rl_port_land_top_controller);
-        ll_port_land_bottom_controller = (LinearLayout) findViewById(R.id.ll_port_land_bottom_controller);
+
 
         liveChatFragment = new LiveChatFragment();
         liveGiftFragment = new LiveGiftFragment();
@@ -473,7 +499,58 @@ public class LiveDetails extends BaseActivity implements
         liveTabAdapter = new LiveTabAdapter(getSupportFragmentManager(), fragmentList, tabTitleList);
         viewPager.setAdapter(liveTabAdapter);
         tabLayout.setupWithViewPager(viewPager);
+
+        et_chatMsg.setOnFocusChangeListener(new MyOnPortFocusChangeListener());
+        et_chatMsg.setOnEditorActionListener(new MyOnEditorActionListener());
+
+        //竖屏发送消息监听
+        btn_sendMsg.setOnClickListener(v -> {
+            sendMessage(et_chatMsg);
+
+        });
     }
+
+
+
+
+    /**
+     * editText焦点监听
+     */
+    class MyOnPortFocusChangeListener implements View.OnFocusChangeListener{
+
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            if(hasFocus){
+                Log.e(TAG,"输入框获取到焦点");
+
+            }else{
+                Log.e(TAG,"输入框失去焦点");
+
+            }
+        }
+    }
+
+    /**
+     * 软键盘监听
+     */
+    class MyOnEditorActionListener implements TextView.OnEditorActionListener{
+
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            Log.e(TAG,"actionid:"+actionId);
+            //点击软键盘发送的时候，隐藏软键盘
+            if(actionId == EditorInfo.IME_ACTION_SEND){
+
+               sendMessage(et_chatMsg);
+
+
+            }
+            return false;
+        }
+    }
+
+
+
 
     /**
      * 初始化播放设置
@@ -573,7 +650,7 @@ public class LiveDetails extends BaseActivity implements
 
     @Override
     protected void onPause() {
-       LogUtil.e("onPause");
+        LogUtil.e("onPause");
         super.onPause();
         if (mediaPlayer != null && isLivePlay) {
             mediaPlayer.pause();
@@ -690,24 +767,49 @@ public class LiveDetails extends BaseActivity implements
     }
 
 
-    /**
-     * 沉浸式体验
-     *
-     * @param hasFocus
-     */
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus && Build.VERSION.SDK_INT >= 19 && !isPort) {
-            View decorView = getWindow().getDecorView();
+    //    /**
+//     * 沉浸式体验
+//     *
+//     * @param hasFocus
+//     */
+//    @Override
+//    public void onWindowFocusChanged(boolean hasFocus) {
+//        super.onWindowFocusChanged(hasFocus);
+//
+//        if (hasFocus && Build.VERSION.SDK_INT >= 19 && !isPort) {
+//            View decorView = getWindow().getDecorView();
+//            decorView.setSystemUiVisibility(
+//                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+//                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION  //Activity全屏显示，但状态栏不会被隐藏覆盖，状态栏依然可见，Activity顶端布局部分会被状态遮住。
+//                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN       //同上
+//                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION         //隐藏虚拟按键(导航栏)。
+//                            | View.SYSTEM_UI_FLAG_FULLSCREEN              //Activity全屏显示，且状态栏被隐藏覆盖掉。
+//                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+//        }
+//    }
+    private void hideSystemUI() {
+        // Set the IMMERSIVE flag.
+        // Set the content to appear under the system bars so that the content
+        // doesn't resize when the system bars hide and show.
+        View decorView = getWindow().getDecorView();
+        if(Build.VERSION.SDK_INT >= 19){
             decorView.setSystemUiVisibility(
                     View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE);
         }
+
+    }
+
+    private void showSystemUI() {
+        StatusBarUtil.setWindowStatusBarColor(this,R.color.statusbar_black);
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_VISIBLE);
     }
 
 
@@ -715,19 +817,21 @@ public class LiveDetails extends BaseActivity implements
      * 接口实现部分
      *********************/
     @Override
-    @OnClick({R.id.live_details_full, R.id.live_details_pause, R.id.live_details_back})
+    @OnClick({R.id.live_details_bottom_switchScreen, R.id.live_details_bottom_pause, R.id.live_details_landTop_full_setting, R.id.live_details_Top_back,R.id.live_details_attention,R.id.cb_landTop_focus})
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.live_details_full:
+            case R.id.live_details_bottom_switchScreen: //切屏
                 if (isPort) {
                     Log.e(TAG, "onClick: 横屏");
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
                 } else {
                     Log.e(TAG, "onClick: 竖屏");
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 }
+                isPort = !isPort;
                 break;
-            case R.id.live_details_pause:
+            case R.id.live_details_bottom_pause:    //暫停
                 if (mediaPlayer != null) {
                     if (isLivePlay) {
                         mediaPlayer.pause();
@@ -739,7 +843,7 @@ public class LiveDetails extends BaseActivity implements
                 }
                 updatePlayOrPauseView();
                 break;
-            case R.id.live_details_full_setting:
+            case R.id.live_details_landTop_full_setting://横屏播放器设置
                 if (dialog == null) {
                     dialog = new BarrageSettingDialog(this);
                     dialog.setSeekbarOnclickListener(seekBarChangeListener);
@@ -764,7 +868,7 @@ public class LiveDetails extends BaseActivity implements
                 }
                 dialog.show();
                 break;
-            case R.id.live_details_back:
+            case R.id.live_details_Top_back:    //后退按钮
                 if (isPort) {
                     finish();
                 } else {
@@ -772,9 +876,38 @@ public class LiveDetails extends BaseActivity implements
 
                 }
                 break;
+            case R.id.cb_landTop_focus:
+            case R.id.live_details_attention:
+                setAttention();
+                break;
 
 
         }
+    }
+    @BindView(R.id.cb_landTop_focus)
+    CheckBox cb_landTop_focus;
+    @BindView(R.id.live_details_attention)
+    CheckBox live_details_attention;
+
+    /**
+     * 设置关注
+     */
+    private void setAttention() {
+        boolean ischecked;
+        if(cb_landTop_focus.isChecked() || live_details_attention.isChecked()){
+            ischecked = false;
+            LogUtil.e("取消关注");
+        }else{
+            ischecked =true;
+            LogUtil.e("关注");
+        }
+
+        //请求服务器修改
+        OkGo.post(InterfaceUrl.REQUEST_ATTENTION)
+                .tag(this)
+                .params("user_id",MyApplication.instance().getUser().getId())
+                .params("bCastId","");
+
     }
 
     RadioGroup.OnCheckedChangeListener mOnCheckedChangeListener = new RadioGroup.OnCheckedChangeListener() {
@@ -839,12 +972,23 @@ public class LiveDetails extends BaseActivity implements
     }
 
     /**
-     * 获取横屏editText的消息并发送弹幕
+     * 获取editText的消息并发送
      */
-    private void sendDanmaku() {
+    private void sendMessage(EditText editText) {
+        String message = editText.getText().toString();
+        if (message.equals("")) {
 
-        String danmakuMsg = et_landText.getText().toString();
-        dmsUtil.sendMessage(danmakuMsg);
+            showToast("发送的消息不能为空哦");
+            return;
+        } else {
+
+
+            dmsUtil.sendMessage(message);
+            editText.setText("");
+            KeyBoardUtil.closeKeybord(editText,context);
+
+        }
+
 
 
     }
@@ -939,8 +1083,8 @@ public class LiveDetails extends BaseActivity implements
 
         @Override
         public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-            playViewWidth = width;
-            playViewHeight = height;
+//            playViewWidth = width;
+//            playViewHeight = height;
         }
 
         @Override
@@ -953,23 +1097,12 @@ public class LiveDetails extends BaseActivity implements
     public void onPrepared(PLMediaPlayer plMediaPlayer) {
         mediaPlayer.start();
         isLivePlay = true;
-        if (isPort) {
-            mHandler.sendEmptyMessageDelayed(HIDDEN_PORT, 5000);
-        } else {
-            mHandler.sendEmptyMessageDelayed(HIDDEN_LAND, 5000);
-        }
+        //发消息延时隐藏
+        mHandler.sendEmptyMessageDelayed(HIDDEN_LAYOUT, 5000);
+
 
         //如果是横屏,则初始化弹幕资源
         if (getResources().getConfiguration().orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-
-
-
-
-
-
-
-
-
 
 
         }
@@ -1051,8 +1184,6 @@ public class LiveDetails extends BaseActivity implements
     }
 
 
-
-
     /**
      * 添加弹幕
      *
@@ -1062,13 +1193,13 @@ public class LiveDetails extends BaseActivity implements
     public void addDanmaku(String content, boolean withBorder) {
         //DanmakuContext danmakuContext = DanmakuContext.create();
         showToast("log");
-        if (danmakuContext!=null) {
+        if (danmakuContext != null) {
             showToast("log");
-             danmaku = danmakuContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL,danmakuContext);
+            danmaku = danmakuContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL, danmakuContext);
         }
 
         if (danmaku == null || danmakuView == null) {
-                LogUtil.e(" danmakuView == null"+danmakuView);
+            LogUtil.e(" danmakuView == null" + danmakuView);
             return;
         }
         //设置字体颜色
@@ -1181,17 +1312,17 @@ public class LiveDetails extends BaseActivity implements
 
     @Override
     public void onVideoSizeChanged(PLMediaPlayer plMediaPlayer, int width, int height) {
-        if (width != 0 && height != 0) {
-            float ratioW = (float) width / (float) playViewWidth;
-            float ratioH = (float) height / (float) playViewHeight;
-            float ratio = Math.max(ratioW, ratioH);
-            width = (int) Math.ceil((float) width / ratio);
-            height = (int) Math.ceil((float) height / ratio);
-            ViewGroup.LayoutParams params = playView.getLayoutParams();
-            params.width = width;
-            params.height = height;
-            playView.setLayoutParams(params);
-        }
+//        if (width != 0 && height != 0) {
+//            float ratioW = (float) width / (float) playViewWidth;
+//            float ratioH = (float) height / (float) playViewHeight;
+//            float ratio = Math.max(ratioW, ratioH);
+//            width = (int) Math.ceil((float) width / ratio);
+//            height = (int) Math.ceil((float) height / ratio);
+//            ViewGroup.LayoutParams params = playView.getLayoutParams();
+//            params.width = width;
+//            params.height = height;
+//            playView.setLayoutParams(params);
+//        }
     }
 
     @Override
@@ -1224,7 +1355,7 @@ public class LiveDetails extends BaseActivity implements
             }
         }
         messageList.add(chatMessage);
-        LogUtil.e("收到消息:"+message+"朝向:"+(getResources().getConfiguration().orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT));
+        LogUtil.e("收到消息:" + message + "朝向:" + (getResources().getConfiguration().orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT));
         //竖屏通知chatFragment更新数据
         if (getResources().getConfiguration().orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
 
@@ -1232,8 +1363,22 @@ public class LiveDetails extends BaseActivity implements
         } else {
             //横屏时,接收到消息,发到弹幕上
             LogUtil.e("接受到消息，发到横屏");
-            LogUtil.e("danmakuview是否在收到消息时为空?:"+danmakuView);
-              addDanmaku(message,true);
+            LogUtil.e("danmakuview是否在收到消息时为空?:" + danmakuView);
+
+            EventBus.getDefault().post(chatMessage);
+
+
+            if(nickName.equals(MyApplication.instance().getUser().getNickName())){
+                addDanmaku(message,true);
+            }else{
+                addDanmaku(message,false);
+            }
+
+
+
+
+
+
         }
 
 
@@ -1253,20 +1398,24 @@ public class LiveDetails extends BaseActivity implements
 
         @Override
         public boolean onSingleTapUp(MotionEvent e) {
-            if (isshowMediaController) {
+            if (isShowMediaController) {
                 //隐藏
                 hideMediaController();
+                if(!isPort){
+                    hideSystemUI();
+                }
 
 
             } else {
                 //显示
                 showMediaController();
                 //发消息隐藏
-                if (isPort) {
-                    mHandler.sendEmptyMessageDelayed(HIDDEN_PORT, 5000);
-                } else {
-                    mHandler.sendEmptyMessageDelayed(HIDDEN_LAND, 5000);
+                mHandler.sendEmptyMessageDelayed(HIDDEN_LAYOUT, 5000);
+                if(!isPort){
+                    showSystemUI();
                 }
+
+
             }
 
             return true;
@@ -1290,45 +1439,32 @@ public class LiveDetails extends BaseActivity implements
 
     private void showMediaController() {
 
-        isshowMediaController = true;
+        isShowMediaController = true;
 
         //显示控制器
-        if (isPort) {
-            showPortController();
-            //把隐藏消息移除
-            mHandler.removeMessages(HIDDEN_PORT);
-        } else {
-            showLandController();
-            mHandler.removeMessages(HIDDEN_LAND);
-        }
+        ll_Top_controller.setVisibility(View.VISIBLE);
+        rl_landbottom_controller.setVisibility(View.VISIBLE);
+
+
     }
-    //显示横屏控制器
-    private void showLandController() {
-        ll_land_top_controller.setVisibility(View.VISIBLE);
-        ll_land_bottom_controller.setVisibility(View.VISIBLE);
-        isshowMediaController = true;
-    }
-    //显示竖屏控制器
-    private void showPortController() {
-        rl_port_top_controller.setVisibility(View.VISIBLE);
-        ll_port_land_bottom_controller.setVisibility(View.VISIBLE);
-        isshowMediaController = true;
-    }
+
+
+
+
 
     //隐藏控制器
     private void hideMediaController() {
+        isShowMediaController = false;
 
-        if (isPort) {
-            hidePortController();
-            //把隐藏消息移除
-            mHandler.removeMessages(HIDDEN_PORT);
-        } else {
-            hideLandController();
-            mHandler.removeMessages(HIDDEN_LAND);
-        }
+        ll_Top_controller.setVisibility(View.GONE);
+        rl_landbottom_controller.setVisibility(View.GONE);
+        mHandler.removeMessages(HIDDEN_LAYOUT);
 
     }
 
+    /**
+     * 一键分享
+     */
     private void showShare() {
         ShareSDK.initSDK(this);
         OnekeyShare oks = new OnekeyShare();
@@ -1356,17 +1492,34 @@ public class LiveDetails extends BaseActivity implements
         oks.show(this);
     }
 
+    /**
+     * 当屏幕朝向改变的时候回调
+     *
+     * @param newConfig
+     */
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        if(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE){
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             //横屏
-            setContentView(R.layout.live_details_layout);
-            initLandView();
-        }else{
+            ViewGroup.LayoutParams layoutParams = rl_shipin.getLayoutParams();
+            layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+            layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
+            rl_shipin.setLayoutParams(layoutParams);
+            ll_content.setVisibility(View.GONE);
+            hidePortView();
+            hideSystemUI();
+        } else {
             //竖屏
-            setContentView(R.layout.live_details_layout);
-            initPortView();
+            ViewGroup.LayoutParams layoutParams = rl_shipin.getLayoutParams();
+            layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+            layoutParams.height = (int) videoHeight;
+            rl_shipin.setLayoutParams(layoutParams);
+            ll_content.setVisibility(View.VISIBLE);
+            hideLandView();
+            showSystemUI();
         }
+        //发消息延时隐藏
+        mHandler.sendEmptyMessageDelayed(HIDDEN_LAYOUT, 5000);
     }
 }
