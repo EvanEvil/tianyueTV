@@ -189,6 +189,8 @@ public class LiveDetails extends BaseActivity implements
     EditText et_chatMsg;
     @BindView(R.id.btn_sendMsg) //竖屏发送消息
     Button btn_sendMsg;
+    @BindView(R.id.ll_bottom_chatLayout)
+    LinearLayout ll_bottom_chatLayout;
 
 
 
@@ -499,7 +501,7 @@ public class LiveDetails extends BaseActivity implements
         liveTabAdapter = new LiveTabAdapter(getSupportFragmentManager(), fragmentList, tabTitleList);
         viewPager.setAdapter(liveTabAdapter);
         tabLayout.setupWithViewPager(viewPager);
-
+        tabLayout.setOnTabSelectedListener(new MyOnTabSelectedListener());
         et_chatMsg.setOnFocusChangeListener(new MyOnPortFocusChangeListener());
         et_chatMsg.setOnEditorActionListener(new MyOnEditorActionListener());
 
@@ -508,6 +510,28 @@ public class LiveDetails extends BaseActivity implements
             sendMessage(et_chatMsg);
 
         });
+    }
+    class MyOnTabSelectedListener implements TabLayout.OnTabSelectedListener{
+
+        @Override
+        public void onTabSelected(TabLayout.Tab tab) {
+            int position = tab.getPosition();
+            if(position==0){
+                ll_bottom_chatLayout.setVisibility(View.VISIBLE);
+            }else if(position ==1){
+                ll_bottom_chatLayout.setVisibility(View.INVISIBLE);
+            }
+        }
+
+        @Override
+        public void onTabUnselected(TabLayout.Tab tab) {
+
+        }
+
+        @Override
+        public void onTabReselected(TabLayout.Tab tab) {
+
+        }
     }
 
 
@@ -829,7 +853,7 @@ public class LiveDetails extends BaseActivity implements
                     Log.e(TAG, "onClick: 竖屏");
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 }
-                isPort = !isPort;
+
                 break;
             case R.id.live_details_bottom_pause:    //暫停
                 if (mediaPlayer != null) {
@@ -1500,6 +1524,7 @@ public class LiveDetails extends BaseActivity implements
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+        isPort = !isPort;
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             //横屏
             ViewGroup.LayoutParams layoutParams = rl_shipin.getLayoutParams();
