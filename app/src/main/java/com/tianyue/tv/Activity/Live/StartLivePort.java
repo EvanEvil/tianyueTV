@@ -408,7 +408,7 @@ public class StartLivePort extends BaseActivity implements
         int height = column.getHeight();
         Log.i(TAG, "onConfigurationChanged: width" + width + "height" + height);
         ViewGroup.LayoutParams params = column.getLayoutParams();
-        ViewGroup.LayoutParams bottomParams = bottom.getLayoutParams();
+        ViewGroup.LayoutParams bottomParams = viewPager.getLayoutParams();
         params.height = width;
         params.width = height;
         int portHeightDimen = (int) getResources().getDimension(R.dimen.y312);
@@ -421,7 +421,7 @@ public class StartLivePort extends BaseActivity implements
             bottomParams.height = landHeightDimen;
         }
         column.setLayoutParams(params);
-        bottom.setLayoutParams(bottomParams);
+        viewPager.setLayoutParams(bottomParams);
     }
 
     //自定义DNS解析

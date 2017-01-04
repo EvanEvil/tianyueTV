@@ -170,27 +170,27 @@ public class LiveDetails extends BaseActivity implements
     ImageButton share; //一键分享
     @BindView(R.id.live_details_landTop_full_setting)
     ImageButton settings;   //横屏设置按钮
-    @BindView(R.id.live_details_bottom_pause)
-    ImageButton playPause;  //播放暂停
+    @BindView(R.id.live_port_details_pause)
+    ImageButton portPlayPause;  //播放暂停
+    @BindView(R.id.live_land_details_pause)
+    ImageButton landPlayPause;  //播放暂停
     @BindView(R.id.ll_loadingView)
     LinearLayout loadingView;   //加载中
     @BindView(R.id.ll_landTop_controller)
     LinearLayout ll_Top_controller; //顶部控制器
-    @BindView(R.id.rl_landbottom_controller)
+    @BindView(R.id.rl_bottom_controller)
     RelativeLayout rl_landbottom_controller;//底部控制器
     @BindView(R.id.ib_landbottom_forbidden)
     ImageButton ib_landbottom_forbidden;
-    @BindView(R.id.ll_portbottom)
+    @BindView(R.id.ll_port_bottom_controller)
     LinearLayout ll_portbottom; //竖屏底部特殊
-    @BindView(R.id.rl_landbottom)
-    RelativeLayout rl_landbottom; //横屏底部特殊
+    @BindView(R.id.ll_land_bottom_controller)
+    LinearLayout rl_landbottom; //横屏底部特殊
 
     @BindView(R.id.et_chatMsg)
     EditText et_chatMsg;
     @BindView(R.id.btn_sendMsg) //竖屏发送消息
     Button btn_sendMsg;
-    @BindView(R.id.ll_bottom_chatLayout)
-    LinearLayout ll_bottom_chatLayout;
 
 
 
@@ -284,13 +284,7 @@ public class LiveDetails extends BaseActivity implements
         initdmsUtil();
 
 
-        if (getResources().getConfiguration().orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-            isPort = true;
-            LogUtil.e("当前朝向:" + isPort);
-        } else {
-            isPort = false;
-            LogUtil.e("当前朝向:" + isPort);
-        }
+
 
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -331,7 +325,7 @@ public class LiveDetails extends BaseActivity implements
         tv_landTop_personNum.setVisibility(View.GONE);
         ib_landbottom_forbidden.setVisibility(View.GONE);
 
-        rl_landbottom.setVisibility(View.INVISIBLE);
+        rl_landbottom.setVisibility(View.GONE);
         ll_portbottom.setVisibility(View.VISIBLE);
 
 
@@ -350,7 +344,7 @@ public class LiveDetails extends BaseActivity implements
         ib_landbottom_forbidden.setVisibility(View.VISIBLE);
         //底部
         rl_landbottom.setVisibility(View.VISIBLE);
-        ll_portbottom.setVisibility(View.INVISIBLE);
+        ll_portbottom.setVisibility(View.GONE);
 
     }
 
@@ -501,7 +495,7 @@ public class LiveDetails extends BaseActivity implements
         liveTabAdapter = new LiveTabAdapter(getSupportFragmentManager(), fragmentList, tabTitleList);
         viewPager.setAdapter(liveTabAdapter);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.setOnTabSelectedListener(new MyOnTabSelectedListener());
+
         et_chatMsg.setOnFocusChangeListener(new MyOnPortFocusChangeListener());
         et_chatMsg.setOnEditorActionListener(new MyOnEditorActionListener());
 
@@ -510,28 +504,6 @@ public class LiveDetails extends BaseActivity implements
             sendMessage(et_chatMsg);
 
         });
-    }
-    class MyOnTabSelectedListener implements TabLayout.OnTabSelectedListener{
-
-        @Override
-        public void onTabSelected(TabLayout.Tab tab) {
-            int position = tab.getPosition();
-            if(position==0){
-                ll_bottom_chatLayout.setVisibility(View.VISIBLE);
-            }else if(position ==1){
-                ll_bottom_chatLayout.setVisibility(View.INVISIBLE);
-            }
-        }
-
-        @Override
-        public void onTabUnselected(TabLayout.Tab tab) {
-
-        }
-
-        @Override
-        public void onTabReselected(TabLayout.Tab tab) {
-
-        }
     }
 
 
@@ -734,11 +706,11 @@ public class LiveDetails extends BaseActivity implements
     /**
      * 更新
      */
-    private void updatePlayOrPauseView() {
+    private void updatePlayOrPauseView(ImageButton button) {
         if (!isLivePlay) {
-            playPause.setImageDrawable(getResources().getDrawable(R.mipmap.live_details_play));
+            button.setImageDrawable(getResources().getDrawable(R.mipmap.live_details_play));
         } else {
-            playPause.setImageDrawable(getResources().getDrawable(R.mipmap.live_details_pause));
+            button.setImageDrawable(getResources().getDrawable(R.mipmap.live_details_pause));
         }
     }
 
@@ -841,10 +813,10 @@ public class LiveDetails extends BaseActivity implements
      * 接口实现部分
      *********************/
     @Override
-    @OnClick({R.id.live_details_bottom_switchScreen, R.id.live_details_bottom_pause, R.id.live_details_landTop_full_setting, R.id.live_details_Top_back,R.id.live_details_attention,R.id.cb_landTop_focus})
+    @OnClick({R.id.live_port_details_full,R.id.live_land_details_full, R.id.live_port_details_pause,R.id.live_land_details_pause, R.id.live_details_landTop_full_setting, R.id.live_details_Top_back,R.id.live_details_attention,R.id.cb_landTop_focus})
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.live_details_bottom_switchScreen: //切屏
+            case R.id.live_port_details_full: //切屏
                 if (isPort) {
                     Log.e(TAG, "onClick: 横屏");
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -855,7 +827,17 @@ public class LiveDetails extends BaseActivity implements
                 }
 
                 break;
-            case R.id.live_details_bottom_pause:    //暫停
+            case R.id.live_land_details_full: //切屏
+                if (isPort) {
+                    Log.e(TAG, "onClick: 横屏");
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+                } else {
+                    Log.e(TAG, "onClick: 竖屏");
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                }
+                break;
+            case R.id.live_port_details_pause:    //暫停
                 if (mediaPlayer != null) {
                     if (isLivePlay) {
                         mediaPlayer.pause();
@@ -865,7 +847,19 @@ public class LiveDetails extends BaseActivity implements
                         isLivePlay = true;
                     }
                 }
-                updatePlayOrPauseView();
+                updatePlayOrPauseView(portPlayPause);
+                break;
+            case R.id.live_land_details_pause:    //暫停
+                if (mediaPlayer != null) {
+                    if (isLivePlay) {
+                        mediaPlayer.pause();
+                        isLivePlay = false;
+                    } else {
+                        mediaPlayer.start();
+                        isLivePlay = true;
+                    }
+                }
+                updatePlayOrPauseView(landPlayPause);
                 break;
             case R.id.live_details_landTop_full_setting://横屏播放器设置
                 if (dialog == null) {

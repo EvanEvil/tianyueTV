@@ -55,7 +55,6 @@ public class ColumnContentViewAdapter extends RecyclerView.Adapter<ColumnContent
     public void onBindViewHolder(ColumnChildViewHolder holder, final int position) {
 
         LiveHomeColumn.LiveHomeColumnContent column = columnContent.get(position);
-        LogUtil.i(column.getPicUrl());
         if (column.getPicUrl() == null || column.getPicUrl().equals("")) {
 //            Picasso.with(context).load(column.getResourceId()).into(holder.preview);
         } else {

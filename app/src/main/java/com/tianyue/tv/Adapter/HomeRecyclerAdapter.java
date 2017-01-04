@@ -146,6 +146,11 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             @Override
             public View getView(ViewGroup container, int position) {
+                if(imgs.length <= 1){
+                    rollPagerView.setPlayDelay(0);
+                } else {
+                    rollPagerView.setPlayDelay(3000);
+                }
                 ImageView view = new ImageView(container.getContext());
                 view.setImageResource(imgs[position]);
                 view.setScaleType(ImageView.ScaleType.CENTER_CROP);

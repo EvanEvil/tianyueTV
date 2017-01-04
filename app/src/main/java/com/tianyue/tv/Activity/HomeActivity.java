@@ -36,7 +36,7 @@ public class HomeActivity extends BaseActivity  {
     ViewPager viewpager_home;//首页viewpage
     private List<BaseFragment> fragments = new ArrayList<>();
     private Fragment currentFragment = new Fragment();
-
+    //    pgu20508 jzj463   aqz86848 rmi051
     private int currentIndex = 0;
 
     private final String CURRENT = "fragment";

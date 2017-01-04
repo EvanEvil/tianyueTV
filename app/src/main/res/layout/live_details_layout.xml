@@ -134,116 +134,219 @@
 
         <!--底部布局-->
         <RelativeLayout
-            android:id="@+id/rl_landbottom_controller"
+            android:id="@+id/rl_bottom_controller"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/y54"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="@android:color/transparent"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:orientation="horizontal">
-            <!--暂停-->
-            <ImageButton
-                android:id="@+id/live_details_bottom_pause"
-                style="@style/Live_Details_ImageButton"
-                android:layout_width="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/x10"
-                android:src="@mipmap/live_details_pause"/>
-            <!--横屏底部-->
-            <RelativeLayout
-                android:id="@+id/rl_landbottom"
-                android:layout_width="match_parent"
-                android:layout_toRightOf="@id/live_details_bottom_pause"
-                android:layout_height="match_parent"
-                android:visibility="visible">
-                <!--不知道这是什么button-->
-                <ImageButton
-                    android:id="@+id/ib_landbottom_forbidden"
-                    style="@style/Live_Details_ImageButton"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="@dimen/x20"
-                    android:src="@mipmap/shielding_barrage"/>
-
-                <LinearLayout
-                    android:id="@+id/ll_landEditLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="@dimen/y10"
-                    android:layout_marginRight="@dimen/x150"
-                    android:layout_marginLeft="@dimen/x20"
-                    android:layout_marginTop="@dimen/y10"
-                    android:layout_toRightOf="@id/ib_landbottom_forbidden"
-                    android:background="@drawable/live_play_full_bottom_bck"
-                    android:orientation="horizontal">
-
-                    <EditText
-                        android:id="@+id/et_landText"
-                        style="@style/hint_text_default"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-
-                        android:background="@null"
-                        android:hint="请输入弹幕"
-                        android:paddingLeft="@dimen/x10"
-                        android:singleLine="true"
-                        android:textColor="@color/white"
-                        android:textColorHint="#8a8a8a"/>
-                </LinearLayout>
-
-                <ImageButton
-                    android:id="@+id/live_details_landbottom_send"
-                    style="@style/Live_Details_ImageButton"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="@dimen/x20"
-                    android:layout_marginRight="@dimen/x50"
-                 android:layout_alignParentRight="true"
-                    android:src="@mipmap/live_details_full_send"/>
-
-            </RelativeLayout>
-            <!--竖屏底部-->
             <LinearLayout
-                android:id="@+id/ll_portbottom"
-                android:layout_width="0dp"
-                android:layout_weight="5"
-                android:layout_height="match_parent"
-                android:visibility="gone">
-                <!--存储-->
+                android:id="@+id/ll_port_bottom_controller"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <!--暂停-->
+                <ImageButton
+                    android:id="@+id/live_port_details_pause"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/x10"
+                    android:background="@null"
+                    android:src="@mipmap/live_details_pause" />
                 <ImageButton
                     android:id="@+id/live_details_store"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="@dimen/y4"
                     android:layout_marginLeft="@dimen/x22"
+                    android:visibility="invisible"
                     android:background="@null"
-                    android:src="@mipmap/live_details_store"/>
+                    android:src="@mipmap/live_details_store" />
                 <ImageButton
                     android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/x22"
+                    android:background="@null"
+                    android:visibility="invisible"
+                    android:src="@mipmap/live_details_welfare" />
+                <!--全屏-->
+                <ImageButton
+                    android:id="@+id/live_port_details_full"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="@dimen/x22"
-
+                    android:layout_marginRight="@dimen/x5"
                     android:background="@null"
-                    android:src="@mipmap/live_details_welfare"/>
+                    android:padding="8dp"
+                    android:src="@mipmap/live_details_full"
+                    android:text="全屏" />
             </LinearLayout>
-            <!--切换屏幕-->
-            <ImageButton
-                android:id="@+id/live_details_bottom_switchScreen"
-                style="@style/Live_Details_ImageButton"
 
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/x10"
-                android:layout_marginRight="@dimen/x20"
 
-                android:src="@mipmap/exit_full"/>
+            <LinearLayout
+                android:id="@+id/ll_land_bottom_controller"
+                android:background="@color/default_bck_color"
+                android:orientation="horizontal"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:layout_alignParentBottom="true"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y54">
+                <ImageButton
+                    android:id="@+id/live_land_details_pause"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/x10"
+                    android:src="@mipmap/live_details_pause"
+                    style="@style/Live_Details_ImageButton" />
+                <ImageButton
+                    android:id="@+id/ib_landbottom_forbidden"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/x20"
+                    android:src="@mipmap/shielding_barrage"
+                    style="@style/Live_Details_ImageButton" />
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_marginLeft="@dimen/x20"
+                    android:layout_marginTop="@dimen/y10"
+                    android:layout_marginBottom="@dimen/y10"
+                    android:background="@drawable/live_play_full_bottom_bck"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+                    <EditText
+                        android:id="@+id/et_landText"
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        android:background="@null"
+                        android:textColorHint="#8a8a8a"
+                        android:hint="请输入弹幕"
+                        android:textColor="@color/white"
+                        style="@style/hint_text_default"
+                        android:paddingLeft="@dimen/x10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+                <ImageButton
+                    android:layout_marginLeft="@dimen/x20"
+                    android:id="@+id/live_details_landbottom_send"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/live_details_full_send"
+                    style="@style/Live_Details_ImageButton"/>
+                <ImageButton
+                    android:id="@+id/live_land_details_full"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/x20"
+                    android:layout_marginRight="@dimen/x20"
+                    android:src="@mipmap/exit_full"
+                    style="@style/Live_Details_ImageButton"/>
+            </LinearLayout>
+            <!--&lt;!&ndash;暂停&ndash;&gt;-->
+            <!--<ImageButton-->
+                <!--android:id="@+id/live_details_bottom_pause"-->
+                <!--style="@style/Live_Details_ImageButton"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:layout_marginLeft="@dimen/x10"-->
+                <!--android:src="@mipmap/live_details_pause"/>-->
+            <!--&lt;!&ndash;横屏底部&ndash;&gt;-->
+            <!--<RelativeLayout-->
+                <!--android:id="@+id/rl_landbottom"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_toRightOf="@id/live_details_bottom_pause"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:visibility="gone">-->
+                <!--&lt;!&ndash;不知道这是什么button&ndash;&gt;-->
+                <!--<ImageButton-->
+                    <!--android:id="@+id/ib_landbottom_forbidden"-->
+                    <!--style="@style/Live_Details_ImageButton"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:layout_marginLeft="@dimen/x20"-->
+                    <!--android:src="@mipmap/shielding_barrage"/>-->
+
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/ll_landEditLayout"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_marginBottom="@dimen/y10"-->
+                    <!--android:layout_marginRight="@dimen/x150"-->
+                    <!--android:layout_marginLeft="@dimen/x20"-->
+                    <!--android:layout_marginTop="@dimen/y10"-->
+                    <!--android:layout_toRightOf="@id/ib_landbottom_forbidden"-->
+                    <!--android:background="@drawable/live_play_full_bottom_bck"-->
+                    <!--android:orientation="horizontal">-->
+
+                    <!--<EditText-->
+                        <!--android:id="@+id/et_landText"-->
+                        <!--style="@style/hint_text_default"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="match_parent"-->
+
+                        <!--android:background="@null"-->
+                        <!--android:hint="请输入弹幕"-->
+                        <!--android:paddingLeft="@dimen/x10"-->
+                        <!--android:singleLine="true"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textColorHint="#8a8a8a"/>-->
+                <!--</LinearLayout>-->
+
+                <!--<ImageButton-->
+                    <!--android:id="@+id/live_details_landbottom_send"-->
+                    <!--style="@style/Live_Details_ImageButton"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:layout_marginLeft="@dimen/x20"-->
+                    <!--android:layout_marginRight="@dimen/x50"-->
+                 <!--android:layout_alignParentRight="true"-->
+                    <!--android:src="@mipmap/live_details_full_send"/>-->
+
+            <!--</RelativeLayout>-->
+            <!--&lt;!&ndash;竖屏底部&ndash;&gt;-->
+            <!--<LinearLayout-->
+                <!--android:id="@+id/ll_portbottom"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_weight="5"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:visibility="visible">-->
+                <!--&lt;!&ndash;存储&ndash;&gt;-->
+                <!--<ImageButton-->
+                    <!--android:id="@+id/live_details_store"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:layout_marginLeft="@dimen/x22"-->
+                    <!--android:background="@null"-->
+                    <!--android:src="@mipmap/live_details_store"/>-->
+                <!--<ImageButton-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:layout_marginLeft="@dimen/x22"-->
+
+                    <!--android:background="@null"-->
+                    <!--android:src="@mipmap/live_details_welfare"/>-->
+            <!--</LinearLayout>-->
+            <!--&lt;!&ndash;切换屏幕&ndash;&gt;-->
+            <!--<ImageButton-->
+                <!--android:id="@+id/live_details_bottom_switchScreen"-->
+                <!--style="@style/Live_Details_ImageButton"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:layout_marginLeft="@dimen/x10"-->
+                <!--android:layout_marginRight="@dimen/x20"-->
+                <!--android:src="@mipmap/exit_full"/>-->
         </RelativeLayout>
 
     </RelativeLayout>
     <!--视频播放器以下的布局-->
     <LinearLayout
         android:id="@+id/ll_content"
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -305,10 +408,6 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#e2e2e2"/>
-
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
         <!--切换的页签-->
         <android.support.design.widget.TabLayout
             android:id="@+id/live_details_tab"
