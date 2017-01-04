@@ -41,6 +41,15 @@ public class LiveHomeColumn {
         private String isPushPOM;
         private String playAddress;
         private String ql_push_flow;
+        private String id;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
 
         public String getFocusNum() {
             return focusNum;
@@ -148,6 +157,7 @@ public class LiveHomeColumn {
             dest.writeString(this.isPushPOM);
             dest.writeString(this.playAddress);
             dest.writeString(this.ql_push_flow);
+            dest.writeString(this.id);
         }
 
         public LiveHomeColumnContent() {
@@ -165,6 +175,7 @@ public class LiveHomeColumn {
             this.isPushPOM = in.readString();
             this.playAddress = in.readString();
             this.ql_push_flow = in.readString();
+            this.id = in.readString();
         }
 
         public static final Parcelable.Creator<LiveHomeColumnContent> CREATOR = new Parcelable.Creator<LiveHomeColumnContent>() {

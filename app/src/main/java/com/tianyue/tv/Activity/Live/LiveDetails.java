@@ -8,6 +8,7 @@ import android.content.res.Configuration;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Handler;
@@ -30,7 +31,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -40,7 +40,9 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
 import com.pili.pldroid.player.AVOptions;
 import com.pili.pldroid.player.PLMediaPlayer;
 import com.squareup.picasso.Picasso;
@@ -54,6 +56,9 @@ import com.tianyue.tv.Config.ParamConfigKey;
 import com.tianyue.tv.CustomView.Dialog.BarrageSettingDialog;
 import com.tianyue.tv.Fragment.LiveChatFragment;
 import com.tianyue.tv.Fragment.LiveGiftFragment;
+import com.tianyue.tv.Gson.CancelFocusGson;
+import com.tianyue.tv.Gson.FocusGson;
+import com.tianyue.tv.Gson.RequestFocusGson;
 import com.tianyue.tv.MyApplication;
 import com.tianyue.tv.R;
 import com.tianyue.tv.Util.DmsUtil;
@@ -88,6 +93,8 @@ import master.flame.danmaku.danmaku.model.android.Danmakus;
 import master.flame.danmaku.danmaku.model.android.SpannedCacheStuffer;
 import master.flame.danmaku.danmaku.parser.BaseDanmakuParser;
 import master.flame.danmaku.ui.widget.DanmakuView;
+import okhttp3.Call;
+import okhttp3.Response;
 
 import static com.tianyue.tv.R.id.barrage_setting_size_seekbar;
 
@@ -112,7 +119,7 @@ public class LiveDetails extends BaseActivity implements
             super.handleMessage(msg);
             switch (msg.what) {
                 case HIDDEN_LAYOUT://隐藏布局
-                    hideMediaController();
+                   hideMediaController();
 
                     break;
                 case SHOWN_LAYOUT://显示布局
@@ -158,8 +165,7 @@ public class LiveDetails extends BaseActivity implements
     LinearLayout ll_content;    //视频播放器以下的布局
     @BindView(R.id.rl_shipin)
     RelativeLayout rl_shipin;   //视频播放器布局
-    @BindView(R.id.tv_Top_fans)
-    TextView tv_Top_fans;       //粉丝数
+
     @BindView(R.id.live_details_landTop_title)
     TextView live_details_landTop_title;//顶部左边的标题
     @BindView(R.id.tv_landTop_personNum)
@@ -184,13 +190,19 @@ public class LiveDetails extends BaseActivity implements
     ImageButton ib_landbottom_forbidden;
     @BindView(R.id.ll_port_bottom_controller)
     LinearLayout ll_portbottom; //竖屏底部特殊
-    @BindView(R.id.ll_land_bottom_controller)
-    LinearLayout rl_landbottom; //横屏底部特殊
+    //@BindView(R.id.ll_land_bottom_controller)
+    //LinearLayout rl_landbottom; //横屏底部特殊
 
     @BindView(R.id.et_chatMsg)
     EditText et_chatMsg;
     @BindView(R.id.btn_sendMsg) //竖屏发送消息
-    Button btn_sendMsg;
+            Button btn_sendMsg;
+//    @BindView(R.id.rl_landbottom)
+//    RelativeLayout rl_landbottom; //横屏底部特殊
+    @BindView(R.id.live_details_fans)
+    TextView live_details_fans; //竖屏关注
+    @BindView(R.id.tv_Top_fans)
+    TextView tv_Top_fans;       //横屏关注数
 
 
 
@@ -246,6 +258,10 @@ public class LiveDetails extends BaseActivity implements
     private View.OnTouchListener surfaceviewOnTouchListener;
     private List<LiveChatMessage> messageList = new ArrayList<>();
     private LiveHomeColumn.LiveHomeColumnContent content;
+    private String roomId;  //房间id
+    private int focusNum;   //关注数
+    private String isFocus; //是否关注了
+    private int mGuanz_id;  //关注id，给取消关注接口使用
 
 
     /**************************初始化部分********************************/
@@ -270,6 +286,7 @@ public class LiveDetails extends BaseActivity implements
 
         if (content != null) {
             topic = content.getUserId();
+            roomId = content.getId();
             tv_Top_fans.setText(content.getFocusNum());
             live_details_landTop_title.setText(content.getTitle());
             tv_landTop_personNum.setText(content.getNumber());
@@ -280,13 +297,19 @@ public class LiveDetails extends BaseActivity implements
             }
         }
 
-
+        //奥点云初始化
         initdmsUtil();
 
 
+        if (getResources().getConfiguration().orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+            isPort = true;
+            LogUtil.e("当前朝向:" + isPort);
+        } else {
+            isPort = false;
+            LogUtil.e("当前朝向:" + isPort);
+        }
 
-
-
+        //软键盘模式
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         initPlaySettings();
         audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
@@ -312,6 +335,72 @@ public class LiveDetails extends BaseActivity implements
     }
 
     /**
+     * 初始化数据
+     */
+    @Override
+    protected void init() {
+        showToast("房间id:"+content.getId());
+        queryISAttentionFromServer();
+    }
+
+    /**
+     * 查询是否关注了直播间
+     */
+    private void queryISAttentionFromServer() {
+        OkGo.post(InterfaceUrl.ISATTENTION)
+                .tag(this)
+                .params("user_id", topic)
+                .params("id",roomId)
+                .execute(new StringCallback(){
+
+                    @Override
+                    public void onSuccess(String result, Call call, Response response) {
+                        LogUtil.e("查询成功，结果；"+result);
+                        processIsFocusJsonData(result);
+
+                    }
+
+                    @Override
+                    public void onError(Call call, Response response, Exception e) {
+                        super.onError(call, response, e);
+                        LogUtil.e("查询失败");
+                    }
+                });
+    }
+
+    /**是否关注
+     * 解析json数据
+     * @param result    服务器返回的json字符串
+     */
+    private void processIsFocusJsonData(String result) {
+        Gson gson = new Gson();
+        FocusGson focusGson = gson.fromJson(result, FocusGson.class);
+        isFocus = focusGson.getRet();
+        if("1".equals(isFocus)){//关注
+             cb_landTop_focus.setBackgroundResource(R.mipmap.icon_focus_select);
+            Drawable drawable= getResources().getDrawable(R.mipmap.icon_focus_select);
+            // 这一步必须要做,否则不会显示.
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+            live_details_attention.setCompoundDrawables(drawable,null,null,null);
+
+            mGuanz_id = focusGson.getGuanz_id();
+        }else{
+            //未关注
+            cb_landTop_focus.setBackgroundResource(R.mipmap.live_details_like_uncheck);
+            Drawable drawable= getResources().getDrawable(R.mipmap.live_details_like_uncheck);
+            // 这一步必须要做,否则不会显示.
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+            live_details_attention.setCompoundDrawables(drawable,null,null,null);
+
+        }
+        focusNum = focusGson.getFollowL();
+
+        //设置粉丝值
+         live_details_fans.setText(""+focusNum);
+         tv_Top_fans.setText(""+focusNum);
+    }
+
+    /**
      * 竖屏的时候
      *      隐藏横屏的一些控件
      *      显示竖屏特殊的控件
@@ -325,7 +414,7 @@ public class LiveDetails extends BaseActivity implements
         tv_landTop_personNum.setVisibility(View.GONE);
         ib_landbottom_forbidden.setVisibility(View.GONE);
 
-        rl_landbottom.setVisibility(View.GONE);
+       // rl_landbottom.setVisibility(View.GONE);
         ll_portbottom.setVisibility(View.VISIBLE);
 
 
@@ -343,7 +432,7 @@ public class LiveDetails extends BaseActivity implements
         tv_landTop_personNum.setVisibility(View.VISIBLE);
         ib_landbottom_forbidden.setVisibility(View.VISIBLE);
         //底部
-        rl_landbottom.setVisibility(View.VISIBLE);
+        //rl_landbottom.setVisibility(View.VISIBLE);
         ll_portbottom.setVisibility(View.GONE);
 
     }
@@ -544,6 +633,29 @@ public class LiveDetails extends BaseActivity implements
             return false;
         }
     }
+
+    /**
+     * 获取editText的消息并发送
+     */
+    private void sendMessage(EditText editText) {
+        String message = editText.getText().toString();
+        if (message.equals("")) {
+
+            showToast("发送的消息不能为空哦");
+            return;
+        } else {
+
+
+            dmsUtil.sendMessage(message);
+            editText.setText("");
+            KeyBoardUtil.closeKeybord(editText,context);
+
+        }
+
+
+
+    }
+
 
 
 
@@ -825,7 +937,7 @@ public class LiveDetails extends BaseActivity implements
                     Log.e(TAG, "onClick: 竖屏");
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 }
-
+                isPort = !isPort;
                 break;
             case R.id.live_land_details_full: //切屏
                 if (isPort) {
@@ -903,28 +1015,124 @@ public class LiveDetails extends BaseActivity implements
         }
     }
     @BindView(R.id.cb_landTop_focus)
-    CheckBox cb_landTop_focus;
+    TextView cb_landTop_focus;
     @BindView(R.id.live_details_attention)
-    CheckBox live_details_attention;
+    TextView live_details_attention;
 
     /**
      * 设置关注
      */
     private void setAttention() {
-        boolean ischecked;
-        if(cb_landTop_focus.isChecked() || live_details_attention.isChecked()){
-            ischecked = false;
-            LogUtil.e("取消关注");
-        }else{
-            ischecked =true;
-            LogUtil.e("关注");
+
+        if("0".equals(isFocus)){//未关注，则关注
+           //关注
+            requestFocus();
+        }else if("1".equals(isFocus)){//关注，则取消关注
+            //取消关注
+            cancelFocus();
         }
 
-        //请求服务器修改
+
+
+
+
+    }
+
+    /**
+     * 取消关注
+     */
+    private void cancelFocus() {
+        OkGo.post(InterfaceUrl.CANCEL_ATTENTION)
+                .tag(this)
+                .params("id",mGuanz_id)
+                .params("bcId",content.getId())
+                .execute(new StringCallback(){
+                    @Override
+                    public void onSuccess(String result, Call call, Response response) {
+                        LogUtil.e("取消关注onSuccess："+result);
+                        processCancelFocusJsonData(result);
+                    }
+
+                    @Override
+                    public void onError(Call call, Response response, Exception e) {
+                        super.onError(call, response, e);
+                        LogUtil.e("取消关注onError");
+                    }
+                });
+    }
+
+    /**
+     * 解析取消关注
+     * @param result
+     */
+    private void processCancelFocusJsonData(String result) {
+        Gson gson = new Gson();
+        CancelFocusGson cancelFocusGson = gson.fromJson(result, CancelFocusGson.class);
+        if("success".equals(cancelFocusGson.getRet())){ //取消成功
+            isFocus = "0";
+            cb_landTop_focus.setBackgroundResource(R.mipmap.live_details_like_uncheck);
+            Drawable drawable= getResources().getDrawable(R.mipmap.live_details_like_uncheck);
+            // 这一步必须要做,否则不会显示.
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+            live_details_attention.setCompoundDrawables(drawable,null,null,null);
+            //取消后更新粉丝值
+            live_details_fans.setText(""+cancelFocusGson.getCount());
+            tv_Top_fans.setText(""+cancelFocusGson.getCount());
+        }else if("error".equals(cancelFocusGson.getStatus())){  //取消关注出错
+            showToast("取消关注出错");
+        }
+
+
+    }
+
+    /**
+     * 关注
+     */
+    private void requestFocus() {
+
         OkGo.post(InterfaceUrl.REQUEST_ATTENTION)
                 .tag(this)
-                .params("user_id",MyApplication.instance().getUser().getId())
-                .params("bCastId","");
+                .params("user_id",content.getUserId())
+                .params("bCastId",content.getId())
+                .execute(new StringCallback(){
+                    @Override
+                    public void onSuccess(String result, Call call, Response response) {
+                        LogUtil.e("关注onSuccess："+result);
+
+                        processRequestFocusJsonData(result);
+
+                    }
+
+                    @Override
+                    public void onError(Call call, Response response, Exception e) {
+                        super.onError(call, response, e);
+                        LogUtil.e("关注onError");
+                    }
+                });
+
+    }
+
+    /**
+     * 解析成功关注
+     * @param result
+     */
+    private void processRequestFocusJsonData(String result) {
+        Gson gson = new Gson();
+        RequestFocusGson requestFocusGson = gson.fromJson(result, RequestFocusGson.class);
+        String status = requestFocusGson.getStatus();
+        if("success".equals(status)){   //关注成功
+            isFocus = "1";  //更改关注状态
+            live_details_fans.setText(""+requestFocusGson.getCount());
+            tv_Top_fans.setText(""+requestFocusGson.getCount());
+            cb_landTop_focus.setBackgroundResource(R.mipmap.icon_focus_select);
+            Drawable drawable= getResources().getDrawable(R.mipmap.icon_focus_select);
+            // 这一步必须要做,否则不会显示.
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+            live_details_attention.setCompoundDrawables(drawable,null,null,null);
+        }else if("repeat".equals(status)){  //直播间不存在
+            showToast("直播间不存在，不能关注");
+        }
+
 
     }
 
@@ -990,23 +1198,12 @@ public class LiveDetails extends BaseActivity implements
     }
 
     /**
-     * 获取editText的消息并发送
+     * 获取横屏editText的消息并发送弹幕
      */
-    private void sendMessage(EditText editText) {
-        String message = editText.getText().toString();
-        if (message.equals("")) {
+    private void sendDanmaku() {
 
-            showToast("发送的消息不能为空哦");
-            return;
-        } else {
-
-
-            dmsUtil.sendMessage(message);
-            editText.setText("");
-            KeyBoardUtil.closeKeybord(editText,context);
-
-        }
-
+        String danmakuMsg = et_landText.getText().toString();
+        dmsUtil.sendMessage(danmakuMsg);
 
 
     }

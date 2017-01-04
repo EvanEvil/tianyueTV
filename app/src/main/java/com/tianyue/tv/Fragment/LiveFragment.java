@@ -269,6 +269,7 @@ public class LiveFragment extends BaseFragment  {
         content.setQl_push_flow(bean.getQl_push_flow());
         content.setPlayAddress(bean.getPlayAddress());
         content.setFocusNum(bean.getFocusNum());
+        content.setId(bean.getId()+"");
         return content;
     }
 
