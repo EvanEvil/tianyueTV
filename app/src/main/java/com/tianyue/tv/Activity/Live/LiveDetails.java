@@ -17,6 +17,7 @@ import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.util.Log;
@@ -262,6 +263,7 @@ public class LiveDetails extends BaseActivity implements
     private int focusNum;   //关注数
     private String isFocus; //是否关注了
     private int mGuanz_id;  //关注id，给取消关注接口使用
+
 
 
     /**************************初始化部分********************************/
@@ -1026,10 +1028,13 @@ public class LiveDetails extends BaseActivity implements
 
         if("0".equals(isFocus)){//未关注，则关注
            //关注
+            isFocus = "1";
             requestFocus();
         }else if("1".equals(isFocus)){//关注，则取消关注
             //取消关注
-            cancelFocus();
+            isFocus = "0";
+            showCancelDialog();
+
         }
 
 
@@ -1039,9 +1044,32 @@ public class LiveDetails extends BaseActivity implements
     }
 
     /**
+     * 显示取消对话框
+     */
+    private void showCancelDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("取消订阅，将收不到主播开播信息，是否取消");
+        builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(which == DialogInterface.BUTTON_POSITIVE){
+                    cancelFocus();
+                }else if(which == DialogInterface.BUTTON_NEGATIVE){
+                    finish();
+                }
+
+            }
+        });
+        builder.setNegativeButton("否",null);
+        builder.create().show();
+
+    }
+
+    /**
      * 取消关注
      */
     private void cancelFocus() {
+        showToast("id："+mGuanz_id+",房间id:"+content.getId());
         OkGo.post(InterfaceUrl.CANCEL_ATTENTION)
                 .tag(this)
                 .params("id",mGuanz_id)
@@ -1057,6 +1085,7 @@ public class LiveDetails extends BaseActivity implements
                     public void onError(Call call, Response response, Exception e) {
                         super.onError(call, response, e);
                         LogUtil.e("取消关注onError");
+                        isFocus = "1";
                     }
                 });
     }
@@ -1080,6 +1109,7 @@ public class LiveDetails extends BaseActivity implements
             tv_Top_fans.setText(""+cancelFocusGson.getCount());
         }else if("error".equals(cancelFocusGson.getStatus())){  //取消关注出错
             showToast("取消关注出错");
+            isFocus = "1";
         }
 
 
@@ -1089,7 +1119,7 @@ public class LiveDetails extends BaseActivity implements
      * 关注
      */
     private void requestFocus() {
-
+        showToast("user_id："+content.getUserId()+",房间id:"+content.getId());
         OkGo.post(InterfaceUrl.REQUEST_ATTENTION)
                 .tag(this)
                 .params("user_id",content.getUserId())
@@ -1107,6 +1137,7 @@ public class LiveDetails extends BaseActivity implements
                     public void onError(Call call, Response response, Exception e) {
                         super.onError(call, response, e);
                         LogUtil.e("关注onError");
+                        isFocus = "0";
                     }
                 });
 
@@ -1131,6 +1162,7 @@ public class LiveDetails extends BaseActivity implements
             live_details_attention.setCompoundDrawables(drawable,null,null,null);
         }else if("repeat".equals(status)){  //直播间不存在
             showToast("直播间不存在，不能关注");
+            isFocus = "0";
         }
 
 

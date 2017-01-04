@@ -262,8 +262,7 @@ public abstract class BaseActivity extends BaseFrameAty {
      * 初始化对象
      */
     protected void init() {
-        activity = this;
-        context = getBaseContext();
+
     }
 
     /**
