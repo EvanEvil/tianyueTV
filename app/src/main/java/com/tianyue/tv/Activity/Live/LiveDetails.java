@@ -398,7 +398,7 @@ public class LiveDetails extends BaseActivity implements
         focusNum = focusGson.getFollowL();
 
         //设置粉丝值
-         live_details_fans.setText(""+focusNum);
+         live_details_fans.setText("粉丝值："+focusNum);
          tv_Top_fans.setText(""+focusNum);
     }
 
@@ -1024,7 +1024,7 @@ public class LiveDetails extends BaseActivity implements
     /**
      * 设置关注
      */
-    private void setAttention() {
+    private  synchronized void setAttention() {
 
         if("0".equals(isFocus)){//未关注，则关注
            //关注
@@ -1069,7 +1069,7 @@ public class LiveDetails extends BaseActivity implements
      * 取消关注
      */
     private void cancelFocus() {
-        showToast("id："+mGuanz_id+",房间id:"+content.getId());
+
         OkGo.post(InterfaceUrl.CANCEL_ATTENTION)
                 .tag(this)
                 .params("id",mGuanz_id)
@@ -1078,6 +1078,7 @@ public class LiveDetails extends BaseActivity implements
                     @Override
                     public void onSuccess(String result, Call call, Response response) {
                         LogUtil.e("取消关注onSuccess："+result);
+
                         processCancelFocusJsonData(result);
                     }
 
@@ -1099,13 +1100,14 @@ public class LiveDetails extends BaseActivity implements
         CancelFocusGson cancelFocusGson = gson.fromJson(result, CancelFocusGson.class);
         if("success".equals(cancelFocusGson.getRet())){ //取消成功
             isFocus = "0";
+            showToast("取消订阅该主播");
             cb_landTop_focus.setBackgroundResource(R.mipmap.live_details_like_uncheck);
             Drawable drawable= getResources().getDrawable(R.mipmap.live_details_like_uncheck);
             // 这一步必须要做,否则不会显示.
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
             live_details_attention.setCompoundDrawables(drawable,null,null,null);
             //取消后更新粉丝值
-            live_details_fans.setText(""+cancelFocusGson.getCount());
+            live_details_fans.setText("粉丝值："+cancelFocusGson.getCount());
             tv_Top_fans.setText(""+cancelFocusGson.getCount());
         }else if("error".equals(cancelFocusGson.getStatus())){  //取消关注出错
             showToast("取消关注出错");
@@ -1119,7 +1121,7 @@ public class LiveDetails extends BaseActivity implements
      * 关注
      */
     private void requestFocus() {
-        showToast("user_id："+content.getUserId()+",房间id:"+content.getId());
+
         OkGo.post(InterfaceUrl.REQUEST_ATTENTION)
                 .tag(this)
                 .params("user_id",content.getUserId())
@@ -1153,7 +1155,9 @@ public class LiveDetails extends BaseActivity implements
         String status = requestFocusGson.getStatus();
         if("success".equals(status)){   //关注成功
             isFocus = "1";  //更改关注状态
-            live_details_fans.setText(""+requestFocusGson.getCount());
+            showToast("订阅主播成功");
+            mGuanz_id = requestFocusGson.getBcfocus();
+            live_details_fans.setText("粉丝值："+requestFocusGson.getCount());
             tv_Top_fans.setText(""+requestFocusGson.getCount());
             cb_landTop_focus.setBackgroundResource(R.mipmap.icon_focus_select);
             Drawable drawable= getResources().getDrawable(R.mipmap.icon_focus_select);

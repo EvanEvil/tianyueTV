@@ -83,7 +83,7 @@
                 android:text="23k"
                 android:textColor="@color/white"/>
             <!--是否关注-->
-            <CheckBox
+            <TextView
                 android:visibility="gone"
                 android:id="@+id/cb_landTop_focus"
                 android:layout_width="wrap_content"
@@ -375,7 +375,7 @@
                 android:text="主播昵称"
                 android:textColor="@android:color/black"/>
 
-            <CheckBox
+            <TextView
                 android:id="@+id/live_details_attention"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -383,7 +383,6 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginBottom="@dimen/y5"
                 android:layout_marginRight="@dimen/x8"
-                android:button="@null"
                 android:drawableLeft="@drawable/like_selector"
                 android:drawablePadding="@dimen/x5"
                 android:text="关注"/>

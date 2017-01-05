@@ -78,8 +78,8 @@ public class InterfaceUrl {
      * 传参：无 如果需要分页加上 tyid  分类表 TypeId
      *
      */
-  // public final static String ALL_BROADCAST_LIVE = "http://www.tianyue.tv/mobileAllBroadcastLiving";
-   public final static String ALL_BROADCAST_LIVE = "http://192.168.0.88:8081/mobileAllBroadcastLiving";
+   public final static String ALL_BROADCAST_LIVE = "http://www.tianyue.tv/mobileAllBroadcastLiving";
+   //public final static String ALL_BROADCAST_LIVE = "http://192.168.0.88:8081/mobileAllBroadcastLiving";
     /**
      * 获取用户信息
      * 传参：用户uId  post
@@ -132,20 +132,20 @@ public class InterfaceUrl {
     /**
      * 是否关注
      */
-    //public final static String ISATTENTION = "http://www.tianyue.tv/follow_app";
-    public final static String ISATTENTION = "http://192.168.0.88:8081/follow_app";
+    public final static String ISATTENTION = "http://www.tianyue.tv/follow_app";
+    //public final static String ISATTENTION = "http://192.168.0.88:8081/follow_app";
 
     /**
      * 关注
      */
-    //public final static String REQUEST_ATTENTION = "http://www.tianyue.tv/focusOnBc_app";
-    public final static String REQUEST_ATTENTION = "http://192.168.0.88:8081/focusOnBc_app";
+    public final static String REQUEST_ATTENTION = "http://www.tianyue.tv/focusOnBc_app";
+    //public final static String REQUEST_ATTENTION = "http://192.168.0.88:8081/focusOnBc_app";
 
     /**
      * 取消关注
      */
-    //public final static String CANCEL_ATTENTION = "http://www.tianyue.tv/deleteFocus_app";
-    public final static String CANCEL_ATTENTION = "http://192.168.0.88:8081/deleteFocus_app";
+    public final static String CANCEL_ATTENTION = "http://www.tianyue.tv/deleteFocus_app";
+    //public final static String CANCEL_ATTENTION = "http://192.168.0.88:8081/deleteFocus_app";
 
 
 }
