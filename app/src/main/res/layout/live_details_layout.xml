@@ -208,7 +208,7 @@
                     android:id="@+id/ib_landbottom_forbidden"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="@dimen/x20"
-                    android:src="@mipmap/shielding_barrage"
+                    android:background="@mipmap/ib_landbottom_opendanmaku"
                     style="@style/Live_Details_ImageButton" />
                 <LinearLayout
                     android:layout_weight="1"
@@ -267,7 +267,7 @@
                     <!--style="@style/Live_Details_ImageButton"-->
                     <!--android:layout_gravity="center_vertical"-->
                     <!--android:layout_marginLeft="@dimen/x20"-->
-                    <!--android:src="@mipmap/shielding_barrage"/>-->
+                    <!--android:src="@mipmap/ib_landbottom_hidedanmaku"/>-->
 
                 <!--<LinearLayout-->
                     <!--android:id="@+id/ll_landEditLayout"-->

@@ -1044,7 +1044,7 @@ public class LiveDetails extends BaseActivity implements
         if(showDanmaku){
             //隐藏弹幕
             showDanmaku = false;
-            ib_landbottom_switchDanmaku.setBackgroundResource(R.mipmap.ib_landbottom_hidedanmaku);
+            ib_landbottom_switchDanmaku.setBackgroundResource(R.mipmap.ib_landbottom_closedanmaku);
             danmakuView.hide();
         }else{
             //显示弹幕
