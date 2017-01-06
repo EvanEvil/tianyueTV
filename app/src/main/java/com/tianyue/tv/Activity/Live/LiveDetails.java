@@ -463,7 +463,7 @@ public class LiveDetails extends BaseActivity implements
         et_landText = (EditText) findViewById(R.id.et_landText);
         MyOnFocusChangeListener myOnFocusChangeListener = new MyOnFocusChangeListener();
         et_landText.setOnFocusChangeListener(myOnFocusChangeListener);
-
+        et_landText.setOnEditorActionListener(new MyOnEditorActionListener());
 
         initdanmaku();
 
@@ -642,16 +642,20 @@ public class LiveDetails extends BaseActivity implements
 
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-            Log.e(TAG,"actionid:"+actionId);
+
             //点击软键盘发送的时候，隐藏软键盘
-            if(actionId == EditorInfo.IME_ACTION_SEND){
+            //竖屏
+            if(actionId == EditorInfo.IME_ACTION_SEND && v.getId()==R.id.et_chatMsg){
 
                sendMessage(et_chatMsg);
 
-
+            //横屏
+            }else if(actionId == EditorInfo.IME_ACTION_SEND && v.getId()==R.id.et_landText){
+                sendMessage(et_landText);
             }
             return false;
         }
+
     }
 
     /**
@@ -1025,7 +1029,7 @@ public class LiveDetails extends BaseActivity implements
 
                 }
                 break;
-            case R.id.cb_landTop_focus:
+            case R.id.cb_landTop_focus: //关注
             case R.id.live_details_attention:
                 setAttention();
                 break;
@@ -1656,9 +1660,8 @@ public class LiveDetails extends BaseActivity implements
             LogUtil.e("danmakuview是否在收到消息时为空?:" + danmakuView);
 
             EventBus.getDefault().post(chatMessage);
-
-
-            if(nickName.equals(MyApplication.instance().getUser().getNickName())){
+            //区分自己的消息和别人的消息
+            if(nickName.equals(content.getNickName())){
                 addDanmaku(message,true);
             }else{
                 addDanmaku(message,false);
@@ -1674,7 +1677,7 @@ public class LiveDetails extends BaseActivity implements
 
     }
 
-    //首饰识别器
+    //手势识别器
     private class MySimpleOnGestureListener implements GestureDetector.OnGestureListener {
         @Override
         public boolean onDown(MotionEvent e) {

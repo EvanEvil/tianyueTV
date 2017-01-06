@@ -226,6 +226,7 @@
                         android:background="@null"
                         android:textColorHint="#8a8a8a"
                         android:hint="请输入弹幕"
+                        android:imeOptions="actionSend"
                         android:textColor="@color/white"
                         style="@style/hint_text_default"
                         android:paddingLeft="@dimen/x10"
