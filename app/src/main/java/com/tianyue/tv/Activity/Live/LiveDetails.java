@@ -265,7 +265,7 @@ public class LiveDetails extends BaseActivity implements
     private int focusNum;   //关注数
     private String isFocus; //是否关注了
     private int mGuanz_id;  //关注id，给取消关注接口使用
-
+    private boolean hasFocusOfEdtPhone; //竖屏editText是否获取焦点
 
 
     /**************************初始化部分********************************/
@@ -276,7 +276,10 @@ public class LiveDetails extends BaseActivity implements
     @Override
     protected void initView() {
 
+
         setContentView(R.layout.live_details_layout);
+        //软键盘模式
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         videoHeight = getResources().getDimension(R.dimen.x273);
         showSystemUI();
         //shareSDK初始化
@@ -307,8 +310,7 @@ public class LiveDetails extends BaseActivity implements
 
 
 
-        //软键盘模式
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
         initPlaySettings();
         audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
         playView.getHolder().addCallback(surfaceCallback);
@@ -554,8 +556,11 @@ public class LiveDetails extends BaseActivity implements
             int position = tab.getPosition();
             if(position==0){
                 ll_bottom_chatLayout.setVisibility(View.VISIBLE);
+                viewPager.setCurrentItem(0);
+
             }else if(position ==1){
                 ll_bottom_chatLayout.setVisibility(View.INVISIBLE);
+                viewPager.setCurrentItem(1);
             }
         }
 
@@ -630,10 +635,12 @@ public class LiveDetails extends BaseActivity implements
                 Log.e(TAG,"输入框获取到焦点");
                // resetSendMsgRl();
 
+
             }else{
                 Log.e(TAG,"输入框失去焦点");
 
             }
+            hasFocusOfEdtPhone = hasFocus;
         }
     }
 
@@ -1826,21 +1833,6 @@ public class LiveDetails extends BaseActivity implements
         mHandler.sendEmptyMessageDelayed(HIDDEN_LAYOUT, 5000);
     }
 
-//    private void resetSendMsgRl(){
-//
-//        final View decorView=LiveDetails.this.getWindow().getDecorView();
-//        decorView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-//            @Override
-//            public void onGlobalLayout() {
-//                decorView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-//                Rect rect=new Rect();
-//                decorView.getWindowVisibleDisplayFrame(rect);
-//                int screenHeight = Util.getScreenHeight(LiveDetails.this);
-//                int heightDifference = screenHeight - rect.bottom;//计算软键盘占有的高度  = 屏幕高度 - 视图可见高度
-//                RelativeLayout.LayoutParams layoutParams= (RelativeLayout.LayoutParams) ll_bottom_chatLayout.getLayoutParams();
-//                layoutParams.setMargins(0,0,0,heightDifference);//设置rlContext的marginBottom的值为软键盘占有的高度即可
-//                ll_bottom_chatLayout.requestLayout();
-//            }
-//        });
-//    }
+
+
 }

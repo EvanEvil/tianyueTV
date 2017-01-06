@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:fitsSystemWindows="true"
+
               android:orientation="vertical">
     <!--视频播放-->
     <RelativeLayout
@@ -350,7 +353,8 @@
         android:id="@+id/ll_content"
         android:visibility="visible"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:orientation="vertical">
         <!--主播昵称，粉丝，关注-->
         <RelativeLayout
@@ -438,63 +442,63 @@
                 android:layout_height="1dp"
                 android:background="#e2e2e2"/>
 
-            <!--发送消息-->
-            <LinearLayout
-                android:id="@+id/ll_bottom_chatLayout"
-                android:focusable="true"
-                android:paddingBottom="@dimen/y5"
-                android:focusableInTouchMode="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true">
-                <LinearLayout
-                    android:layout_weight="1"
-                    android:background="@mipmap/live_details_edit"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="@dimen/y5"
-                    android:layout_marginLeft="@dimen/x20"
-                    android:layout_marginTop="@dimen/y5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <EditText
-                        android:id="@+id/et_chatMsg"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:background="@null"
-                        android:hint="输入想发送的内容"
-                        style="@style/text_default"
-                        android:paddingLeft="@dimen/x15"
-                        android:imeOptions="actionSend"
-                        android:singleLine="true" />
-                    <TextView
-                        android:layout_marginTop="@dimen/y5"
-                        android:layout_marginBottom="@dimen/y5"
-                        android:background="#e2e2e2"
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent" />
-                    <Button
-                        android:id="@+id/btn_sendMsg"
-                        android:layout_marginLeft="@dimen/x5"
-                        android:text="发送"
-                        android:background="@null"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/x41" />
-                </LinearLayout>
-                <ImageButton
-                    android:visibility="gone"
-                    android:id="@+id/chat_fragment_gift"
-                    android:layout_marginRight="@dimen/x20"
-                    android:layout_marginLeft="@dimen/x20"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="@null"
-                    android:src="@drawable/gift_selector"/>
-            </LinearLayout>
+
         </RelativeLayout>
 
     </LinearLayout>
 
-
+    <!--发送消息-->
+    <LinearLayout
+        android:id="@+id/ll_bottom_chatLayout"
+        android:focusable="true"
+        android:paddingBottom="@dimen/y5"
+        android:focusableInTouchMode="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+       >
+        <LinearLayout
+            android:layout_weight="1"
+            android:background="@mipmap/live_details_edit"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/y5"
+            android:layout_marginLeft="@dimen/x20"
+            android:layout_marginTop="@dimen/y5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/et_chatMsg"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="输入想发送的内容"
+                style="@style/text_default"
+                android:paddingLeft="@dimen/x15"
+                android:imeOptions="actionSend"
+                android:singleLine="true" />
+            <TextView
+                android:layout_marginTop="@dimen/y5"
+                android:layout_marginBottom="@dimen/y5"
+                android:background="#e2e2e2"
+                android:layout_width="1dp"
+                android:layout_height="match_parent" />
+            <Button
+                android:id="@+id/btn_sendMsg"
+                android:layout_marginLeft="@dimen/x5"
+                android:text="发送"
+                android:background="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/x41" />
+        </LinearLayout>
+        <ImageButton
+            android:visibility="gone"
+            android:id="@+id/chat_fragment_gift"
+            android:layout_marginRight="@dimen/x20"
+            android:layout_marginLeft="@dimen/x20"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:src="@drawable/gift_selector"/>
+    </LinearLayout>
 </LinearLayout>
