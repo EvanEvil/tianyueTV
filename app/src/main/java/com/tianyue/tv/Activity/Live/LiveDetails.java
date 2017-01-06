@@ -610,6 +610,7 @@ public class LiveDetails extends BaseActivity implements
 
         //竖屏发送消息监听
         btn_sendMsg.setOnClickListener(v -> {
+
             sendMessage(et_chatMsg);
 
         });
@@ -627,6 +628,7 @@ public class LiveDetails extends BaseActivity implements
         public void onFocusChange(View v, boolean hasFocus) {
             if(hasFocus){
                 Log.e(TAG,"输入框获取到焦点");
+               // resetSendMsgRl();
 
             }else{
                 Log.e(TAG,"输入框失去焦点");
@@ -1075,7 +1077,7 @@ public class LiveDetails extends BaseActivity implements
             requestFocus();
         }else if("1".equals(isFocus)){//关注，则取消关注
             //取消关注
-            isFocus = "0";
+
             showCancelDialog();
 
         }
@@ -1096,9 +1098,11 @@ public class LiveDetails extends BaseActivity implements
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if(which == DialogInterface.BUTTON_POSITIVE){
+                    isFocus = "0";
                     cancelFocus();
                 }else if(which == DialogInterface.BUTTON_NEGATIVE){
-                    finish();
+                    isFocus = "1";
+                   return;
                 }
 
             }
@@ -1821,4 +1825,22 @@ public class LiveDetails extends BaseActivity implements
         //发消息延时隐藏
         mHandler.sendEmptyMessageDelayed(HIDDEN_LAYOUT, 5000);
     }
+
+//    private void resetSendMsgRl(){
+//
+//        final View decorView=LiveDetails.this.getWindow().getDecorView();
+//        decorView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//            @Override
+//            public void onGlobalLayout() {
+//                decorView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+//                Rect rect=new Rect();
+//                decorView.getWindowVisibleDisplayFrame(rect);
+//                int screenHeight = Util.getScreenHeight(LiveDetails.this);
+//                int heightDifference = screenHeight - rect.bottom;//计算软键盘占有的高度  = 屏幕高度 - 视图可见高度
+//                RelativeLayout.LayoutParams layoutParams= (RelativeLayout.LayoutParams) ll_bottom_chatLayout.getLayoutParams();
+//                layoutParams.setMargins(0,0,0,heightDifference);//设置rlContext的marginBottom的值为软键盘占有的高度即可
+//                ll_bottom_chatLayout.requestLayout();
+//            }
+//        });
+//    }
 }

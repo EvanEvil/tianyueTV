@@ -96,16 +96,14 @@
             android:configChanges="orientation|screenSize"/>
         <activity
             android:name=".Activity.Live.LiveDetails"
-            android:windowSoftInputMode="adjustPan"
+
             android:configChanges="orientation|keyboardHidden|screenSize"/>
         <activity android:name=".Activity.Live.LiveBucket"/>
         <activity android:name=".Activity.Live.LiveSetting"/>
         <activity android:name=".Activity.Live.LabelManage"/>
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".Activity.Live.LiveBucket" />
-        <activity android:name=".Activity.Live.LiveSetting" />
-        <activity android:name=".Activity.Live.LabelManage" />
+
 
         <!-- 我的模块 -->
         <activity android:name=".Activity.My.CertificationOne"/>
