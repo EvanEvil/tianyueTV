@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tianyue.tv.Activity.BaseActivity;
+import com.tianyue.tv.Activity.LoginActivity;
 import com.tianyue.tv.Config.SettingsConfig;
 import com.tianyue.tv.MyApplication;
 import com.tianyue.tv.R;
@@ -195,6 +196,7 @@ public class Settings extends BaseActivity {
                     account.edit().clear().commit();
                     AppManager.getAppManager().finishAllActivity();
                     app.clearUserInfo();
+                    startActivity(LoginActivity.class);
                     break;
                 case DialogInterface.BUTTON_NEGATIVE:
 

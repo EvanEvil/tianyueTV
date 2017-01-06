@@ -57,12 +57,7 @@ public class ForgetTwo extends BaseActivity {
         Bundle bundle = getIntent().getExtras();
         code = bundle.getString(ParamConfigKey.CODE);
         telephone = bundle.getString(ParamConfigKey.TELEPHONE);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> finish());
 
     }
 

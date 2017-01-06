@@ -15,7 +15,7 @@
         tools:src="@mipmap/tu_1"
         android:scaleType="fitXY"
         android:layout_width="@dimen/x223"
-        android:layout_height="@dimen/y118" />
+        android:layout_height="@dimen/y134" />
     <TextView
         android:layout_marginTop="@dimen/y7"
         android:id="@+id/live_column_child_title"

@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
               xmlns:tools="http://schemas.android.com/tools"
@@ -14,13 +11,13 @@
         android:id="@+id/rl_shipin"
         android:layout_width="match_parent"
         android:layout_height="@dimen/x273"
-        android:background="@android:color/transparent">
+        android:background="@android:color/black">
         <!--视频控件-->
         <SurfaceView
             android:id="@+id/live_details_playView"
+            android:layout_centerInParent="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             tools:background="@mipmap/live_list_bcktools"/>
         <!--弹幕-->
         <master.flame.danmaku.ui.widget.DanmakuView
@@ -349,12 +346,17 @@
 
     </RelativeLayout>
     <!--视频播放器以下的布局-->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#e2e2e2"/>
     <LinearLayout
+        android:layout_weight="1"
         android:id="@+id/ll_content"
         android:visibility="visible"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
         <!--主播昵称，粉丝，关注-->
         <RelativeLayout
@@ -428,8 +430,9 @@
             android:background="#e2e2e2"/>
         <!--消息区域-->
         <RelativeLayout
+            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             >
 
             <android.support.v4.view.ViewPager
@@ -454,8 +457,7 @@
         android:paddingBottom="@dimen/y5"
         android:focusableInTouchMode="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-       >
+        android:layout_height="wrap_content">
         <LinearLayout
             android:layout_weight="1"
             android:background="@mipmap/live_details_edit"

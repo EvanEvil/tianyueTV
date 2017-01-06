@@ -39,7 +39,6 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
@@ -188,18 +187,18 @@ public class LiveDetails extends BaseActivity implements
     @BindView(R.id.rl_bottom_controller)
     RelativeLayout rl_landbottom_controller;//底部控制器
     @BindView(R.id.ib_landbottom_forbidden)
-    ImageButton ib_landbottom_switchDanmaku;    //屏蔽弹幕
+    ImageButton ib_landbottom_forbidden;
     @BindView(R.id.ll_port_bottom_controller)
     LinearLayout ll_portbottom; //竖屏底部特殊
-    @BindView(R.id.ll_land_bottom_controller)
-    LinearLayout rl_landbottom; //横屏底部特殊
+    //@BindView(R.id.ll_land_bottom_controller)
+    //LinearLayout rl_landbottom; //横屏底部特殊
 
     @BindView(R.id.et_chatMsg)
     EditText et_chatMsg;
     @BindView(R.id.btn_sendMsg) //竖屏发送消息
             Button btn_sendMsg;
-//    @BindView(R.id.ll_land_bottom_controller)
-//    RelativeLayout rl_landbottom; //横屏底部特殊
+    @BindView(R.id.ll_land_bottom_controller)
+    LinearLayout rl_landbottom; //横屏底部特殊
     @BindView(R.id.live_details_fans)
     TextView live_details_fans; //竖屏关注
     @BindView(R.id.tv_Top_fans)
@@ -236,6 +235,9 @@ public class LiveDetails extends BaseActivity implements
     BarrageSettingDialog dialog;
     int playViewWidth;
     int playViewHeight;
+
+    int videoChangeWidth;
+    int videoChangeHeight;
     //Evan  弹幕的三个重要变量
     private boolean showDanmaku;
 
@@ -339,6 +341,7 @@ public class LiveDetails extends BaseActivity implements
      */
     @Override
     protected void init() {
+
         queryISAttentionFromServer();
     }
 
@@ -411,7 +414,7 @@ public class LiveDetails extends BaseActivity implements
 
         tv_Top_fans.setVisibility(View.GONE);
         tv_landTop_personNum.setVisibility(View.GONE);
-        ib_landbottom_switchDanmaku.setVisibility(View.GONE);
+        ib_landbottom_forbidden.setVisibility(View.GONE);
 
         rl_landbottom.setVisibility(View.GONE);
         ll_portbottom.setVisibility(View.VISIBLE);
@@ -429,7 +432,7 @@ public class LiveDetails extends BaseActivity implements
 
         tv_Top_fans.setVisibility(View.VISIBLE);
         tv_landTop_personNum.setVisibility(View.VISIBLE);
-        ib_landbottom_switchDanmaku.setVisibility(View.VISIBLE);
+        ib_landbottom_forbidden.setVisibility(View.VISIBLE);
         //底部
         rl_landbottom.setVisibility(View.VISIBLE);
         ll_portbottom.setVisibility(View.GONE);
@@ -540,10 +543,10 @@ public class LiveDetails extends BaseActivity implements
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
             if (hasFocus) {   //获得焦点
-                Toast.makeText(getApplicationContext(), "获得焦点", Toast.LENGTH_SHORT).show();
+
                 mHandler.removeMessages(HIDDEN_LAYOUT);
             } else {  //失去焦点
-                Toast.makeText(getApplicationContext(), "失去焦点", Toast.LENGTH_SHORT).show();
+
                 hideMediaController();
             }
         }
@@ -1057,12 +1060,12 @@ public class LiveDetails extends BaseActivity implements
         if(showDanmaku){
             //隐藏弹幕
             showDanmaku = false;
-            ib_landbottom_switchDanmaku.setBackgroundResource(R.mipmap.ib_landbottom_closedanmaku);
+            ib_landbottom_forbidden.setBackgroundResource(R.mipmap.ib_landbottom_closedanmaku);
             danmakuView.hide();
         }else{
             //显示弹幕
             showDanmaku = true;
-            ib_landbottom_switchDanmaku.setBackgroundResource(R.mipmap.ib_landbottom_opendanmaku);
+            ib_landbottom_forbidden.setBackgroundResource(R.mipmap.ib_landbottom_opendanmaku);
             danmakuView.show();
         }
 
@@ -1233,15 +1236,15 @@ public class LiveDetails extends BaseActivity implements
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             switch (checkedId) {
                 case R.id.barrage_setting_location_top:
-                    Toast.makeText(getApplicationContext(), "顶部点击了", Toast.LENGTH_SHORT).show();
+
                     danmakuPositon = 0;
                     break;
                 case R.id.barrage_setting_location_mid:
-                    Toast.makeText(getApplicationContext(), "中间点击了", Toast.LENGTH_SHORT).show();
+
                     danmakuPositon = 1;
                     break;
                 case R.id.barrage_setting_location_bottom:
-                    Toast.makeText(getApplicationContext(), "底部点击了", Toast.LENGTH_SHORT).show();
+
                     danmakuPositon = 2;
                     break;
             }
@@ -1388,8 +1391,8 @@ public class LiveDetails extends BaseActivity implements
 
         @Override
         public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-//            playViewWidth = width;
-//            playViewHeight = height;
+            playViewWidth = width;
+            playViewHeight = height;
         }
 
         @Override
@@ -1497,9 +1500,9 @@ public class LiveDetails extends BaseActivity implements
      */
     public void addDanmaku(String content, boolean withBorder) {
         //DanmakuContext danmakuContext = DanmakuContext.create();
-        showToast("log");
+
         if (danmakuContext != null) {
-            showToast("log");
+
             danmaku = danmakuContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL, danmakuContext);
         }
 
@@ -1617,17 +1620,10 @@ public class LiveDetails extends BaseActivity implements
 
     @Override
     public void onVideoSizeChanged(PLMediaPlayer plMediaPlayer, int width, int height) {
-//        if (width != 0 && height != 0) {
-//            float ratioW = (float) width / (float) playViewWidth;
-//            float ratioH = (float) height / (float) playViewHeight;
-//            float ratio = Math.max(ratioW, ratioH);
-//            width = (int) Math.ceil((float) width / ratio);
-//            height = (int) Math.ceil((float) height / ratio);
-//            ViewGroup.LayoutParams params = playView.getLayoutParams();
-//            params.width = width;
-//            params.height = height;
-//            playView.setLayoutParams(params);
-//        }
+        videoChangeWidth = width;
+        videoChangeHeight = height;
+
+        videoChange(videoChangeWidth,videoChangeHeight);
     }
 
     @Override
@@ -1688,6 +1684,21 @@ public class LiveDetails extends BaseActivity implements
 
     }
 
+    private void videoChange(int width,int height){
+        if (width != 0 && height != 0) {
+            float ratioW = (float) width / (float) playViewWidth;
+            float ratioH = (float) height / (float) playViewHeight;
+            float ratio = Math.max(ratioW, ratioH);
+            LogUtil.i(ratio+"");
+            width = (int) Math.ceil((float) width / ratio);
+            height = (int) Math.ceil((float) height / ratio);
+            ViewGroup.LayoutParams params = playView.getLayoutParams();
+            params.width = width;
+            params.height = height;
+            playView.setLayoutParams(params);
+        }
+    }
+
     //手势识别器
     private class MySimpleOnGestureListener implements GestureDetector.OnGestureListener {
         @Override
@@ -1705,9 +1716,9 @@ public class LiveDetails extends BaseActivity implements
             if (isShowMediaController) {
                 //隐藏
                 hideMediaController();
-                if(!isPort){
-                    hideSystemUI();
-                }
+//                if(!isPort){
+//                    hideSystemUI();
+//                }
 
 
             } else {
@@ -1715,9 +1726,9 @@ public class LiveDetails extends BaseActivity implements
                 showMediaController();
                 //发消息隐藏
                 mHandler.sendEmptyMessageDelayed(HIDDEN_LAYOUT, 5000);
-                if(!isPort){
-                    showSystemUI();
-                }
+//                if(!isPort){
+//                    showSystemUI();
+//                }
 
 
             }
@@ -1810,6 +1821,11 @@ public class LiveDetails extends BaseActivity implements
         super.onConfigurationChanged(newConfig);
         isPort = !isPort;
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            playViewWidth = getWindow().getWindowManager().getDefaultDisplay().getWidth();
+            playViewHeight = getWindow().getWindowManager().getDefaultDisplay().getHeight();
+            Log.i(TAG, "onConfigurationChanged: "+playViewWidth+","+playViewHeight);
+            Log.i(TAG, "onConfigurationChanged: "+videoChangeWidth+","+videoChangeHeight);
+            videoChange(videoChangeWidth,videoChangeHeight);
             //横屏
             ViewGroup.LayoutParams layoutParams = rl_shipin.getLayoutParams();
             layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -1820,6 +1836,10 @@ public class LiveDetails extends BaseActivity implements
             hidePortView();
             hideSystemUI();
         } else {
+            playViewWidth = getWindow().getWindowManager().getDefaultDisplay().getWidth();
+            playViewHeight = (int) getResources().getDimension(R.dimen.x273);
+            Log.i(TAG, "onConfigurationChanged: "+playViewWidth+","+playViewHeight);
+            videoChange(videoChangeWidth,videoChangeHeight);
             //竖屏
             ViewGroup.LayoutParams layoutParams = rl_shipin.getLayoutParams();
             layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -1834,5 +1854,13 @@ public class LiveDetails extends BaseActivity implements
     }
 
 
-
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_HOME) {
+            if (!isPort) {
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }

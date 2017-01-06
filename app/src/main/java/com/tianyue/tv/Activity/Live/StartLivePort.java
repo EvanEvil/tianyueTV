@@ -652,24 +652,7 @@ public class StartLivePort extends BaseActivity implements
         }
     }
 
-//    public void call(View v) {
-//        //检查权限
-//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-//                != PackageManager.PERMISSION_GRANTED) {
-//            //进入到这里代表没有权限.
-//
-//            if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.CALL_PHONE)){
-//                //已经禁止提示了
-//                showToast("您已禁止该权限，需要重新开启。");
-//            }else{
-//                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CODE);
-//
-//            }
-//
-//        } else {
-//            initCamera();
-//        }
-//    }
+
     /*************************************
      * 实现接口类
      ********************************************/

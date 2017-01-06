@@ -1,12 +1,17 @@
 package com.tianyue.tv.Activity.My;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -63,7 +68,8 @@ public class CertificationTwo extends BaseActivity {
      * 第二张图片
      */
     private final int LAST_PIC = 103;
-
+    private final int TAKE_PHOTO_REQUEST_CODE = 1;
+    private int code ;
     String firstPath;
     String lastPath;
 
@@ -241,12 +247,13 @@ public class CertificationTwo extends BaseActivity {
      * 弹出底部选择框
      */
     private void bottomDialog(final int code) {
+        this.code = code;
         FormBotomDefaultDialogBuilder dialogBuilder = new FormBotomDefaultDialogBuilder(this);
         dialogBuilder.setAllBtnTextColor(R.color.white);
         dialogBuilder.setFBFirstBtnText("拍照");
         dialogBuilder.setFBCancelBtnText("取消");
         dialogBuilder.setFBLastBtnText("相册");
-        dialogBuilder.setFBFirstBtnClick(() -> openCamera(code));
+        dialogBuilder.setFBFirstBtnClick(() -> checkPermission());
         dialogBuilder.setFBLastBtnClick(() -> openPhoto(code));
         dialogBuilder.show();
     }
@@ -335,5 +342,30 @@ public class CertificationTwo extends BaseActivity {
         }
         return null;
     }
-
+    /**
+     * 检查权限是否开启
+     */
+    private void checkPermission(){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA},
+                    TAKE_PHOTO_REQUEST_CODE);
+        } else{
+            openCamera(code);
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode){
+            case TAKE_PHOTO_REQUEST_CODE:
+                if(grantResults.length >0 &&grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                    openCamera(code);
+                    //用户同意授权
+                }else{
+                    //用户拒绝授权
+                    showToast("打开相机失败");
+                }
+                break;
+        }
+    }
 }

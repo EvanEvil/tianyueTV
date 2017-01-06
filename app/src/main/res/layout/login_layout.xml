@@ -123,7 +123,7 @@
         android:layout_marginRight="@dimen/x44"
         android:gravity="center"
         android:text="登 录"
-        android:textColor="#ffffff" />
+        android:textColor="@android:color/black" />
     <!-- 提示 -->
     <TextView
         android:id="@+id/login_forget_password"

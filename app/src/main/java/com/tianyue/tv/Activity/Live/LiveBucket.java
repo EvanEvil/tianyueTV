@@ -1,9 +1,13 @@
 package com.tianyue.tv.Activity.Live;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -81,13 +85,7 @@ public class LiveBucket extends BaseActivity {
                 startActivity(LiveSetting.class);
                 break;
             case R.id.my_live_bucket_start:
-                if (broadInfo != null) {
-                    Intent intent = new Intent(this,StartLivePort.class);
-                    intent.putExtra("broad",broadInfo);
-                    startActivity(intent);
-                    return;
-                }
-                startActivity(StartLivePort.class);
+                openCamea();
                 break;
         }
     }
@@ -99,7 +97,7 @@ public class LiveBucket extends BaseActivity {
                 case UPDATE_UI:
                     Bundle bundle = msg.getData();
                     int fansNumber = bundle.getInt("fans");
-                    runOnUiThread(() -> fans.setText("我的粉丝数:"+fansNumber));
+                    runOnUiThread(() -> fans.setText("我的粉丝数:" + fansNumber));
                     break;
             }
         }
@@ -153,5 +151,26 @@ public class LiveBucket extends BaseActivity {
                 Log.i(TAG, "onResponse: ");
             }
         });
+    }
+
+    public void openCamea() {
+        //检查权限
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            //进入到这里代表没有权限.
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
+                //已经禁止提示了
+                showToast("您已禁止该权限，需要重新开启。");
+            }
+        } else {
+            if (broadInfo != null) {
+                Intent intent = new Intent(this, StartLivePort.class);
+                intent.putExtra("broad", broadInfo);
+                startActivity(intent);
+                return;
+            }
+            startActivity(StartLivePort.class);
+        }
     }
 }

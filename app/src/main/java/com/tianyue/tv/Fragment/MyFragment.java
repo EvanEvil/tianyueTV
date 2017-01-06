@@ -1,12 +1,17 @@
 package com.tianyue.tv.Fragment;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,7 +78,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
     private TakePhoto takePhoto;
     private CropOptions cropOptions;
     private Uri imageUri;
-
+    private final int TAKE_PHOTO_REQUEST_CODE = 1;
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -171,7 +176,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
                 dialogBuilder.setFBFirstBtnText("拍一张");
                 dialogBuilder.setFBLastBtnText("从相册中选择");
                 //头像 拍一张点击事件
-                dialogBuilder.setFBFirstBtnClick(() -> openCamera());
+                dialogBuilder.setFBFirstBtnClick(() -> checkPermission());
                 //进入相册点击事件
                 dialogBuilder.setFBLastBtnClick(() -> openPhoto());
                 dialogBuilder.show();
@@ -237,7 +242,33 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
 //        }
 //    }
 
+    /**
+     * 检查权限是否开启
+     */
+    private void checkPermission(){
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.CAMERA},
+                    TAKE_PHOTO_REQUEST_CODE);
+        } else{
+            openCamera();
+        }
+    }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode){
+            case TAKE_PHOTO_REQUEST_CODE:
+                if(grantResults.length >0 &&grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                    openCamera();
+                    //用户同意授权
+                }else{
+                    //用户拒绝授权
+                    showToast("打开相机失败");
+                }
+                break;
+        }
+    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

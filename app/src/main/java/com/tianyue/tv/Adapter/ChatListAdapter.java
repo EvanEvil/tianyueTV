@@ -58,7 +58,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         int color = 0;
         switch (type) {
             case INPUT_PLAY_TYPE:
-                color = context.getResources().getColor(R.color.red);
+                color = context.getResources().getColor(R.color.translucent_black);
                 break;
             case INPUT_LIVE_TYPE:
                 color = context.getResources().getColor(R.color.white);
