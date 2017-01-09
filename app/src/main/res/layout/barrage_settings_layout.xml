@@ -124,21 +124,23 @@
               android:layout_height="wrap_content">
           <RadioButton
               android:id="@+id/barrage_setting_location_top"
-              android:drawableTop="@mipmap/danmaku_top"
+              android:drawableTop="@drawable/danmaku_top_color_selector"
               android:text="上方"
+              android:checked="true"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
+
               style="@style/barrage_settings_danmaku"/>
           <RadioButton
               android:id="@+id/barrage_setting_location_mid"
-              android:drawableTop="@mipmap/danmaku_center"
+              android:drawableTop="@drawable/danmaku_center_color_selector"
               android:text="居中"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               style="@style/barrage_settings_danmaku"/>
           <RadioButton
               android:id="@+id/barrage_setting_location_bottom"
-              android:drawableTop="@mipmap/danmaku_bottom"
+              android:drawableTop="@drawable/danmaku_bottom_color_selector"
               android:text="下方"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"

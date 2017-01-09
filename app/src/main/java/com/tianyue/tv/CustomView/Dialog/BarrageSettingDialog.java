@@ -45,6 +45,7 @@ public class BarrageSettingDialog extends Dialog{
      */
     private RadioGroup location;
 
+
     public BarrageSettingDialog(Context context) {
         this(context, R.style.dialog_untran);
 
@@ -143,6 +144,7 @@ public class BarrageSettingDialog extends Dialog{
         RadioButton rb = (RadioButton) location.getChildAt(position);
         //RadioButton rb = (RadioButton) location.findViewById(R.id.barrage_setting_location_top);
         rb.setChecked(true);
+
     }
 
 

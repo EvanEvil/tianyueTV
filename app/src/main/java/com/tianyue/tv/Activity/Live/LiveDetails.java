@@ -1240,14 +1240,17 @@ public class LiveDetails extends BaseActivity implements
                 case R.id.barrage_setting_location_top:
 
                     danmakuPositon = 0;
+                    dialog.setDanmakuPosition(0);
                     break;
                 case R.id.barrage_setting_location_mid:
 
                     danmakuPositon = 1;
+                    dialog.setDanmakuPosition(1);
                     break;
                 case R.id.barrage_setting_location_bottom:
 
                     danmakuPositon = 2;
+                    dialog.setDanmakuPosition(2);
                     break;
             }
             ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) danmakuView.getLayoutParams();

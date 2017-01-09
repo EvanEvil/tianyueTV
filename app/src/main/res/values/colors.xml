@@ -13,4 +13,5 @@
     <color name="bck_default">#ebebeb</color>
     <color name="default_bck_color">#a8000000</color>
     <color name="statusbar_black">#000000</color>
+    <color name="danmaku_color_red">#FFC03F3E</color>
 </resources>
