@@ -61,4 +61,5 @@ dependencies {
     compile files('libs/ShareSDK-Wechat-Moments-2.8.0.jar')
     compile files('libs/MobCommons-2016.1222.1756.jar')
     compile files('libs/MobTools-2016.1222.1756.jar')
+    compile files('libs/TalkingData_Analytics_Android_SDK_V2.2.48.jar')
 }

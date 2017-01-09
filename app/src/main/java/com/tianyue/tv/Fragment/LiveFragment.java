@@ -95,8 +95,10 @@ public class LiveFragment extends BaseFragment  {
         //rootView.setOnRefreshListener(this);
         mXRecyclerView.setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader);
         mXRecyclerView.setLoadingMoreProgressStyle(ProgressStyle.BallRotate);
+
         //设置下拉箭头
         mXRecyclerView.setArrowImageView(R.mipmap.iconfont_downgrey);
+
         //加载监听
         mXRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
@@ -144,6 +146,9 @@ public class LiveFragment extends BaseFragment  {
             requestBroad();
         }).start();
     }
+
+
+
 
     @Override
     public void finishCreateView(Bundle state) {

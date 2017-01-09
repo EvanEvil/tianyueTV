@@ -46,6 +46,7 @@ import com.lzy.okgo.callback.StringCallback;
 import com.pili.pldroid.player.AVOptions;
 import com.pili.pldroid.player.PLMediaPlayer;
 import com.squareup.picasso.Picasso;
+import com.tendcloud.tenddata.TCAgent;
 import com.tianyue.tv.Activity.BaseActivity;
 import com.tianyue.tv.Adapter.LiveTabAdapter;
 import com.tianyue.tv.Bean.EventBusBean.EventMsg;
@@ -277,7 +278,7 @@ public class LiveDetails extends BaseActivity implements
      */
     @Override
     protected void initView() {
-
+        TCAgent.onPageStart(context, "LiveDetails");
 
         setContentView(R.layout.live_details_layout);
         //软键盘模式
@@ -468,7 +469,7 @@ public class LiveDetails extends BaseActivity implements
         et_landText = (EditText) findViewById(R.id.et_landText);
         MyOnFocusChangeListener myOnFocusChangeListener = new MyOnFocusChangeListener();
         et_landText.setOnFocusChangeListener(myOnFocusChangeListener);
-//        et_landText.setOnEditorActionListener(new MyOnEditorActionListener());
+        et_landText.setOnEditorActionListener(new MyOnEditorActionListener());
 
         initdanmaku();
 
@@ -614,7 +615,7 @@ public class LiveDetails extends BaseActivity implements
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setOnTabSelectedListener(new MyOnTabSelectedListener());
         et_chatMsg.setOnFocusChangeListener(new MyOnPortFocusChangeListener());
-//        et_chatMsg.setOnEditorActionListener(new MyOnEditorActionListener());
+        et_chatMsg.setOnEditorActionListener(new MyOnEditorActionListener());
 
         //竖屏发送消息监听
         btn_sendMsg.setOnClickListener(v -> {
@@ -647,28 +648,28 @@ public class LiveDetails extends BaseActivity implements
         }
     }
 
-//    /**
-//     * 软键盘监听
-//     */
-//    class MyOnEditorActionListener implements TextView.OnEditorActionListener{
-//
-//        @Override
-//        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//
-//            //点击软键盘发送的时候，隐藏软键盘
-//            //竖屏
-//            if(actionId == EditorInfo.IME_ACTION_SEND && v.getId()==R.id.et_chatMsg){
-//
-//               sendMessage(et_chatMsg);
-//
-//            //横屏
-//            }else if(actionId == EditorInfo.IME_ACTION_SEND && v.getId()==R.id.et_landText){
-//                sendMessage(et_landText);
-//            }
-//            return false;
-//        }
-//
-//    }
+    /**
+     * 软键盘监听
+     */
+    class MyOnEditorActionListener implements TextView.OnEditorActionListener{
+
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+            //点击软键盘发送的时候，隐藏软键盘
+            //竖屏
+            if(actionId == EditorInfo.IME_ACTION_SEND && v.getId()==R.id.et_chatMsg){
+
+               sendMessage(et_chatMsg);
+
+            //横屏
+            }else if(actionId == EditorInfo.IME_ACTION_SEND && v.getId()==R.id.et_landText){
+                sendMessage(et_landText);
+            }
+            return false;
+        }
+
+    }
 
     /**
      * 获取editText的消息并发送
@@ -814,16 +815,17 @@ public class LiveDetails extends BaseActivity implements
     @Override
     protected void onDestroy() {
         LogUtil.e("onDestroy");
+        TCAgent.onPageEnd(context, "LiveDetails");
         super.onDestroy();
         if (mediaPlayer != null) {
             mediaPlayer.stop();
             mediaPlayer.release();
         }
         showDanmaku = false;
-        if (danmakuView != null) {
-            danmakuView.release();
-            danmakuView = null;
-        }
+//        if (danmakuView != null) {
+//            danmakuView.release();
+//            danmakuView = null;
+//        }
         if (mHandler != null) {
             mHandler.removeCallbacksAndMessages(null);
         }
@@ -1620,10 +1622,10 @@ public class LiveDetails extends BaseActivity implements
 
     @Override
     public void onVideoSizeChanged(PLMediaPlayer plMediaPlayer, int width, int height) {
-        videoChangeWidth = width;
-        videoChangeHeight = height;
-
-        videoChange(videoChangeWidth,videoChangeHeight);
+//        videoChangeWidth = width;
+//        videoChangeHeight = height;
+//
+//        videoChange(videoChangeWidth,videoChangeHeight);
     }
 
     @Override
@@ -1714,21 +1716,25 @@ public class LiveDetails extends BaseActivity implements
         @Override
         public boolean onSingleTapUp(MotionEvent e) {
             if (isShowMediaController) {
+
                 //隐藏
                 hideMediaController();
-//                if(!isPort){
-//                    hideSystemUI();
-//                }
+                if(!isPort){
+
+                    hideSystemUI();
+                }
 
 
             } else {
+
                 //显示
                 showMediaController();
                 //发消息隐藏
                 mHandler.sendEmptyMessageDelayed(HIDDEN_LAYOUT, 5000);
-//                if(!isPort){
-//                    showSystemUI();
-//                }
+                if(!isPort){
+
+                    showSystemUI();
+                }
 
 
             }
@@ -1826,6 +1832,10 @@ public class LiveDetails extends BaseActivity implements
             Log.i(TAG, "onConfigurationChanged: "+playViewWidth+","+playViewHeight);
             Log.i(TAG, "onConfigurationChanged: "+videoChangeWidth+","+videoChangeHeight);
             videoChange(videoChangeWidth,videoChangeHeight);
+
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+
             //横屏
             ViewGroup.LayoutParams layoutParams = rl_shipin.getLayoutParams();
             layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -1834,12 +1844,15 @@ public class LiveDetails extends BaseActivity implements
             ll_content.setVisibility(View.GONE);
 
             hidePortView();
-            hideSystemUI();
+           // hideSystemUI();
         } else {
+
             playViewWidth = getWindow().getWindowManager().getDefaultDisplay().getWidth();
             playViewHeight = (int) getResources().getDimension(R.dimen.x273);
             Log.i(TAG, "onConfigurationChanged: "+playViewWidth+","+playViewHeight);
             videoChange(videoChangeWidth,videoChangeHeight);
+
+//            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             //竖屏
             ViewGroup.LayoutParams layoutParams = rl_shipin.getLayoutParams();
             layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
