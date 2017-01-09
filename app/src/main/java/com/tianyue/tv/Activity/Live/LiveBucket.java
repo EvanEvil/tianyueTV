@@ -85,7 +85,13 @@ public class LiveBucket extends BaseActivity {
                 startActivity(LiveSetting.class);
                 break;
             case R.id.my_live_bucket_start:
-                openCamea();
+                if (broadInfo != null) {
+                    Intent intent = new Intent(this, StartLivePort.class);
+                    intent.putExtra("broad", broadInfo);
+                    startActivity(intent);
+                    return;
+                }
+                startActivity(StartLivePort.class);
                 break;
         }
     }
@@ -153,24 +159,24 @@ public class LiveBucket extends BaseActivity {
         });
     }
 
-    public void openCamea() {
-        //检查权限
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-            //进入到这里代表没有权限.
-
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
-                //已经禁止提示了
-                showToast("您已禁止该权限，需要重新开启。");
-            }
-        } else {
-            if (broadInfo != null) {
-                Intent intent = new Intent(this, StartLivePort.class);
-                intent.putExtra("broad", broadInfo);
-                startActivity(intent);
-                return;
-            }
-            startActivity(StartLivePort.class);
-        }
-    }
+//    public void openCamea() {
+//        //检查权限
+//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+//                != PackageManager.PERMISSION_GRANTED) {
+//            //进入到这里代表没有权限.
+//
+//            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
+//                //已经禁止提示了
+//                showToast("您已禁止该权限，需要重新开启。");
+//            }
+//        } else {
+//            if (broadInfo != null) {
+//                Intent intent = new Intent(this, StartLivePort.class);
+//                intent.putExtra("broad", broadInfo);
+//                startActivity(intent);
+//                return;
+//            }
+//            startActivity(StartLivePort.class);
+//        }
+//    }
 }

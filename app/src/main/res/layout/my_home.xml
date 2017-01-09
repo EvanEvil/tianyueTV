@@ -40,71 +40,71 @@
 
 
     </RelativeLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/y67">
-        <ImageView
-            android:layout_marginLeft="@dimen/x15"
-            android:layout_gravity="center_vertical"
-            android:src="@mipmap/tianyue_money"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:layout_marginLeft="@dimen/x8"
-            android:text="越币"
-            android:layout_gravity="center_vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/text_default"/>
-        <TextView
-            tools:text="300"
-            android:gravity="bottom"
-            android:layout_marginLeft="@dimen/x8"
-            android:textColor="@android:color/holo_red_dark"
-            android:layout_gravity="center_vertical"
-            android:singleLine="true"
-            android:layout_width="@dimen/x80"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            style="@style/text_default_large"/>
-        <ImageView
-            android:layout_marginLeft="@dimen/x10"
-            android:layout_gravity="center_vertical"
-            android:src="@mipmap/tianyue_peach"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:text="灵桃"
-            android:layout_marginLeft="@dimen/x8"
-            android:layout_gravity="center_vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/text_default"/>
-        <TextView
-            tools:text="300"
-            android:layout_marginLeft="@dimen/x8"
-            android:textColor="#e47c32"
-            android:layout_gravity="center_vertical"
-            android:singleLine="true"
-            android:layout_width="@dimen/x80"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            style="@style/text_default_large"/>
-        <TextView
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <Button
-            android:layout_gravity="center_vertical"
-            android:text="充值越币"
-            android:enabled="false"
-            android:layout_marginRight="@dimen/x15"
-            android:textColor="@color/translucent_black"
-            style="@style/hint_text_default"
-            android:background="@drawable/my_pay_button_selector"
-            android:layout_width="@dimen/x85"
-            android:layout_height="@dimen/y30" />
-    </LinearLayout>
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/y67">-->
+        <!--<ImageView-->
+            <!--android:layout_marginLeft="@dimen/x15"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:src="@mipmap/tianyue_money"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
+        <!--<TextView-->
+            <!--android:layout_marginLeft="@dimen/x8"-->
+            <!--android:text="越币"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--style="@style/text_default"/>-->
+        <!--<TextView-->
+            <!--tools:text="300"-->
+            <!--android:gravity="bottom"-->
+            <!--android:layout_marginLeft="@dimen/x8"-->
+            <!--android:textColor="@android:color/holo_red_dark"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:singleLine="true"-->
+            <!--android:layout_width="@dimen/x80"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textSize="15sp"-->
+            <!--style="@style/text_default_large"/>-->
+        <!--<ImageView-->
+            <!--android:layout_marginLeft="@dimen/x10"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:src="@mipmap/tianyue_peach"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
+        <!--<TextView-->
+            <!--android:text="灵桃"-->
+            <!--android:layout_marginLeft="@dimen/x8"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--style="@style/text_default"/>-->
+        <!--<TextView-->
+            <!--tools:text="300"-->
+            <!--android:layout_marginLeft="@dimen/x8"-->
+            <!--android:textColor="#e47c32"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:singleLine="true"-->
+            <!--android:layout_width="@dimen/x80"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textSize="15sp"-->
+            <!--style="@style/text_default_large"/>-->
+        <!--<TextView-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
+        <!--<Button-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:text="充值越币"-->
+            <!--android:enabled="false"-->
+            <!--android:layout_marginRight="@dimen/x15"-->
+            <!--android:textColor="@color/translucent_black"-->
+            <!--style="@style/hint_text_default"-->
+            <!--android:background="@drawable/my_pay_button_selector"-->
+            <!--android:layout_width="@dimen/x85"-->
+            <!--android:layout_height="@dimen/y30" />-->
+    <!--</LinearLayout>-->
     <LinearLayout
         android:background="#f2f2f2"
         android:orientation="vertical"

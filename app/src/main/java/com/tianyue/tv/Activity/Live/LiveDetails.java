@@ -468,7 +468,7 @@ public class LiveDetails extends BaseActivity implements
         et_landText = (EditText) findViewById(R.id.et_landText);
         MyOnFocusChangeListener myOnFocusChangeListener = new MyOnFocusChangeListener();
         et_landText.setOnFocusChangeListener(myOnFocusChangeListener);
-        et_landText.setOnEditorActionListener(new MyOnEditorActionListener());
+//        et_landText.setOnEditorActionListener(new MyOnEditorActionListener());
 
         initdanmaku();
 
@@ -614,7 +614,7 @@ public class LiveDetails extends BaseActivity implements
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setOnTabSelectedListener(new MyOnTabSelectedListener());
         et_chatMsg.setOnFocusChangeListener(new MyOnPortFocusChangeListener());
-        et_chatMsg.setOnEditorActionListener(new MyOnEditorActionListener());
+//        et_chatMsg.setOnEditorActionListener(new MyOnEditorActionListener());
 
         //竖屏发送消息监听
         btn_sendMsg.setOnClickListener(v -> {
@@ -647,28 +647,28 @@ public class LiveDetails extends BaseActivity implements
         }
     }
 
-    /**
-     * 软键盘监听
-     */
-    class MyOnEditorActionListener implements TextView.OnEditorActionListener{
-
-        @Override
-        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-
-            //点击软键盘发送的时候，隐藏软键盘
-            //竖屏
-            if(actionId == EditorInfo.IME_ACTION_SEND && v.getId()==R.id.et_chatMsg){
-
-               sendMessage(et_chatMsg);
-
-            //横屏
-            }else if(actionId == EditorInfo.IME_ACTION_SEND && v.getId()==R.id.et_landText){
-                sendMessage(et_landText);
-            }
-            return false;
-        }
-
-    }
+//    /**
+//     * 软键盘监听
+//     */
+//    class MyOnEditorActionListener implements TextView.OnEditorActionListener{
+//
+//        @Override
+//        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+//
+//            //点击软键盘发送的时候，隐藏软键盘
+//            //竖屏
+//            if(actionId == EditorInfo.IME_ACTION_SEND && v.getId()==R.id.et_chatMsg){
+//
+//               sendMessage(et_chatMsg);
+//
+//            //横屏
+//            }else if(actionId == EditorInfo.IME_ACTION_SEND && v.getId()==R.id.et_landText){
+//                sendMessage(et_landText);
+//            }
+//            return false;
+//        }
+//
+//    }
 
     /**
      * 获取editText的消息并发送
