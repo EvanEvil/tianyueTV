@@ -240,7 +240,7 @@ public class LiveDetails extends BaseActivity implements
     int videoChangeHeight;
     //Evan  弹幕的三个重要变量
     private boolean showDanmaku;
-
+        //弹幕控件
     private DanmakuView danmakuView;
     /**
      * DanmakuContext可以用于对弹幕的各种全局配置进行设定，如设置字体、设置最大显示行数等。这里我们并没有什么特殊的要求，因此一切都保持默认。
